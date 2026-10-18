@@ -153,7 +153,7 @@ class ProjectIntegrityTests(unittest.TestCase):
         ns={}
         exec(compile(ast.fix_missing_locations(ast.Module(body=[fn],type_ignores=[])),
                      'autofill_portal.py','exec'),ns)
-        text='Nhân lực trực tiếp: 01 bác sĩ, 03 KTV\\nNhân lực hỗ trợ: 01 điều dưỡng'
+        text='Nhân lực trực tiếp: 01 bác sĩ, 03 KTV' + chr(10) + 'Nhân lực hỗ trợ: 01 điều dưỡng'
         primary,support=ns['separate_personnel'](text,'Người được phân công')
         self.assertIn('01 bác sĩ, 03 KTV',primary)
         self.assertEqual(support,'01 điều dưỡng')
