@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 import re
 from pathlib import Path
@@ -37,6 +38,15 @@ headings = {
     '7.3. Biến chứng muộn':'late_complications',
     'TÀI LIỆU THAM KHẢO RIÊNG':'references',
 }
+parser = argparse.ArgumentParser(description="Trích lại bản Word cũ, có thể ghi đè dữ liệu đã biên tập.")
+parser.add_argument("--force-source-import", action="store_true",
+                    help="Chấp nhận ghi đè dữ liệu biên tập bằng bản Word cũ")
+args = parser.parse_args()
+if not args.force_source_import:
+    parser.error("Bản Word đầu vào cũ có ghi chú và dữ liệu chưa được duyệt. "
+                 "Không ghi đè dữ liệu 8 QTKT đã biên tập. "
+                 "Chỉ import lại khi chủ động dùng --force-source-import.")
+
 doc = Document(SOURCE)
 text = [p.text.strip() for p in doc.paragraphs]
 start_idx = [i for i,s in enumerate(text) if re.match(r'^[1-8]\. NẮN, BÓ BỘT', s)]

@@ -95,6 +95,28 @@ Không dán mã không hiểu vào Console để vượt cảnh báo bảo mật
 
 Mục 5.1 của 8 quy trình nháp ghi **cơ cấu nhân lực theo chức danh**, không tự động kèm tên người được phân công. Trong chế độ điền thông thường, trường nhân lực của 8 quy trình chưa thẩm định được để cho người rà soát hoàn thiện.
 
+## Biên tập lại 8 nội dung QTKT và theo dõi thẩm định
+
+Dữ liệu 8 quy trình nắn, bó bột trong `data/clinical_drafts.json` và `data/procedures.json` đã được tách thành nội dung nhập cổng và ghi chú thẩm định riêng trong `data/clinical_review_notes.json`.
+
+- Nội dung QTKT tuân theo thứ tự các mục QĐ 3023/QĐ-BYT năm 2023: đại cương, chỉ định, chống chỉ định, thận trọng, chuẩn bị, tiến hành và theo dõi, xử trí tai biến. Các nguồn mô tả kỹ thuật chính là QĐ 199/QĐ-BYT năm 2014 và QĐ 5728/QĐ-BYT năm 2017 khi phù hợp.
+- Không chèn các nhãn `[BỔ SUNG/ĐỀ XUẤT]`, `[KHUNG]`, `[CHỜ THẨM ĐỊNH]` vào nội dung QTKT. Các điểm chưa xác minh và dữ liệu gốc đã chuyển sang `data/clinical_review_notes.json`.
+- Mục 5.2 không tự điền thuốc vô cảm, vì theo QĐ 3023 những thuốc và phương tiện này thuộc quy trình vô cảm riêng. Chỉ ghi thuốc trực tiếp cho kỹ thuật khi đã xác minh đủ thông tin.
+- Mục 5.7 chỉ có thời gian dự kiến cho trật khớp khuỷu khi có nguồn hỗ trợ; các mục thời gian còn lại và mục địa điểm chưa xác định được để trống. Nhân lực hỗ trợ và định mức chưa xác minh không được tự tạo.
+- Trật khớp cổ chân chưa có quy trình nắn đơn thuần được xác minh, nên nội dung kỹ thuật và định mức không tự bịa; cần chuyên gia hoàn thiện trước khi trình duyệt.
+- Khi xem trước `--draft-preview`, chương trình chỉ điền trường đã có nội dung và **liệt kê các trường chưa có căn cứ**; không dùng `--save`.
+- `make_clinical_drafts.py` là công cụ nhập lại bản Word cũ. Mặc định dừng để tránh ghi đè bản đã biên tập; chỉ sử dụng `--force-source-import` khi thật sự muốn thay thế dữ liệu và đã sao lưu.
+
+Lệnh thử tại máy:
+
+```powershell
+git pull --ff-only origin main
+python -m unittest discover -s tests -v
+python run_all.py --id bot_trat_khuyu --draft-preview
+```
+
+**Lưu ý:** Chỉnh sửa văn phong và tự động điền biểu mẫu không đồng nghĩa thẩm định chuyên môn hay phê duyệt ban hành. Phải có xác nhận của chuyên khoa và bệnh viện trước khi lưu quy trình chính thức lên cổng.
+
 ## Xem trước nội dung 8 quy trình trên biểu mẫu (19/10/2026)
 
 Sau khi đã thẩm định dữ liệu dự thảo, có thể dùng chế độ **xem trước có nhập dữ liệu vào biểu mẫu** để kiểm tra bố cục các ô. Chế độ này chỉ hiển thị nội dung chưa được duyệt trong phiên Chrome hiện tại, **không được bấm Lưu, không phải văn bản được phê duyệt**. Phải đóng biểu mẫu mà không lưu và không sử dụng nội dung dự thảo làm chỉ định lâm sàng.
