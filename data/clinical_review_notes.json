@@ -1,0 +1,204 @@
+{
+  "metadata": {
+    "scope": "Hồ sơ thẩm định nội bộ, KHÔNG đưa vào trường nội dung QTKT",
+    "sources": [
+      "QĐ 3023/QĐ-BYT (2023)",
+      "QĐ 199/QĐ-BYT (2014)",
+      "QĐ 5728/QĐ-BYT (2017)"
+    ],
+    "status": "DRAFT_REQUIRES_CLINICAL_APPROVAL"
+  },
+  "procedures": {
+    "bot_hai_xuong_cang_tay_duoi": {
+      "title": "1. NẮN, BÓ BỘT GÃY 1/3 DƯỚI HAI XƯƠNG CẲNG TAY [BỘT LIỀN]",
+      "status": "NEEDS_SPECIALIST_AND_HOSPITAL_APPROVAL",
+      "review_items": [
+        "Đối chiếu QĐ 199 bài 29 gãy thân hai xương cẳng tay với vị trí riêng 1/3 dưới; xác nhận nhóm tuổi và chỉ định bảo tồn.",
+        "Xác minh thuốc trực tiếp thuộc mục 5.2, loại thuốc vô cảm thuộc quy trình vô cảm riêng.",
+        "Xác định địa điểm thực hiện và các số lượng vật tư/trang thiết bị còn thiếu tại bệnh viện.",
+        "Định mức nhân lực hỗ trợ theo phê duyệt của bệnh viện.",
+        "Thiếu thời gian dự kiến tính bằng giờ; để trống mục 5.7 cho đến khi có căn cứ."
+      ],
+      "removed_editorial_tags": [
+        "contraindications",
+        "personnel",
+        "location",
+        "preprocedure_checks"
+      ],
+      "original_issues": {
+        "staffing": "Nhân lực trực tiếp: Chuyên khoa chấn thương: 04 người (01 chính, 03 phụ); thêm 02 người gây mê–hồi sức nếu gây mê (theo Bài 29).\nNhân lực hỗ trợ: Điều dưỡng hoặc nhân viên hỗ trợ vận chuyển, theo dõi và chuẩn bị vật tư tùy tình trạng; phân công theo phạm vi hành nghề và điều kiện đơn vị. [BỔ SUNG/ĐỀ XUẤT]",
+        "medications": "Thuốc gây tê hoặc gây mê theo chỉ định; QĐ 199 mô tả lidocaine 1% tại ổ gãy nhưng không dùng một công thức liều chung cho mọi người bệnh; dịch truyền, thuốc và phương tiện cấp cứu theo đánh giá vô cảm.",
+        "duration": "Chưa quy định thời gian bằng giờ trong QĐ 199 – đơn vị thẩm định và ấn định thời gian chuẩn.",
+        "location": "Phòng thực hiện kỹ thuật/chỉnh hình hoặc khu vực phù hợp, có điều kiện chụp kiểm tra và cấp cứu vô cảm. [BỔ SUNG/ĐỀ XUẤT; nguồn cũ chưa quy định thành một mục riêng]"
+      }
+    },
+    "bot_mot_xuong_cang_tay": {
+      "title": "2. NẮN, BÓ BỘT GÃY MỘT XƯƠNG CẲNG TAY [BỘT LIỀN]",
+      "status": "NEEDS_SPECIALIST_AND_HOSPITAL_APPROVAL",
+      "review_items": [
+        "QĐ 199 bài 29 không trùng tên gãy một xương cẳng tay; cần đối chiếu quy trình nguồn tương ứng.",
+        "Định mức nhân lực chưa xác minh được.",
+        "Xác minh thuốc trực tiếp thuộc mục 5.2, loại thuốc vô cảm thuộc quy trình vô cảm riêng.",
+        "Xác định địa điểm thực hiện và các số lượng vật tư/trang thiết bị còn thiếu tại bệnh viện.",
+        "Định mức nhân lực hỗ trợ theo phê duyệt của bệnh viện.",
+        "Thiếu thời gian dự kiến tính bằng giờ; để trống mục 5.7 cho đến khi có căn cứ."
+      ],
+      "removed_editorial_tags": [
+        "precautions",
+        "personnel",
+        "location",
+        "preprocedure_checks"
+      ],
+      "original_issues": {
+        "staffing": "Nhân lực trực tiếp: Tham khảo Bài 29: ê-kíp chấn thương 04 người; ê-kíp gây mê hồi sức theo chỉ định. Số lượng cụ thể cần duyệt theo thực tế.\nNhân lực hỗ trợ: Điều dưỡng hoặc nhân viên hỗ trợ vận chuyển, theo dõi và chuẩn bị vật tư tùy tình trạng; phân công theo phạm vi hành nghề và điều kiện đơn vị. [BỔ SUNG/ĐỀ XUẤT]",
+        "medications": "Thuốc tê/mê và thuốc cấp cứu theo phương pháp vô cảm do bác sĩ chỉ định; không có định mức liều riêng cho gãy một xương trong nguồn.",
+        "duration": "Không có số giờ riêng cho kỹ thuật này trong các nguồn đã kiểm tra; cần bệnh viện xác định.",
+        "location": "Phòng thực hiện kỹ thuật/chỉnh hình hoặc khu vực phù hợp, có điều kiện chụp kiểm tra và cấp cứu vô cảm. [BỔ SUNG/ĐỀ XUẤT; nguồn cũ chưa quy định thành một mục riêng]"
+      }
+    },
+    "bot_xuong_ban_chan": {
+      "title": "3. NẮN, BÓ BỘT GÃY XƯƠNG BÀN CHÂN [BỘT LIỀN]",
+      "status": "NEEDS_SPECIALIST_AND_HOSPITAL_APPROVAL",
+      "review_items": [
+        "QĐ 199 bài 10 mô tả bột cẳng–bàn chân, chưa có quy cách/định mức riêng cho gãy xương bàn chân.",
+        "Thẩm định lựa chọn kiểu bột và loại trừ tổn thương Lisfranc.",
+        "Xác minh thuốc trực tiếp thuộc mục 5.2, loại thuốc vô cảm thuộc quy trình vô cảm riêng.",
+        "Xác định địa điểm thực hiện và các số lượng vật tư/trang thiết bị còn thiếu tại bệnh viện.",
+        "Định mức nhân lực hỗ trợ theo phê duyệt của bệnh viện.",
+        "Thiếu thời gian dự kiến tính bằng giờ; để trống mục 5.7 cho đến khi có căn cứ."
+      ],
+      "removed_editorial_tags": [
+        "contraindications",
+        "precautions",
+        "personnel",
+        "location",
+        "preprocedure_checks"
+      ],
+      "original_issues": {
+        "staffing": "Nhân lực trực tiếp: Theo Bài 10: ê-kíp bó bột thường 03 người; nếu gây mê thêm bác sĩ gây mê và người phụ mê.\nNhân lực hỗ trợ: Điều dưỡng hoặc nhân viên hỗ trợ vận chuyển, theo dõi và chuẩn bị vật tư tùy tình trạng; phân công theo phạm vi hành nghề và điều kiện đơn vị. [BỔ SUNG/ĐỀ XUẤT]",
+        "medications": "Thuốc tê/mê theo chỉ định nếu cần nắn; dịch truyền, thuốc cấp cứu khi thực hiện vô cảm. Không có định mức dùng thuốc riêng.",
+        "duration": "Chưa được lượng hóa trong QĐ 199 – cần đơn vị xác lập.",
+        "location": "Phòng thực hiện kỹ thuật/chỉnh hình hoặc khu vực phù hợp, có điều kiện chụp kiểm tra và cấp cứu vô cảm. [BỔ SUNG/ĐỀ XUẤT; nguồn cũ chưa quy định thành một mục riêng]"
+      }
+    },
+    "bot_xuong_chay": {
+      "title": "4. NẮN, BÓ BỘT GÃY XƯƠNG CHÀY [BỘT LIỀN]",
+      "status": "NEEDS_SPECIALIST_AND_HOSPITAL_APPROVAL",
+      "review_items": [
+        "QĐ 199 bài 40 là điều trị bảo tồn gãy cẳng chân; đối chiếu với riêng gãy xương chày.",
+        "Xác minh thuốc trực tiếp thuộc mục 5.2, loại thuốc vô cảm thuộc quy trình vô cảm riêng.",
+        "Xác định địa điểm thực hiện và các số lượng vật tư/trang thiết bị còn thiếu tại bệnh viện.",
+        "Định mức nhân lực hỗ trợ theo phê duyệt của bệnh viện.",
+        "Thiếu thời gian dự kiến tính bằng giờ; để trống mục 5.7 cho đến khi có căn cứ."
+      ],
+      "removed_editorial_tags": [
+        "personnel",
+        "location",
+        "preprocedure_checks"
+      ],
+      "original_issues": {
+        "staffing": "Nhân lực trực tiếp: QĐ 199 Bài 40: chấn thương 04 người (01 chính, 03 phụ); gây mê–hồi sức 02 người nếu cần gây mê.\nNhân lực hỗ trợ: Điều dưỡng hoặc nhân viên hỗ trợ vận chuyển, theo dõi và chuẩn bị vật tư tùy tình trạng; phân công theo phạm vi hành nghề và điều kiện đơn vị. [BỔ SUNG/ĐỀ XUẤT]",
+        "medications": "Thuốc tê hoặc gây mê do bác sĩ quyết định; thuốc giảm đau, dịch và phương tiện hồi sức theo tình trạng người bệnh, không có định mức chung trong Bài 40.",
+        "duration": "Chưa quy định số giờ trong QĐ 199 – cần đơn vị xác lập.",
+        "location": "Phòng thực hiện kỹ thuật/chỉnh hình hoặc khu vực phù hợp, có điều kiện chụp kiểm tra và cấp cứu vô cảm. [BỔ SUNG/ĐỀ XUẤT; nguồn cũ chưa quy định thành một mục riêng]"
+      }
+    },
+    "bot_xuong_got": {
+      "title": "5. NẮN, BÓ BỘT GÃY XƯƠNG GÓT",
+      "status": "NEEDS_SPECIALIST_AND_HOSPITAL_APPROVAL",
+      "review_items": [
+        "Xác nhận loại gãy xương gót được chọn bảo tồn, tình trạng mặt khớp và kỹ thuật nắn tương ứng.",
+        "Xác minh thuốc trực tiếp thuộc mục 5.2, loại thuốc vô cảm thuộc quy trình vô cảm riêng.",
+        "Xác định địa điểm thực hiện và các số lượng vật tư/trang thiết bị còn thiếu tại bệnh viện.",
+        "Định mức nhân lực hỗ trợ theo phê duyệt của bệnh viện.",
+        "Thiếu thời gian dự kiến tính bằng giờ; để trống mục 5.7 cho đến khi có căn cứ."
+      ],
+      "removed_editorial_tags": [
+        "personnel",
+        "location",
+        "preprocedure_checks"
+      ],
+      "original_issues": {
+        "staffing": "Nhân lực trực tiếp: QĐ 199 Bài 41: 03 người chuyên khoa xương; nếu gây mê bổ sung bác sĩ gây mê và người phụ mê.\nNhân lực hỗ trợ: Điều dưỡng hoặc nhân viên hỗ trợ vận chuyển, theo dõi và chuẩn bị vật tư tùy tình trạng; phân công theo phạm vi hành nghề và điều kiện đơn vị. [BỔ SUNG/ĐỀ XUẤT]",
+        "medications": "Thuốc tê/mê theo chỉ định; hỗ trợ giảm đau và cấp cứu theo tình trạng, không có liều chung trong tài liệu.",
+        "duration": "Chưa có định mức giờ trong QĐ 199 – đơn vị thẩm định bổ sung.",
+        "location": "Phòng thực hiện kỹ thuật/chỉnh hình hoặc khu vực phù hợp, có điều kiện chụp kiểm tra và cấp cứu vô cảm. [BỔ SUNG/ĐỀ XUẤT; nguồn cũ chưa quy định thành một mục riêng]"
+      }
+    },
+    "bot_xuong_ngon_chan": {
+      "title": "6. NẮN, BÓ BỘT GÃY XƯƠNG NGÓN CHÂN [BỘT LIỀN]",
+      "status": "NEEDS_SPECIALIST_AND_HOSPITAL_APPROVAL",
+      "review_items": [
+        "QĐ 199 bài 10 là bột cẳng–bàn chân, không phải quy trình nắn ngón chân độc lập.",
+        "Chưa xác minh định mức nhân lực hoặc số lượng vật tư riêng.",
+        "Xác minh thuốc trực tiếp thuộc mục 5.2, loại thuốc vô cảm thuộc quy trình vô cảm riêng.",
+        "Xác định địa điểm thực hiện và các số lượng vật tư/trang thiết bị còn thiếu tại bệnh viện.",
+        "Định mức nhân lực hỗ trợ theo phê duyệt của bệnh viện.",
+        "Thiếu thời gian dự kiến tính bằng giờ; để trống mục 5.7 cho đến khi có căn cứ."
+      ],
+      "removed_editorial_tags": [
+        "contraindications",
+        "precautions",
+        "personnel",
+        "location",
+        "preprocedure_checks"
+      ],
+      "original_issues": {
+        "staffing": "Nhân lực trực tiếp: Theo Bài 10: tham khảo 03 người bó bột, thêm ê-kíp gây mê khi có chỉ định; số lượng thực tế theo loại bột và mức nắn.\nNhân lực hỗ trợ: Điều dưỡng hoặc nhân viên hỗ trợ vận chuyển, theo dõi và chuẩn bị vật tư tùy tình trạng; phân công theo phạm vi hành nghề và điều kiện đơn vị. [BỔ SUNG/ĐỀ XUẤT]",
+        "medications": "Thuốc tê tại chỗ nếu có chỉ định nắn; thuốc giảm đau theo đánh giá, nguồn gốc không quy định định mức riêng cho ngón chân.",
+        "duration": "Chưa có số giờ trong QĐ 199 – cần phê duyệt nội bộ.",
+        "location": "Phòng thực hiện kỹ thuật/chỉnh hình hoặc khu vực phù hợp, có điều kiện chụp kiểm tra và cấp cứu vô cảm. [BỔ SUNG/ĐỀ XUẤT; nguồn cũ chưa quy định thành một mục riêng]"
+      }
+    },
+    "bot_trat_co_chan": {
+      "title": "7. NẮN, BÓ BỘT TRẬT KHỚP CỔ CHÂN [BỘT LIỀN]",
+      "status": "NEEDS_SPECIALIST_AND_HOSPITAL_APPROVAL",
+      "review_items": [
+        "Không có quy trình nắn trật khớp cổ chân đơn thuần được xác minh từ tài liệu đang có. Không suy diễn động tác nắn từ hướng dẫn bó bột hoặc gãy-trật khác.",
+        "Chưa đủ căn cứ chuyên môn để điền chỉ định, chống chỉ định, định mức, bước nắn, tai biến.",
+        "Xác minh thuốc trực tiếp thuộc mục 5.2, loại thuốc vô cảm thuộc quy trình vô cảm riêng.",
+        "Xác định địa điểm thực hiện và các số lượng vật tư/trang thiết bị còn thiếu tại bệnh viện.",
+        "Định mức nhân lực hỗ trợ theo phê duyệt của bệnh viện.",
+        "Thiếu thời gian dự kiến tính bằng giờ; để trống mục 5.7 cho đến khi có căn cứ."
+      ],
+      "removed_editorial_tags": [
+        "indications",
+        "contraindications",
+        "personnel",
+        "location",
+        "preprocedure_checks",
+        "steps",
+        "late_complications"
+      ],
+      "original_issues": {
+        "staffing": "Nhân lực trực tiếp: Chưa có định mức nhân lực trong quy trình nắn riêng được xác minh; đề xuất tối thiểu bác sĩ chỉnh hình phụ trách, kỹ thuật viên/điều dưỡng hỗ trợ và ê-kíp gây mê tùy chỉ định (đơn vị phê duyệt).\nNhân lực hỗ trợ: Điều dưỡng hoặc nhân viên hỗ trợ vận chuyển, theo dõi và chuẩn bị vật tư tùy tình trạng; phân công theo phạm vi hành nghề và điều kiện đơn vị. [BỔ SUNG/ĐỀ XUẤT]",
+        "medications": "Vô cảm/giảm đau theo bác sĩ phụ trách và hướng dẫn gây mê tại đơn vị. Không có định mức thuốc chứng minh được riêng cho quy trình này.",
+        "duration": "Chưa có định mức giờ quốc gia xác minh được; phải thẩm định.",
+        "location": "Phòng thực hiện kỹ thuật/chỉnh hình hoặc khu vực phù hợp, có điều kiện chụp kiểm tra và cấp cứu vô cảm. [BỔ SUNG/ĐỀ XUẤT; nguồn cũ chưa quy định thành một mục riêng]"
+      }
+    },
+    "bot_trat_khuyu": {
+      "title": "8. NẮN, BÓ BỘT TRẬT KHỚP KHUỶU [BỘT LIỀN]",
+      "status": "NEEDS_SPECIALIST_AND_HOSPITAL_APPROVAL",
+      "review_items": [
+        "Đối chiếu khác biệt nhân lực/vật tư giữa QĐ 199 bài 18 và QĐ 5728 bài 32; dữ liệu nhân lực/vật tư được dựa theo bài 32 của QĐ 5728.",
+        "Thẩm định thời gian bất động và tư thế bó bột theo từng ca.",
+        "Xác minh thuốc trực tiếp thuộc mục 5.2, loại thuốc vô cảm thuộc quy trình vô cảm riêng.",
+        "Xác định địa điểm thực hiện và các số lượng vật tư/trang thiết bị còn thiếu tại bệnh viện.",
+        "Định mức nhân lực hỗ trợ theo phê duyệt của bệnh viện."
+      ],
+      "removed_editorial_tags": [
+        "personnel",
+        "location",
+        "preprocedure_checks",
+        "late_complications"
+      ],
+      "original_issues": {
+        "staffing": "Nhân lực trực tiếp: Theo QĐ 5728: 04 người, gồm 01 bác sĩ và 03 kỹ thuật viên. Hỗ trợ gây mê–hồi sức tùy phương pháp vô cảm.\nNhân lực hỗ trợ: Điều dưỡng hoặc nhân viên hỗ trợ vận chuyển, theo dõi và chuẩn bị vật tư tùy tình trạng; phân công theo phạm vi hành nghề và điều kiện đơn vị. [BỔ SUNG/ĐỀ XUẤT]",
+        "medications": "QĐ 5728: gây mê tĩnh mạch hoặc gây tê tại chỗ, thuốc và liều do người có thẩm quyền quyết định; phương tiện hồi sức sẵn sàng.",
+        "duration": "40–50 phút = khoảng 0,67–0,83 giờ (QĐ 5728; không bao gồm thời gian theo dõi kéo dài sau thủ thuật).",
+        "location": "Phòng thực hiện kỹ thuật/chỉnh hình hoặc khu vực phù hợp, có điều kiện chụp kiểm tra và cấp cứu vô cảm. [BỔ SUNG/ĐỀ XUẤT; nguồn cũ chưa quy định thành một mục riêng]"
+      }
+    }
+  }
+}
