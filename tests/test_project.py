@@ -51,6 +51,71 @@ class ProjectIntegrityTests(unittest.TestCase):
             src.index('filled, skipped, field_selectors = fill_fields(driver)')
         )
 
+    def test_stale_elements_are_reacquired(self):
+        """A rerender can detach an element during is_displayed(), before click()."""
+        source=(ROOT/'autofill_portal.py').read_text(encoding='utf-8')
+        tree=ast.parse(source)
+        funcs=[node for node in tree.body
+               if isinstance(node,ast.FunctionDef)
+               and node.name in ('click_unique','set_text_fresh')]
+        self.assertEqual(len(funcs), 2)
+
+        class StaleElementReferenceException(Exception):
+            pass
+
+        class By:
+            CSS_SELECTOR='css'
+
+        class WebDriverWait:
+            def __init__(self, driver, timeout, poll_frequency=0.2):
+                self.driver=driver
+            def until(self, callback):
+                for _ in range(4):
+                    value=callback(self.driver)
+                    if value:
+                        return value
+                raise AssertionError('Selenium did not recover from stale element')
+
+        class Element:
+            def __init__(self, stale=False):
+                self.stale=stale
+                self.clicked=False
+                self.typed=None
+            def is_displayed(self):
+                if self.stale:
+                    raise StaleElementReferenceException('detached')
+                return True
+            def is_enabled(self):
+                return True
+            def click(self):
+                self.clicked=True
+            def clear(self):
+                self.typed=''
+            def send_keys(self, value):
+                self.typed=value
+
+        class Driver:
+            def __init__(self):
+                self.calls=0
+                self.fresh=Element()
+            def find_elements(self, by, selector):
+                self.calls+=1
+                return [Element(stale=True)] if self.calls==1 else [self.fresh]
+
+        namespace={'By':By,'WebDriverWait':WebDriverWait,
+                   'StaleElementReferenceException':StaleElementReferenceException}
+        excerpt=ast.fix_missing_locations(ast.Module(body=funcs,type_ignores=[]))
+        exec(compile(excerpt,'autofill_portal.py','exec'),namespace)
+        driver=Driver()
+        namespace['click_unique'](driver,'#tab','Quy trình kỹ thuật')
+        self.assertEqual(driver.calls,2)
+        self.assertTrue(driver.fresh.clicked)
+
+        driver=Driver()
+        namespace['set_text_fresh'](driver,'#input','QTKT','Tên kỹ thuật')
+        self.assertEqual(driver.calls,2)
+        self.assertEqual(driver.fresh.typed,'QTKT')
+
     def test_credential_file_not_tracked(self):
         if not (ROOT/'.git').exists(): return
         p=subprocess.run(['git','-C',str(ROOT),'ls-files','login.json'],capture_output=True,text=True)
