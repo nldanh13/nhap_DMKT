@@ -40,6 +40,17 @@ class ProjectIntegrityTests(unittest.TestCase):
         self.assertIn('procedure.get("requires_clinical_review", False)',src)
         self.assertNotIn('snapshot = "Không thể tạo snapshot HTML.\\n" + (driver.page_source or "")',src)
 
+    def test_inspect_opens_procedure_form(self):
+        src=(ROOT/'autofill_portal.py').read_text(encoding='utf-8')
+        self.assertLess(
+            src.index('current_step = "Chờ biểu mẫu sẵn sàng"'),
+            src.index('if args.inspect:')
+        )
+        self.assertLess(
+            src.index('if args.inspect:'),
+            src.index('filled, skipped, field_selectors = fill_fields(driver)')
+        )
+
     def test_credential_file_not_tracked(self):
         if not (ROOT/'.git').exists(): return
         p=subprocess.run(['git','-C',str(ROOT),'ls-files','login.json'],capture_output=True,text=True)
