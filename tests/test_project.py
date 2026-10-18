@@ -26,12 +26,49 @@ class ProjectIntegrityTests(unittest.TestCase):
                 proc=procs[pid]
                 self.assertTrue(proc['requires_clinical_review'])
                 self.assertEqual(proc['autofill_fields'], ['source'])
-                self.assertTrue(draft['steps'].startswith('Bước 1.'))
                 self.assertEqual(proc['form_fields']['steps'], draft['steps'])
+                self.assertEqual(proc['form_fields']['overview'], draft['overview'])
+                self.assertEqual(proc['form_fields']['drugs'], draft['drugs'])
                 self.assertTrue(proc['form_fields']['preparation'])
-                self.assertTrue(proc['form_fields']['late_complications'])
-                steps.append(draft['steps'])
+                if pid == 'bot_trat_co_chan':
+                    self.assertEqual(draft['steps'], '')  # No verified standalone reduction.
+                    self.assertEqual(proc['form_fields']['late_complications'], '')
+                else:
+                    self.assertTrue(draft['steps'].startswith('Bước 1.'))
+                    self.assertIn('Kết thúc quy trình', draft['steps'])
+                    self.assertTrue(proc['form_fields']['late_complications'])
+                    steps.append(draft['steps'])
+                self.assertFalse(proc.get('approved_for_auto_save', False))
+        self.assertEqual(len(steps),7)
         self.assertEqual(len(steps),len(set(steps)))
+
+    def test_form_prose_excludes_internal_notes_and_anesthetic_drugs(self):
+        drafts=json.loads((ROOT/'data/clinical_drafts.json').read_text(encoding='utf-8'))['procedures']
+        procs=json.loads((ROOT/'data/procedures.json').read_text(encoding='utf-8'))['procedures']
+        review=json.loads((ROOT/'data/clinical_review_notes.json').read_text(encoding='utf-8'))['procedures']
+        self.assertEqual(set(CAST_IDS), set(review))
+        fields=('overview','indications','contraindications','precautions','personnel',
+                'drugs','supplies','equipment','patient','records','duration_hours',
+                'location','preprocedure_checks','steps','during_procedure_events',
+                'post_procedure_events','late_complications')
+        import re
+        note=re.compile(r'\\[(?:BỔ SUNG|ĐỀ XUẤT|KHUNG|CHỜ THẨM ĐỊNH|THAM CHIẾU)')
+        for pid in CAST_IDS:
+            with self.subTest(procedure=pid):
+                record=drafts[pid]
+                for field in fields:
+                    self.assertEqual(record[field],procs[pid]['form_fields'][field])
+                    self.assertIsNone(note.search(record[field]),(pid,field))
+                    self.assertNotIn('Phan Văn Hiếu',record[field])
+                self.assertEqual(record['drugs'],'')  # The source only specified anesthesia meds.
+                self.assertEqual(record['location'],'')  # No verified local room.
+                self.assertEqual(record['duration_hours']!='',pid=='bot_trat_khuyu')
+                self.assertTrue(review[pid]['review_items'])
+                self.assertEqual(procs[pid]['autofill_fields'],['source'])
+
+    def test_legacy_word_import_requires_explicit_force(self):
+        src=(ROOT/'make_clinical_drafts.py').read_text(encoding='utf-8')
+        self.assertIn('--force-source-import',src)
 
     def test_no_implicit_save_or_raw_snapshot(self):
         src=(ROOT/'autofill_portal.py').read_text(encoding='utf-8')
