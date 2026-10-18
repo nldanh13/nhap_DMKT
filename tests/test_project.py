@@ -116,6 +116,48 @@ class ProjectIntegrityTests(unittest.TestCase):
         self.assertEqual(driver.calls,2)
         self.assertEqual(driver.fresh.typed,'QTKT')
 
+    def test_verified_form_field_selectors(self):
+        selectors=json.loads((ROOT/'selectors.json').read_text(encoding='utf-8'))
+        expected={
+            'precautions':'thanTrong',
+            'support_personnel':'nhanLucHT',
+            'drugs':'thuoc',
+            'supplies':'vatTu',
+            'equipment':'thietBi',
+            'patient':'nguoiBenh',
+            'records':'hoSoBA',
+            'duration_hours':'thoiGian',
+            'location':'diaDiem',
+            'preprocedure_checks':'kiemTraHS',
+            'during_procedure_events':'taiBien1',
+            'post_procedure_events':'taiBien2',
+            'late_complications':'bienChungMuon'
+        }
+        for key, data_qf in expected.items():
+            with self.subTest(key=key):
+                self.assertEqual(selectors[key], f'[data-qf="{data_qf}"]')
+
+    def test_draft_preview_gated_and_never_saves(self):
+        source=(ROOT/'autofill_portal.py').read_text(encoding='utf-8')
+        self.assertIn('if args.draft_preview and (args.save or args.inspect)', source)
+        self.assertIn('if input("Chỉ xem trước trong biểu mẫu, KHÔNG LƯU. Nhập XEM', source)
+        self.assertIn('btn.disabled = true', source)
+        self.assertIn('allowed_fields = set(field_selectors) if args.draft_preview else', source)
+        self.assertIn('if not args.save:', source)
+
+    def test_separate_personnel_into_two_fields(self):
+        source=(ROOT/'autofill_portal.py').read_text(encoding='utf-8')
+        tree=ast.parse(source)
+        fn=next(node for node in tree.body
+                if isinstance(node,ast.FunctionDef) and node.name=='separate_personnel')
+        ns={}
+        exec(compile(ast.fix_missing_locations(ast.Module(body=[fn],type_ignores=[])),
+                     'autofill_portal.py','exec'),ns)
+        text='Nhân lực trực tiếp: 01 bác sĩ, 03 KTV\\nNhân lực hỗ trợ: 01 điều dưỡng'
+        primary,support=ns['separate_personnel'](text,'Người được phân công')
+        self.assertIn('01 bác sĩ, 03 KTV',primary)
+        self.assertEqual(support,'01 điều dưỡng')
+
     def test_credential_file_not_tracked(self):
         if not (ROOT/'.git').exists(): return
         p=subprocess.run(['git','-C',str(ROOT),'ls-files','login.json'],capture_output=True,text=True)
