@@ -1,0 +1,567 @@
+[
+  {
+    "id": "duong_mau_noi_tru",
+    "service": "Xét nghiệm đường máu mao mạch tại giường (một lần)[Nội trú]",
+    "performer": "Phan Văn Hiếu",
+    "department": "Khoa Ngoại Chấn thương chỉnh hình-Thần kinh",
+    "source_id": "qd1904",
+    "source_procedure": "Quy trình kỹ thuật thử đường máu mao mạch",
+    "pdf_pages": [
+      868
+    ],
+    "match": "close",
+    "note": "Tên kỹ thuật trong QĐ 1904 gần khớp; xác nhận phạm vi áp dụng nội trú và quy trình máy/que thử tại bệnh viện.",
+    "assignment_basis": "Theo file phân công “Copy of DANH SÁCH PHÂN CÔNG QTKT 10-2026(1).xlsx”, sheet “Danh sách dịch vụ”.",
+    "technical_catalog": {
+      "annex1": {
+        "code": "1.281",
+        "name": "Xét nghiệm đường máu mao mạch tại giường (một lần)",
+        "chapter": "01. Hồi sức cấp cứu và chống độc",
+        "match": "Khớp tên; phạm vi nguồn là hồi sức-cấp cứu-chống độc, dịch vụ cơ sở có hậu tố nội trú."
+      },
+      "annex2": {
+        "code": null,
+        "name": null,
+        "match": "Chưa tìm thấy mục tương ứng trong Phụ lục 02 của bản PDF chính thức đã tra."
+      },
+      "annex_status": "Phụ lục 01 dùng đến 31/12/2027; Phụ lục 02 áp dụng từ 01/01/2028 theo TT25/2026/TT-BYT."
+    },
+    "form_template": "Xét nghiệm — QĐ 3376/QĐ-BYT",
+    "form_template_note": "Chọn theo ghi chú trên biểu mẫu người dùng cung cấp; xác nhận khoa Xét nghiệm/phòng quản lý chất lượng nếu quy trình point-of-care tại giường dùng mẫu lâm sàng riêng.",
+    "form_decision": {
+      "annex": "PL1",
+      "codes": [
+        "1.281"
+      ],
+      "code_decision_note": "Chọn xét nghiệm mao mạch tại giường; áp dụng mẫu xét nghiệm theo ghi chú của biểu mẫu.",
+      "issuing_authority": "BỆNH VIỆN",
+      "section6_title": "CÁC BƯỚC TIẾN HÀNH",
+      "template_source_ids": [
+        "qd3376_xn"
+      ]
+    }
+  },
+  {
+    "id": "thay_bang_15cm",
+    "service": "Thay băng, cắt chỉ vết mổ [chiều dài ≤ 15cm]",
+    "performer": "Phan Văn Hiếu",
+    "department": "Khoa Ngoại Chấn thương chỉnh hình-Thần kinh",
+    "source_id": "qd1904",
+    "source_procedure": "Quy trình kỹ thuật thay băng vết mổ ở người bệnh hồi sức cấp cứu và chống độc",
+    "pdf_pages": [
+      878,
+      879,
+      880
+    ],
+    "match": "related_scope",
+    "note": "Nguồn Bộ Y tế này dành cho người bệnh hồi sức-cấp cứu-chống độc; không đồng nhất hoàn toàn với dịch vụ ngoại khoa ≤15 cm. Không tự áp nguyên văn.",
+    "assignment_basis": "Theo file phân công “Copy of DANH SÁCH PHÂN CÔNG QTKT 10-2026(1).xlsx”, sheet “Danh sách dịch vụ”.",
+    "technical_catalog": {
+      "annex1": {
+        "code": "15.303; 3.3911; 15.302",
+        "name": "Thay băng vết mổ; Thay băng vết thương, vết mổ chiều dài < 15cm; Cắt chỉ sau phẫu thuật",
+        "chapter": "15. Tai mũi họng; kỹ thuật theo phạm vi vết thương",
+        "match": "Gần khớp. Dịch vụ gộp thay băng và cắt chỉ, nên có thể tương ứng nhiều mã; dòng <15cm không bao gồm trường hợp đúng 15cm, xác nhận với bộ phận danh mục kỹ thuật."
+      },
+      "annex2": {
+        "code": "15.303; 3.3911; 15.302",
+        "name": "Thay băng vết mổ; Thay băng vết thương, vết mổ chiều dài < 15cm; Cắt chỉ sau phẫu thuật",
+        "match": "Gần khớp. Dịch vụ gộp thay băng và cắt chỉ, nên có thể tương ứng nhiều mã; dòng <15cm không bao gồm trường hợp đúng 15cm, xác nhận với bộ phận danh mục kỹ thuật."
+      },
+      "annex_status": "Phụ lục 01 dùng đến 31/12/2027; Phụ lục 02 áp dụng từ 01/01/2028 theo TT25/2026/TT-BYT."
+    },
+    "form_template": "Lâm sàng — QĐ 3023/QĐ-BYT",
+    "form_template_note": "Chọn theo ghi chú trên biểu mẫu người dùng cung cấp.",
+    "form_decision": {
+      "annex": "PL1",
+      "codes": [
+        "15.303",
+        "15.302"
+      ],
+      "code_decision_note": "Chọn mã thay băng và mã cắt chỉ. Không lấy mã 3.3911 (<15 cm) làm mã bao phủ trường hợp đúng 15 cm.",
+      "issuing_authority": "BỆNH VIỆN",
+      "section6_title": "CÁC BƯỚC TIẾN HÀNH",
+      "template_source_ids": [
+        "qd3023"
+      ]
+    }
+  },
+  {
+    "id": "cat_chi_sau_mo",
+    "service": "Cắt chỉ sau phẫu thuật",
+    "performer": "Phan Văn Hiếu",
+    "department": "Khoa Ngoại Chấn thương chỉnh hình-Thần kinh",
+    "source_id": null,
+    "source_procedure": null,
+    "pdf_pages": [],
+    "match": "not_found_exact",
+    "note": "Chưa tìm được quy trình Bộ Y tế độc lập khớp chính xác. Một số tài liệu mổ có nhắc thời điểm cắt chỉ, nhưng không phải quy trình kỹ thuật riêng.",
+    "assignment_basis": "Theo file phân công “Copy of DANH SÁCH PHÂN CÔNG QTKT 10-2026(1).xlsx”, sheet “Danh sách dịch vụ”.",
+    "technical_catalog": {
+      "annex1": {
+        "code": "15.302",
+        "name": "Cắt chỉ sau phẫu thuật",
+        "chapter": "15. Tai mũi họng",
+        "match": "Tên trùng; xác nhận dùng mã liên chuyên khoa này cho quy trình ngoại khoa."
+      },
+      "annex2": {
+        "code": "15.302",
+        "name": "Cắt chỉ sau phẫu thuật",
+        "match": "Tên trùng; phân mục nằm ở chương Tai mũi họng, cần xác nhận mã dùng tại đơn vị."
+      },
+      "annex_status": "Phụ lục 01 dùng đến 31/12/2027; Phụ lục 02 áp dụng từ 01/01/2028 theo TT25/2026/TT-BYT."
+    },
+    "form_template": "Lâm sàng — QĐ 3023/QĐ-BYT",
+    "form_template_note": "Chọn theo ghi chú trên biểu mẫu người dùng cung cấp.",
+    "form_decision": {
+      "annex": "PL1",
+      "codes": [
+        "15.302"
+      ],
+      "code_decision_note": "Mã cắt chỉ sau phẫu thuật.",
+      "issuing_authority": "BỆNH VIỆN",
+      "section6_title": "CÁC BƯỚC TIẾN HÀNH",
+      "template_source_ids": [
+        "qd3023"
+      ]
+    }
+  },
+  {
+    "id": "bot_hai_xuong_cang_tay_duoi",
+    "service": "Nắn, bó bột gãy 1/3 dưới hai xương cẳng tay [bột liền]",
+    "performer": "Phan Văn Hiếu",
+    "department": "Khoa Ngoại Chấn thương chỉnh hình-Thần kinh",
+    "source_id": "qd199",
+    "source_procedure": "Điều trị bảo tồn gẫy thân hai xương cẳng tay",
+    "pdf_pages": [
+      104,
+      105,
+      106,
+      107
+    ],
+    "match": "related_exact_region",
+    "note": "Có quy trình cho gãy thân hai xương; 1/3 dưới/bột liền là chi tiết cần đối chiếu với vị trí gãy và chỉ định cụ thể.",
+    "assignment_basis": "Theo file phân công “Copy of DANH SÁCH PHÂN CÔNG QTKT 10-2026(1).xlsx”, sheet “Danh sách dịch vụ”.",
+    "technical_catalog": {
+      "annex1": {
+        "code": "10.1006",
+        "name": "Nắn, bó bột gãy 1/3 dưới hai xương cẳng tay",
+        "chapter": "10. Ngoại khoa",
+        "match": "Tên trùng; dịch vụ thêm thuộc tính [bột liền]."
+      },
+      "annex2": {
+        "code": "10.1006",
+        "name": "Nắn, bó bột gãy 1/3 dưới hai xương cẳng tay",
+        "match": "Tên trùng; dịch vụ thêm thuộc tính [bột liền]."
+      },
+      "annex_status": "Phụ lục 01 dùng đến 31/12/2027; Phụ lục 02 áp dụng từ 01/01/2028 theo TT25/2026/TT-BYT."
+    },
+    "form_template": "Lâm sàng — QĐ 3023/QĐ-BYT",
+    "form_template_note": "Chọn theo ghi chú trên biểu mẫu người dùng cung cấp.",
+    "form_decision": {
+      "annex": "PL1",
+      "codes": [
+        "10.1006"
+      ],
+      "code_decision_note": "Nắn, bó bột gãy 1/3 dưới hai xương cẳng tay.",
+      "issuing_authority": "BỆNH VIỆN",
+      "section6_title": "CÁC BƯỚC TIẾN HÀNH",
+      "template_source_ids": [
+        "qd3023"
+      ]
+    }
+  },
+  {
+    "id": "bot_mot_xuong_cang_tay",
+    "service": "Nắn, bó bột gãy một xương cẳng tay [bột liền]",
+    "performer": "Phan Văn Hiếu",
+    "department": "Khoa Ngoại Chấn thương chỉnh hình-Thần kinh",
+    "source_id": "qd199",
+    "source_procedure": "Bột cánh-cẳng-bàn tay; nội dung chỉ định gãy một hoặc hai xương cẳng tay",
+    "pdf_pages": [
+      12,
+      13
+    ],
+    "match": "related",
+    "note": "Tài liệu nêu chỉ định/bột tương ứng nhưng không có tên quy trình độc lập trùng hoàn toàn với dịch vụ.",
+    "assignment_basis": "Theo file phân công “Copy of DANH SÁCH PHÂN CÔNG QTKT 10-2026(1).xlsx”, sheet “Danh sách dịch vụ”.",
+    "technical_catalog": {
+      "annex1": {
+        "code": "10.1007",
+        "name": "Nắn, bó bột gãy một xương cẳng tay",
+        "chapter": "10. Ngoại khoa",
+        "match": "Tên trùng; dịch vụ thêm thuộc tính [bột liền]."
+      },
+      "annex2": {
+        "code": "10.1007",
+        "name": "Nắn, bó bột gãy một xương cẳng tay",
+        "match": "Tên trùng; dịch vụ thêm thuộc tính [bột liền]."
+      },
+      "annex_status": "Phụ lục 01 dùng đến 31/12/2027; Phụ lục 02 áp dụng từ 01/01/2028 theo TT25/2026/TT-BYT."
+    },
+    "form_template": "Lâm sàng — QĐ 3023/QĐ-BYT",
+    "form_template_note": "Chọn theo ghi chú trên biểu mẫu người dùng cung cấp.",
+    "form_decision": {
+      "annex": "PL1",
+      "codes": [
+        "10.1007"
+      ],
+      "code_decision_note": "Nắn, bó bột gãy một xương cẳng tay.",
+      "issuing_authority": "BỆNH VIỆN",
+      "section6_title": "CÁC BƯỚC TIẾN HÀNH",
+      "template_source_ids": [
+        "qd3023"
+      ]
+    }
+  },
+  {
+    "id": "bot_xuong_ban_chan",
+    "service": "Nắn, bó bột gãy xương bàn chân [bột liền]",
+    "performer": "Phan Văn Hiếu",
+    "department": "Khoa Ngoại Chấn thương chỉnh hình-Thần kinh",
+    "source_id": "qd199",
+    "source_procedure": "Bột cẳng-bàn chân; hướng dẫn cho gãy chỏm xương bàn chân",
+    "pdf_pages": [
+      36
+    ],
+    "match": "related",
+    "note": "Tài liệu nêu bột cẳng-bàn chân ngắn trong một số gãy xương bàn chân; cần xác định kiểu gãy trước khi áp dụng.",
+    "assignment_basis": "Theo file phân công “Copy of DANH SÁCH PHÂN CÔNG QTKT 10-2026(1).xlsx”, sheet “Danh sách dịch vụ”.",
+    "technical_catalog": {
+      "annex1": {
+        "code": "10.1028",
+        "name": "Nắn, bó bột gãy xương bàn chân",
+        "chapter": "10. Ngoại khoa",
+        "match": "Tên trùng; dịch vụ thêm thuộc tính [bột liền]."
+      },
+      "annex2": {
+        "code": "10.1028",
+        "name": "Nắn, bó bột gãy xương bàn chân",
+        "match": "Tên trùng; dịch vụ thêm thuộc tính [bột liền]."
+      },
+      "annex_status": "Phụ lục 01 dùng đến 31/12/2027; Phụ lục 02 áp dụng từ 01/01/2028 theo TT25/2026/TT-BYT."
+    },
+    "form_template": "Lâm sàng — QĐ 3023/QĐ-BYT",
+    "form_template_note": "Chọn theo ghi chú trên biểu mẫu người dùng cung cấp.",
+    "form_decision": {
+      "annex": "PL1",
+      "codes": [
+        "10.1028"
+      ],
+      "code_decision_note": "Nắn, bó bột gãy xương bàn chân.",
+      "issuing_authority": "BỆNH VIỆN",
+      "section6_title": "CÁC BƯỚC TIẾN HÀNH",
+      "template_source_ids": [
+        "qd3023"
+      ]
+    }
+  },
+  {
+    "id": "bot_xuong_chay",
+    "service": "Nắn, bó bột gãy xương chày [bột liền]",
+    "performer": "Phan Văn Hiếu",
+    "department": "Khoa Ngoại Chấn thương chỉnh hình-Thần kinh",
+    "source_id": "qd199",
+    "source_procedure": "Điều trị bảo tồn gãy cẳng chân; Bột đùi-cẳng-bàn chân",
+    "pdf_pages": [
+      143,
+      144,
+      145,
+      146,
+      147
+    ],
+    "match": "related_exact_bone",
+    "note": "Nguồn bao quát gãy một hoặc hai xương cẳng chân, tùy vị trí và độ hở; dịch vụ cần xác nhận loại bột, mức gãy, độ di lệch.",
+    "assignment_basis": "Theo file phân công “Copy of DANH SÁCH PHÂN CÔNG QTKT 10-2026(1).xlsx”, sheet “Danh sách dịch vụ”.",
+    "technical_catalog": {
+      "annex1": {
+        "code": "10.1022",
+        "name": "Nắn, bó bột gãy xương chày",
+        "chapter": "10. Ngoại khoa",
+        "match": "Tên trùng; dịch vụ thêm thuộc tính [bột liền]."
+      },
+      "annex2": {
+        "code": "10.1022",
+        "name": "Nắn, bó bột gãy xương chày",
+        "match": "Tên trùng; dịch vụ thêm thuộc tính [bột liền]."
+      },
+      "annex_status": "Phụ lục 01 dùng đến 31/12/2027; Phụ lục 02 áp dụng từ 01/01/2028 theo TT25/2026/TT-BYT."
+    },
+    "form_template": "Lâm sàng — QĐ 3023/QĐ-BYT",
+    "form_template_note": "Chọn theo ghi chú trên biểu mẫu người dùng cung cấp.",
+    "form_decision": {
+      "annex": "PL1",
+      "codes": [
+        "10.1022"
+      ],
+      "code_decision_note": "Nắn, bó bột gãy xương chày.",
+      "issuing_authority": "BỆNH VIỆN",
+      "section6_title": "CÁC BƯỚC TIẾN HÀNH",
+      "template_source_ids": [
+        "qd3023"
+      ]
+    }
+  },
+  {
+    "id": "bot_xuong_got",
+    "service": "Nắn, bó bột gãy xương gót",
+    "performer": "Phan Văn Hiếu",
+    "department": "Khoa Ngoại Chấn thương chỉnh hình-Thần kinh",
+    "source_id": "qd199",
+    "source_procedure": "Điều trị bảo tồn gẫy xương gót",
+    "pdf_pages": [
+      148,
+      149,
+      150
+    ],
+    "match": "exact_topic",
+    "note": "Quy trình Bộ Y tế là điều trị bảo tồn; chỉ áp dụng khi phù hợp loại gãy/chỉ định, không đồng nghĩa mọi gãy gót đều bó bột.",
+    "assignment_basis": "Theo file phân công “Copy of DANH SÁCH PHÂN CÔNG QTKT 10-2026(1).xlsx”, sheet “Danh sách dịch vụ”.",
+    "technical_catalog": {
+      "annex1": {
+        "code": "10.1023",
+        "name": "Nắn, bó bột gãy xương gót",
+        "chapter": "10. Ngoại khoa",
+        "match": "Tên trùng."
+      },
+      "annex2": {
+        "code": "10.1023",
+        "name": "Nắn, bó bột gãy xương gót",
+        "match": "Tên trùng."
+      },
+      "annex_status": "Phụ lục 01 dùng đến 31/12/2027; Phụ lục 02 áp dụng từ 01/01/2028 theo TT25/2026/TT-BYT."
+    },
+    "form_template": "Lâm sàng — QĐ 3023/QĐ-BYT",
+    "form_template_note": "Chọn theo ghi chú trên biểu mẫu người dùng cung cấp.",
+    "form_decision": {
+      "annex": "PL1",
+      "codes": [
+        "10.1023"
+      ],
+      "code_decision_note": "Nắn, bó bột gãy xương gót.",
+      "issuing_authority": "BỆNH VIỆN",
+      "section6_title": "CÁC BƯỚC TIẾN HÀNH",
+      "template_source_ids": [
+        "qd3023"
+      ]
+    }
+  },
+  {
+    "id": "bot_xuong_ngon_chan",
+    "service": "Nắn, bó bột gãy xương ngón chân [bột liền]",
+    "performer": "Phan Văn Hiếu",
+    "department": "Khoa Ngoại Chấn thương chỉnh hình-Thần kinh",
+    "source_id": "qd199",
+    "source_procedure": "Bột cẳng-bàn chân; hướng dẫn gãy xương các ngón chân",
+    "pdf_pages": [
+      36
+    ],
+    "match": "related",
+    "note": "QĐ 199 mô tả cách bất động bằng bột cẳng-bàn chân ngắn trong một số trường hợp gãy ngón chân; cần đối chiếu từng dạng gãy.",
+    "assignment_basis": "Theo file phân công “Copy of DANH SÁCH PHÂN CÔNG QTKT 10-2026(1).xlsx”, sheet “Danh sách dịch vụ”.",
+    "technical_catalog": {
+      "annex1": {
+        "code": "10.1024",
+        "name": "Nắn, bó bột gãy xương ngón chân",
+        "chapter": "10. Ngoại khoa",
+        "match": "Tên trùng; dịch vụ thêm thuộc tính [bột liền]."
+      },
+      "annex2": {
+        "code": "10.1024",
+        "name": "Nắn, bó bột gãy xương ngón chân",
+        "match": "Tên trùng; dịch vụ thêm thuộc tính [bột liền]."
+      },
+      "annex_status": "Phụ lục 01 dùng đến 31/12/2027; Phụ lục 02 áp dụng từ 01/01/2028 theo TT25/2026/TT-BYT."
+    },
+    "form_template": "Lâm sàng — QĐ 3023/QĐ-BYT",
+    "form_template_note": "Chọn theo ghi chú trên biểu mẫu người dùng cung cấp.",
+    "form_decision": {
+      "annex": "PL1",
+      "codes": [
+        "10.1024"
+      ],
+      "code_decision_note": "Nắn, bó bột gãy xương ngón chân.",
+      "issuing_authority": "BỆNH VIỆN",
+      "section6_title": "CÁC BƯỚC TIẾN HÀNH",
+      "template_source_ids": [
+        "qd3023"
+      ]
+    }
+  },
+  {
+    "id": "bot_trat_co_chan",
+    "service": "Nắn, bó bột trật khớp cổ chân [bột liền]",
+    "performer": "Phan Văn Hiếu",
+    "department": "Khoa Ngoại Chấn thương chỉnh hình-Thần kinh",
+    "source_id": "qd199",
+    "source_procedure": "Chưa tìm thấy quy trình riêng trùng tên; tài liệu có hướng dẫn bột cẳng-bàn chân",
+    "pdf_pages": [
+      36,
+      40
+    ],
+    "match": "not_exact",
+    "note": "Nguồn tìm được chỉ hỗ trợ chọn loại bột theo vùng; cần tra quy trình nắn trật khớp cổ chân riêng trước khi tạo nội dung kỹ thuật.",
+    "assignment_basis": "Theo file phân công “Copy of DANH SÁCH PHÂN CÔNG QTKT 10-2026(1).xlsx”, sheet “Danh sách dịch vụ”.",
+    "technical_catalog": {
+      "annex1": {
+        "code": "10.1031",
+        "name": "Nắn, bó bột trật khớp cổ chân",
+        "chapter": "10. Ngoại khoa",
+        "match": "Tên trùng; nguồn QĐ199 trong gói chưa có quy trình độc lập khớp."
+      },
+      "annex2": {
+        "code": "10.1031",
+        "name": "Nắn, bó bột trật khớp cổ chân",
+        "match": "Tên trùng; nguồn QĐ199 trong gói chưa có quy trình độc lập khớp."
+      },
+      "annex_status": "Phụ lục 01 dùng đến 31/12/2027; Phụ lục 02 áp dụng từ 01/01/2028 theo TT25/2026/TT-BYT."
+    },
+    "form_template": "Lâm sàng — QĐ 3023/QĐ-BYT",
+    "form_template_note": "Chọn theo ghi chú trên biểu mẫu người dùng cung cấp.",
+    "form_decision": {
+      "annex": "PL1",
+      "codes": [
+        "10.1031"
+      ],
+      "code_decision_note": "Nắn, bó bột trật khớp cổ chân.",
+      "issuing_authority": "BỆNH VIỆN",
+      "section6_title": "CÁC BƯỚC TIẾN HÀNH",
+      "template_source_ids": [
+        "qd3023"
+      ]
+    }
+  },
+  {
+    "id": "bot_trat_khuyu",
+    "service": "Nắn, bó bột trật khớp khuỷu [bột liền]",
+    "performer": "Phan Văn Hiếu",
+    "department": "Khoa Ngoại Chấn thương chỉnh hình-Thần kinh",
+    "source_id": "qd199",
+    "source_procedure": "Điều trị bảo tồn trật khớp khuỷu",
+    "pdf_pages": [
+      65,
+      66,
+      67,
+      68,
+      69
+    ],
+    "match": "exact_topic",
+    "note": "QĐ 199 mô tả nắn và bất động trật khớp khuỷu; đối chiếu kỹ thuật thực hiện và yêu cầu kiểm tra sau nắn tại đơn vị.",
+    "assignment_basis": "Theo file phân công “Copy of DANH SÁCH PHÂN CÔNG QTKT 10-2026(1).xlsx”, sheet “Danh sách dịch vụ”.",
+    "technical_catalog": {
+      "annex1": {
+        "code": "10.1000",
+        "name": "Nắn, bó bột trật khớp khuỷu",
+        "chapter": "10. Ngoại khoa",
+        "match": "Tên trùng; dịch vụ thêm thuộc tính [bột liền]."
+      },
+      "annex2": {
+        "code": "10.1000",
+        "name": "Nắn, bó bột trật khớp khuỷu",
+        "match": "Tên trùng; dịch vụ thêm thuộc tính [bột liền]."
+      },
+      "annex_status": "Phụ lục 01 dùng đến 31/12/2027; Phụ lục 02 áp dụng từ 01/01/2028 theo TT25/2026/TT-BYT."
+    },
+    "form_template": "Lâm sàng — QĐ 3023/QĐ-BYT",
+    "form_template_note": "Chọn theo ghi chú trên biểu mẫu người dùng cung cấp.",
+    "form_decision": {
+      "annex": "PL1",
+      "codes": [
+        "10.1000"
+      ],
+      "code_decision_note": "Nắn, bó bột trật khớp khuỷu.",
+      "issuing_authority": "BỆNH VIỆN",
+      "section6_title": "CÁC BƯỚC TIẾN HÀNH",
+      "template_source_ids": [
+        "qd3023"
+      ]
+    }
+  },
+  {
+    "id": "thay_bang_cat_chi",
+    "service": "Thay băng, cắt chỉ vết mổ",
+    "performer": "Phan Văn Hiếu",
+    "department": "Khoa Ngoại Chấn thương chỉnh hình-Thần kinh",
+    "source_id": "qd1904",
+    "source_procedure": "Quy trình kỹ thuật thay băng vết mổ ở người bệnh hồi sức cấp cứu và chống độc",
+    "pdf_pages": [
+      878,
+      879,
+      880
+    ],
+    "match": "related_scope",
+    "note": "Nguồn có phạm vi hồi sức-cấp cứu-chống độc; không phải bản quy trình ngoại khoa tổng quát, và không có quy trình cắt chỉ riêng.",
+    "assignment_basis": "Theo file phân công “Copy of DANH SÁCH PHÂN CÔNG QTKT 10-2026(1).xlsx”, sheet “Danh sách dịch vụ”.",
+    "technical_catalog": {
+      "annex1": {
+        "code": "15.303; 15.302",
+        "name": "Thay băng vết mổ; Cắt chỉ sau phẫu thuật",
+        "chapter": "15. Tai mũi họng",
+        "match": "Gồm hai thành phần danh mục; mã phân loại chuyên khoa cần bệnh viện xác nhận."
+      },
+      "annex2": {
+        "code": "15.303; 15.302",
+        "name": "Thay băng vết mổ; Cắt chỉ sau phẫu thuật",
+        "match": "Gồm hai mục danh mục; mã phân loại chuyên khoa cần bệnh viện xác nhận."
+      },
+      "annex_status": "Phụ lục 01 dùng đến 31/12/2027; Phụ lục 02 áp dụng từ 01/01/2028 theo TT25/2026/TT-BYT."
+    },
+    "form_template": "Lâm sàng — QĐ 3023/QĐ-BYT",
+    "form_template_note": "Chọn theo ghi chú trên biểu mẫu người dùng cung cấp.",
+    "form_decision": {
+      "annex": "PL1",
+      "codes": [
+        "15.303",
+        "15.302"
+      ],
+      "code_decision_note": "Chọn mã thay băng và mã cắt chỉ.",
+      "issuing_authority": "BỆNH VIỆN",
+      "section6_title": "CÁC BƯỚC TIẾN HÀNH",
+      "template_source_ids": [
+        "qd3023"
+      ]
+    }
+  },
+  {
+    "id": "duong_mau_mot_lan",
+    "service": "Xét nghiệm đường máu mao mạch tại giường (một lần)",
+    "performer": "Phan Văn Hiếu",
+    "department": "Khoa Ngoại Chấn thương chỉnh hình-Thần kinh",
+    "source_id": "qd1904",
+    "source_procedure": "Quy trình kỹ thuật thử đường máu mao mạch",
+    "pdf_pages": [
+      868
+    ],
+    "match": "close",
+    "note": "Tên kỹ thuật trong QĐ 1904 gần khớp; xác nhận phạm vi áp dụng và quy trình máy/que thử tại bệnh viện.",
+    "assignment_basis": "Theo file phân công “Copy of DANH SÁCH PHÂN CÔNG QTKT 10-2026(1).xlsx”, sheet “Danh sách dịch vụ”.",
+    "form_template": "Xét nghiệm — QĐ 3376/QĐ-BYT",
+    "form_template_note": "Chọn theo ghi chú trên biểu mẫu người dùng cung cấp; xác nhận khoa Xét nghiệm/phòng quản lý chất lượng nếu quy trình point-of-care tại giường dùng mẫu lâm sàng riêng.",
+    "technical_catalog": {
+      "annex1": {
+        "code": "1.281",
+        "name": "Xét nghiệm đường máu mao mạch tại giường (một lần)",
+        "chapter": "01. Hồi sức cấp cứu và chống độc",
+        "match": "Khớp tên; dịch vụ không ghi rõ nội trú, xác nhận phạm vi áp dụng và khoa thực hiện."
+      },
+      "annex2": {
+        "code": null,
+        "name": null,
+        "match": "Chưa tìm thấy mục tương ứng trong Phụ lục 02 của bản PDF chính thức đã tra."
+      },
+      "annex_status": "Phụ lục 01 dùng đến 31/12/2027; Phụ lục 02 áp dụng từ 01/01/2028 theo TT25/2026/TT-BYT."
+    },
+    "form_decision": {
+      "annex": "PL1",
+      "codes": [
+        "1.281"
+      ],
+      "code_decision_note": "Chọn xét nghiệm mao mạch tại giường; áp dụng mẫu xét nghiệm theo ghi chú của biểu mẫu.",
+      "issuing_authority": "BỆNH VIỆN",
+      "section6_title": "CÁC BƯỚC TIẾN HÀNH",
+      "template_source_ids": [
+        "qd3376_xn"
+      ]
+    }
+  }
+]

@@ -1,0 +1,19 @@
+Bản hoàn thiện — 2026-10-03
+- Đóng gói sẵn 13 dịch vụ, quyết định/ngày ban hành, nguồn tham khảo và dự thảo trường biểu mẫu.
+- Phân công người thực hiện theo file Word và quy tắc của người dùng: nắn chỉnh/bó bột là Phan Văn Hiếu; dịch vụ còn lại không có tên tương ứng là BS. Hồ Điền.
+- Bổ sung QĐ 3671/QĐ-BYT về phòng ngừa nhiễm khuẩn vết mổ.
+- Ghi rõ nguồn khớp chính xác, khớp một phần/phạm vi liên quan và phần chưa tìm thấy quy trình độc lập.
+- Cấu hình tự động điền theo thuộc tính data-qf của biểu mẫu đã cung cấp. Script dừng trước thao tác lưu.
+- Tạo CSV offline và workbook Excel rà soát kèm theo.
+2026-10-03 — Bổ sung mã và tên kỹ thuật đối chiếu theo Phụ lục 01/02 TT23 cho 13 dịch vụ; cập nhật lộ trình hiệu lực theo TT25/2026/TT-BYT; thêm bảng đối chiếu mã trong workbook; công cụ điền tên PL02 khi khớp chắc chắn.
+
+2026-10-03 — Rà soát mức độ đủ dữ liệu theo các trường biểu mẫu; thêm tab Tình trạng biểu mẫu vào Excel; công cụ điền trước chuyên khoa và mặc định bỏ chọn trạng thái Đang triển khai; không đẩy nội dung rủi ro gộp vào ô tai biến sau thủ thuật; cập nhật hướng dẫn các trường còn thiếu và giới hạn nguồn.
+2026-10-03 — Chốt mẫu lâm sàng/xét nghiệm theo hướng dẫn trong biểu mẫu; chọn PL1 hiện hành, đề xuất mã PL1 theo từng dịch vụ, không tự điền trường tên PL2; chọn cơ quan ban hành BỆNH VIỆN và tên mục 6; bổ sung nguồn đề cương QĐ 3023/2023 và QĐ 3376/2023; giữ ô Đang triển khai bỏ chọn.
+2026-10-03 — Xóa các file .bat; thêm run_all.py để chạy tuần tự tạo dữ liệu và điền trước biểu mẫu bằng Python.
+
+2026-10-04 — Bổ sung nội dung từ QT.17 thử đường máu mao mạch, QT.30 bó bột, và quy trình chăm sóc/cắt chỉ (bìa QT.41, nội dung QT.31); cập nhật trường đại cương/chỉ định/chống chỉ định/chuẩn bị/các bước/theo dõi khi có trường tương ứng; ghi rõ giới hạn phạm vi và điểm cần xác minh.
+2026-10-04 — Chuẩn hóa nội dung ô Tài liệu tham khảo thành danh mục trích dẫn; bỏ mã trang PDF, mã kỹ thuật và ghi chú đối chiếu khỏi danh mục; thêm các tài liệu được trích dẫn bên trong QT.17 và QT.41/QT.31.
+2026-10-04 — Tăng khả năng phục hồi stale element bằng cách tìm lại phần tử trước thao tác, đọc trạng thái DOM nguyên tử; thêm log theo từng bước và gói debug cục bộ (traceback, HTML, ảnh chụp, console) khi thất bại.
+2026-10-04 — Sửa ánh xạ mẫu xét nghiệm: Phạm vi áp dụng dùng đúng phạm vi QT.17; tách thiết bị, vật tư, kiểm tra trước xét nghiệm, chuẩn bị máy và bước thực hiện; không đưa chống chỉ định vào ô khác nghĩa.
+2026-10-04 — Bổ sung các trường XN có căn cứ từ QT.17: trách nhiệm, viết tắt, loại mẫu/giới hạn dữ liệu nguồn và địa điểm; đánh số lại các bước sau phần chuẩn bị máy.
+2026-10-04 — Bỏ các cụm “Theo QT…”, “QT… ghi/nêu” khỏi nội dung quy trình; để trích dẫn ở riêng mục Tài liệu tham khảo.

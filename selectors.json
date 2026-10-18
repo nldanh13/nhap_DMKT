@@ -1,0 +1,15 @@
+{
+  "service": "[data-qf=\"tenQT\"]",
+  "template_type": "#qfLoaiMau",
+  "catalog_annex": "#qfLoaiMa",
+  "specialty": "[data-qf=\"chuyenKhoa\"]",
+  "deployment_flag": "#qfDanhDauTT",
+  "issuing_authority": "[data-qf=\"nguon\"]",
+  "section6_title": "[data-qf=\"tenB6\"]",
+  "performer": "[data-qf=\"nguoiTH\"]",
+  "overview": "[data-qf=\"daiCuong\"]",
+  "indications": "[data-qf=\"chiDinh\"]",
+  "contraindications": "[data-qf=\"chongCD\"]",
+  "steps": "[data-qf=\"cacBuoc\"]",
+  "source": "[data-qf=\"taiLieu\"]"
+}

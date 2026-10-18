@@ -1,0 +1,253 @@
+{
+  "dataset_note": "Tóm tắt hỗ trợ nhập liệu từ tài liệu Bộ Y tế. Nội dung không thay thế quy trình kỹ thuật do bệnh viện xây dựng, thẩm định và phê duyệt. Trường nào đánh dấu cần xác nhận không được xem là đã hoàn tất.",
+  "general_form_fields": {
+    "approval_authority": "Cần bệnh viện điền theo phân cấp phê duyệt nội bộ.",
+    "technical_code": "Đã đối chiếu được mã/tên theo Phụ lục 01 cho các dịch vụ trong danh sách (xem technical_catalog trong services.json). Mã Phụ lục 02 là dữ liệu đối chiếu; theo TT25/2026/TT-BYT, Phụ lục 02 áp dụng từ 01/01/2028. Chọn danh mục/mã theo tình trạng phê duyệt kỹ thuật của chính bệnh viện.",
+    "author_reviewer_approver": "Cần bệnh viện phân công.",
+    "unit_specific_time_place_staff": "Cần khoa/phòng xác nhận theo điều kiện thực tế.",
+    "medicine_material_equipment": "Chỉ điền theo danh mục được bệnh viện phê duyệt và thiết bị thực tế.",
+    "clinical_review": "Bác sĩ phụ trách chuyên môn và hội đồng/khoa liên quan cần rà soát trước khi ban hành.",
+    "catalog_validity": "Tại thời điểm rà soát 03/10/2026: Phụ lục 01 TT23 áp dụng đến 31/12/2027; Phụ lục 02 áp dụng từ 01/01/2028 theo TT25/2026/TT-BYT.",
+    "service_scope": "Tên kỹ thuật/mã danh mục quốc gia không tự chứng minh bệnh viện đã được phê duyệt triển khai. Đối chiếu quyết định/phạm vi hoạt động chuyên môn được phê duyệt và chọn trạng thái triển khai đúng trên hệ thống."
+  },
+  "procedures": {
+    "duong_mau_noi_tru": {
+      "match_status": "Có quy trình nội bộ QT.17 do người dùng cung cấp; dịch vụ tại giường cần xác nhận quy trình theo máy/que thử hiện dùng và phạm vi đơn vị.",
+      "source_ids": [
+        "hospital_qt17",
+        "qd1904",
+        "bachmai2015"
+      ],
+      "form_fields": {
+        "overview": "Theo dõi chỉ số đường huyết của người bệnh đái tháo đường hỗ trợ chẩn đoán, điều trị và theo dõi. Thử đường máu mao mạch là kỹ thuật đơn giản nhưng cần thực hiện đúng quy trình để hạn chế sai số kết quả và tai biến.",
+        "indications": "Áp dụng cho điều dưỡng viên tại các khoa có người bệnh được chỉ định thử đường máu mao mạch.",
+        "contraindications": "không có chống chỉ định tuyệt đối với thử đường máu mao mạch.",
+        "preparation": "Máy thử đường máu mao mạch; bút chích máu.",
+        "steps": "Bước 1: Dùng cồn 70° vệ sinh ngón tay và để khô; vuốt nhẹ ngón tay từ trên xuống, chích cạnh bên đầu ngón tay thứ 3 hoặc 4, nặn nhẹ lấy đủ giọt máu.\nBước 2: Cho que thử tiếp xúc giọt máu đến khi máy báo đủ mẫu.\nBước 3: Lau sạch máu trên tay người bệnh bằng bông khô.\nBước 4: Chờ máy hiển thị kết quả, thông báo và dặn dò người bệnh.\nBước 5: Ghi kết quả vào phiếu theo dõi.\nBước 6: Bỏ kim và que đã sử dụng, phân loại rác đúng quy định.\nBước 7: Thu dọn dụng cụ và rửa tay thường quy.",
+        "risks_followup": "chảy máu khó cầm do chích quá sâu, nhất là người bệnh rối loạn đông máu; nguy cơ sai kết quả nếu lấy mẫu/thao tác không đúng. Theo dõi chảy máu tại vị trí chích, đảm bảo kết quả hiển thị và ghi nhận/báo kết quả theo quy định.",
+        "local_confirmation": "Xác nhận máy và loại que thử đang sử dụng, quy trình kiểm soát chất lượng, đơn vị kết quả, phạm vi thực hiện tại giường/nội trú và quy định báo cáo trong bệnh viện. Điều dưỡng là người thực hiện; vai trò người được phân công quản lý quy trình cần được xác nhận.",
+        "consumables": "Que thử đúng loại theo khuyến cáo của máy và còn hạn sử dụng; kim chích máu; bông gòn khô; cồn 70°; dung dịch sát khuẩn tay nhanh; phiếu/sổ xét nghiệm để ghi kết quả; hộp phân loại rác thải.",
+        "pre_test_checks": "Xác định đúng người bệnh và giờ thử theo chỉ định; giải thích để người bệnh phối hợp (nếu người bệnh rối loạn ý thức/hôn mê thì thông báo với người nhà). Với chỉ định thử lúc đói, bảo đảm người bệnh đã được hướng dẫn trước đó. Đặt người bệnh ở tư thế thoải mái, có thể ngồi hoặc nằm; người bệnh có thể rửa tay và lau khô trước khi lấy mẫu.",
+        "instrument_setup": "Lắp kim vào bút chích máu và điều chỉnh độ sâu phù hợp. Lấy que thử ra khỏi hộp, đóng nắp hộp; lắp que vào máy và kiểm tra que đã khớp, máy ở trạng thái sẵn sàng.",
+        "performer": "Điều dưỡng viên thực hiện; người phụ trách theo danh sách phân công: Phan Văn Hiếu.",
+        "responsibilities": "Điều dưỡng tại khoa có người bệnh được chỉ định thực hiện đúng quy trình; thông báo và dặn dò người bệnh, ghi kết quả vào phiếu theo dõi, phân loại rác thải đúng quy định. Với người bệnh rối loạn tri giác/hôn mê, giải thích và thông báo với người nhà.",
+        "abbreviations": "NB | Người bệnh\nĐMMM | Đường máu mao mạch",
+        "sample": "Loại mẫu: máu mao mạch, lấy ở cạnh bên đầu ngón tay thứ 3 hoặc 4. Chưa có thông tin về thể tích mẫu, điều kiện bảo quản hoặc tiêu chuẩn từ chối mẫu; cần theo hướng dẫn sử dụng máy/que thử được bệnh viện phê duyệt.",
+        "location": "Tại giường người bệnh ở các khoa có người bệnh được chỉ định thử đường máu mao mạch."
+      }
+    },
+    "thay_bang_15cm": {
+      "match_status": "Có quy trình nội bộ về chăm sóc và cắt chỉ vết thương do người dùng cung cấp; tài liệu cần xác minh mã QT.41/QT.31 trước khi ban hành.",
+      "source_ids": [
+        "hospital_qt41",
+        "qd3671",
+        "guide55_2010",
+        "le2014"
+      ],
+      "form_fields": {
+        "overview": "chăm sóc vết thương và cắt chỉ. Chăm sóc đúng giúp ngăn vi khuẩn xâm nhập, loại bỏ mô chết/chất tiết, bảo vệ vết thương và hỗ trợ liền thương. Phần cắt chỉ nêu thời điểm phụ thuộc vị trí và tình trạng vết thương.",
+        "indications": "Chưa có mục “Chỉ định” riêng cho dịch vụ gộp thay băng/cắt chỉ. Thực hiện theo chỉ định trong hồ sơ bệnh án và tình trạng vết thương; cắt chỉ khi đến thời điểm phù hợp và vết thương được đánh giá.",
+        "contraindications": "Chưa nêu chống chỉ định riêng. Cần đánh giá vết thương, mức độ nhiễm khuẩn, chảy máu và tình trạng người bệnh; trường hợp bất thường hoặc phức tạp cần báo bác sĩ và làm theo chỉ định chuyên môn.",
+        "preparation": "điều dưỡng thực hiện; chuẩn bị mâm tiêm, băng dính/băng keo, tấm lót không thấm, nước muối sinh lý, Povidine-iod 10%, dung dịch sát khuẩn tay, 2 đôi găng, thùng/túi đựng chất thải và gói dụng cụ vô khuẩn gồm kềm, chén, gòn, gạc, kéo cắt chỉ. Kiểm tra chỉ định và định danh người bệnh, giải thích thủ thuật, đặt tư thế thuận lợi.",
+        "steps": "(1) Trang phục và vệ sinh tay; kiểm tra chỉ định, định danh và đánh giá người bệnh/vết thương. (2) Chuẩn bị dụng cụ, giải thích, đặt tấm lót và bộc lộ vùng vết thương. (3) Tháo băng cũ nhẹ nhàng; đánh giá vị trí, chân chỉ, dịch tiết và da xung quanh; tháo găng bẩn, sát khuẩn tay. (4) Mở bộ dụng cụ vô khuẩn, sát khuẩn tay và mang găng mới. (5) Rửa vết thương theo nguyên tắc trong ra ngoài, trên xuống dưới, xa đến gần. (6) Dùng kềm nhấc nút chỉ, luồn kéo sát mặt da cắt chỉ, rút chỉ nhẹ nhàng và kiểm tra từng mối chỉ. (7) Theo dõi người bệnh; sát khuẩn, thấm khô bằng gạc và che phủ vết thương phù hợp. (8) Thu dọn, xử lý chất thải, hướng dẫn người bệnh và ghi hồ sơ.",
+        "risks_followup": "Theo dõi đau, chảy máu, tình trạng mép vết thương, chân chỉ và dịch tiết; kiểm tra các mối chỉ sau khi cắt. Báo bác sĩ khi vết thương hở mép, chảy máu hoặc có dấu hiệu bất thường. Tài liệu lưu ý dùng thuốc giảm đau trước thủ thuật nếu có y lệnh và xử lý dụng cụ/chất thải đúng quy định.",
+        "local_confirmation": "Tài liệu ghi mã số trên bìa và trong nội dung không thống nhất; cần xác minh mã/phiên bản kiểm soát tài liệu. Nội dung không quy định riêng ngưỡng chiều dài ≤15 cm cho dịch vụ thay băng/cắt chỉ gộp. Cần khoa xác nhận phạm vi áp dụng, điều kiện cắt chỉ, dung dịch/vật tư hiện hành và người thực hiện theo phân công."
+      }
+    },
+    "cat_chi_sau_mo": {
+      "match_status": "Có quy trình nội bộ về chăm sóc và cắt chỉ vết thương do người dùng cung cấp; tài liệu cần xác minh mã QT.41/QT.31 trước khi ban hành.",
+      "source_ids": [
+        "hospital_qt41",
+        "qd3671",
+        "guide55_2010",
+        "le2014"
+      ],
+      "autofill_fields": [
+        "source"
+      ],
+      "form_fields": {
+        "overview": "chăm sóc vết thương và cắt chỉ. Chăm sóc đúng giúp ngăn vi khuẩn xâm nhập, loại bỏ mô chết/chất tiết, bảo vệ vết thương và hỗ trợ liền thương. Phần cắt chỉ nêu thời điểm phụ thuộc vị trí và tình trạng vết thương.",
+        "indications": "Chưa có mục “Chỉ định” riêng cho dịch vụ gộp thay băng/cắt chỉ. Thực hiện theo chỉ định trong hồ sơ bệnh án và tình trạng vết thương; cắt chỉ khi đến thời điểm phù hợp và vết thương được đánh giá.",
+        "contraindications": "Chưa nêu chống chỉ định riêng. Cần đánh giá vết thương, mức độ nhiễm khuẩn, chảy máu và tình trạng người bệnh; trường hợp bất thường hoặc phức tạp cần báo bác sĩ và làm theo chỉ định chuyên môn.",
+        "preparation": "điều dưỡng thực hiện; chuẩn bị mâm tiêm, băng dính/băng keo, tấm lót không thấm, nước muối sinh lý, Povidine-iod 10%, dung dịch sát khuẩn tay, 2 đôi găng, thùng/túi đựng chất thải và gói dụng cụ vô khuẩn gồm kềm, chén, gòn, gạc, kéo cắt chỉ. Kiểm tra chỉ định và định danh người bệnh, giải thích thủ thuật, đặt tư thế thuận lợi.",
+        "steps": "(1) Trang phục và vệ sinh tay; kiểm tra chỉ định, định danh và đánh giá người bệnh/vết thương. (2) Chuẩn bị dụng cụ, giải thích, đặt tấm lót và bộc lộ vùng vết thương. (3) Tháo băng cũ nhẹ nhàng; đánh giá vị trí, chân chỉ, dịch tiết và da xung quanh; tháo găng bẩn, sát khuẩn tay. (4) Mở bộ dụng cụ vô khuẩn, sát khuẩn tay và mang găng mới. (5) Rửa vết thương theo nguyên tắc trong ra ngoài, trên xuống dưới, xa đến gần. (6) Dùng kềm nhấc nút chỉ, luồn kéo sát mặt da cắt chỉ, rút chỉ nhẹ nhàng và kiểm tra từng mối chỉ. (7) Theo dõi người bệnh; sát khuẩn, thấm khô bằng gạc và che phủ vết thương phù hợp. (8) Thu dọn, xử lý chất thải, hướng dẫn người bệnh và ghi hồ sơ.",
+        "risks_followup": "Theo dõi đau, chảy máu, tình trạng mép vết thương, chân chỉ và dịch tiết; kiểm tra các mối chỉ sau khi cắt. Báo bác sĩ khi vết thương hở mép, chảy máu hoặc có dấu hiệu bất thường. Tài liệu lưu ý dùng thuốc giảm đau trước thủ thuật nếu có y lệnh và xử lý dụng cụ/chất thải đúng quy định.",
+        "local_confirmation": "Tài liệu ghi mã số trên bìa và trong nội dung không thống nhất; cần xác minh mã/phiên bản kiểm soát tài liệu. Nội dung không quy định riêng ngưỡng chiều dài ≤15 cm cho dịch vụ thay băng/cắt chỉ gộp. Cần khoa xác nhận phạm vi áp dụng, điều kiện cắt chỉ, dung dịch/vật tư hiện hành và người thực hiện theo phân công."
+      }
+    },
+    "bot_hai_xuong_cang_tay_duoi": {
+      "match_status": "Có QT.30 nội bộ về kỹ thuật bó bột chung; chỉ dùng phần nguyên tắc chung, cần đối chiếu quy trình QĐ 199 và kỹ thuật cụ thể theo vị trí tổn thương.",
+      "source_ids": [
+        "hospital_qt30",
+        "qd199"
+      ],
+      "form_fields": {
+        "overview": "Bó bột nhằm bất động xương gãy, giữ tư thế giải phẫu, hạn chế di lệch, hỗ trợ liền xương và phục hồi phần mềm; đồng thời giúp giảm đau, sưng nề và co cơ sau chấn thương.",
+        "indications": "gãy xương kín không di lệch hoặc ít di lệch; một số gãy xương ở trẻ em (ngoại trừ các trường hợp được nêu trong quy trình); cần bất động tạm thời chờ phẫu thuật; chấn thương phần mềm các khớp như cổ tay, cổ chân. Chỉ định cụ thể phải do bác sĩ chuyên khoa đánh giá theo vị trí và kiểu tổn thương.",
+        "contraindications": "gãy hở xương độ II trở lên chưa được xử lý phẫu thuật; gãy xương kèm đụng dập phần mềm nặng; tổn thương mạch máu hoặc thần kinh, hoặc hội chứng chèn ép khoang. Cần đánh giá và xử trí chuyên khoa trước khi quyết định bất động.",
+        "preparation": "2–3 người tùy vị trí, gồm người thực hiện chính và người hỗ trợ giữ/nắn chỉnh. Chuẩn bị bàn nắn, đai đối lực, thuốc tê/mê nếu có chỉ định và hỗ trợ GMHS, bột thạch cao hoặc sợi thủy tinh, stockinette, gòn bó bột, cưa rung/kéo cắt bột, nước ngâm bột và găng. Khám toàn diện, đánh giá tổn thương phối hợp, giải thích kỹ thuật, vệ sinh vùng tổn thương; người bệnh gây mê cần tuân thủ chuẩn bị gây mê.",
+        "steps": "(1) Thăm khám, xác định vị trí/mức độ di lệch qua X-quang; đánh giá toàn trạng, dấu hiệu sinh tồn, tổn thương phối hợp và xử trí tổn thương cần thiết. (2) Lót vùng tổn thương bằng stockinette và gòn/vật liệu đệm phù hợp, bảo vệ da và mỏm xương. (3) Làm ẩm bột thạch cao hoặc vật liệu sợi thủy tinh theo hướng dẫn rồi quấn bó bên ngoài lớp đệm. (4) Kiểm tra sau bó và theo dõi tưới máu, cảm giác, vận động đầu chi; hướng dẫn người bệnh báo ngay khi đau tăng, tê, tím tái hoặc bột quá chặt. Các thao tác nắn và hình thức bột phải theo kỹ thuật riêng của vị trí tổn thương và chỉ định bác sĩ.",
+        "risks_followup": "tai biến tức thì gồm choáng do đau, phản vệ thuốc tê/mê và tai biến hô hấp khi gây mê; biến chứng sớm gồm chèn ép bột, loét da, tổn thương mạch máu/thần kinh và gãy thêm; biến chứng muộn gồm lỏng bột, rối loạn dinh dưỡng/thiếu máu mạn, can lệch, khớp giả hoặc không liền xương. Theo dõi đau, màu sắc/nhiệt độ, cảm giác, vận động và tưới máu đầu chi; xử trí/đánh giá cấp cứu khi có dấu hiệu bất thường.",
+        "local_confirmation": "Đây là hướng dẫn bó bột chung, không mô tả đầy đủ từng loại bột liền/bột ống hoặc kỹ thuật riêng cho mọi xương/khớp. Bác sĩ chuyên khoa cần xác nhận chỉ định, kiểu bột, tư thế bất động, kiểm tra sau bó và hướng dẫn theo dõi theo từng dịch vụ trước khi ban hành."
+      }
+    },
+    "bot_mot_xuong_cang_tay": {
+      "match_status": "Có QT.30 nội bộ về kỹ thuật bó bột chung; chỉ dùng phần nguyên tắc chung, cần đối chiếu quy trình QĐ 199 và kỹ thuật cụ thể theo vị trí tổn thương.",
+      "source_ids": [
+        "hospital_qt30",
+        "qd199"
+      ],
+      "form_fields": {
+        "overview": "Bó bột nhằm bất động xương gãy, giữ tư thế giải phẫu, hạn chế di lệch, hỗ trợ liền xương và phục hồi phần mềm; đồng thời giúp giảm đau, sưng nề và co cơ sau chấn thương.",
+        "indications": "gãy xương kín không di lệch hoặc ít di lệch; một số gãy xương ở trẻ em (ngoại trừ các trường hợp được nêu trong quy trình); cần bất động tạm thời chờ phẫu thuật; chấn thương phần mềm các khớp như cổ tay, cổ chân. Chỉ định cụ thể phải do bác sĩ chuyên khoa đánh giá theo vị trí và kiểu tổn thương.",
+        "contraindications": "gãy hở xương độ II trở lên chưa được xử lý phẫu thuật; gãy xương kèm đụng dập phần mềm nặng; tổn thương mạch máu hoặc thần kinh, hoặc hội chứng chèn ép khoang. Cần đánh giá và xử trí chuyên khoa trước khi quyết định bất động.",
+        "preparation": "2–3 người tùy vị trí, gồm người thực hiện chính và người hỗ trợ giữ/nắn chỉnh. Chuẩn bị bàn nắn, đai đối lực, thuốc tê/mê nếu có chỉ định và hỗ trợ GMHS, bột thạch cao hoặc sợi thủy tinh, stockinette, gòn bó bột, cưa rung/kéo cắt bột, nước ngâm bột và găng. Khám toàn diện, đánh giá tổn thương phối hợp, giải thích kỹ thuật, vệ sinh vùng tổn thương; người bệnh gây mê cần tuân thủ chuẩn bị gây mê.",
+        "steps": "(1) Thăm khám, xác định vị trí/mức độ di lệch qua X-quang; đánh giá toàn trạng, dấu hiệu sinh tồn, tổn thương phối hợp và xử trí tổn thương cần thiết. (2) Lót vùng tổn thương bằng stockinette và gòn/vật liệu đệm phù hợp, bảo vệ da và mỏm xương. (3) Làm ẩm bột thạch cao hoặc vật liệu sợi thủy tinh theo hướng dẫn rồi quấn bó bên ngoài lớp đệm. (4) Kiểm tra sau bó và theo dõi tưới máu, cảm giác, vận động đầu chi; hướng dẫn người bệnh báo ngay khi đau tăng, tê, tím tái hoặc bột quá chặt. Các thao tác nắn và hình thức bột phải theo kỹ thuật riêng của vị trí tổn thương và chỉ định bác sĩ.",
+        "risks_followup": "tai biến tức thì gồm choáng do đau, phản vệ thuốc tê/mê và tai biến hô hấp khi gây mê; biến chứng sớm gồm chèn ép bột, loét da, tổn thương mạch máu/thần kinh và gãy thêm; biến chứng muộn gồm lỏng bột, rối loạn dinh dưỡng/thiếu máu mạn, can lệch, khớp giả hoặc không liền xương. Theo dõi đau, màu sắc/nhiệt độ, cảm giác, vận động và tưới máu đầu chi; xử trí/đánh giá cấp cứu khi có dấu hiệu bất thường.",
+        "local_confirmation": "Đây là hướng dẫn bó bột chung, không mô tả đầy đủ từng loại bột liền/bột ống hoặc kỹ thuật riêng cho mọi xương/khớp. Bác sĩ chuyên khoa cần xác nhận chỉ định, kiểu bột, tư thế bất động, kiểm tra sau bó và hướng dẫn theo dõi theo từng dịch vụ trước khi ban hành."
+      }
+    },
+    "bot_xuong_ban_chan": {
+      "match_status": "Có QT.30 nội bộ về kỹ thuật bó bột chung; chỉ dùng phần nguyên tắc chung, cần đối chiếu quy trình QĐ 199 và kỹ thuật cụ thể theo vị trí tổn thương.",
+      "source_ids": [
+        "hospital_qt30",
+        "qd199"
+      ],
+      "form_fields": {
+        "overview": "Bó bột nhằm bất động xương gãy, giữ tư thế giải phẫu, hạn chế di lệch, hỗ trợ liền xương và phục hồi phần mềm; đồng thời giúp giảm đau, sưng nề và co cơ sau chấn thương.",
+        "indications": "gãy xương kín không di lệch hoặc ít di lệch; một số gãy xương ở trẻ em (ngoại trừ các trường hợp được nêu trong quy trình); cần bất động tạm thời chờ phẫu thuật; chấn thương phần mềm các khớp như cổ tay, cổ chân. Chỉ định cụ thể phải do bác sĩ chuyên khoa đánh giá theo vị trí và kiểu tổn thương.",
+        "contraindications": "gãy hở xương độ II trở lên chưa được xử lý phẫu thuật; gãy xương kèm đụng dập phần mềm nặng; tổn thương mạch máu hoặc thần kinh, hoặc hội chứng chèn ép khoang. Cần đánh giá và xử trí chuyên khoa trước khi quyết định bất động.",
+        "preparation": "2–3 người tùy vị trí, gồm người thực hiện chính và người hỗ trợ giữ/nắn chỉnh. Chuẩn bị bàn nắn, đai đối lực, thuốc tê/mê nếu có chỉ định và hỗ trợ GMHS, bột thạch cao hoặc sợi thủy tinh, stockinette, gòn bó bột, cưa rung/kéo cắt bột, nước ngâm bột và găng. Khám toàn diện, đánh giá tổn thương phối hợp, giải thích kỹ thuật, vệ sinh vùng tổn thương; người bệnh gây mê cần tuân thủ chuẩn bị gây mê.",
+        "steps": "(1) Thăm khám, xác định vị trí/mức độ di lệch qua X-quang; đánh giá toàn trạng, dấu hiệu sinh tồn, tổn thương phối hợp và xử trí tổn thương cần thiết. (2) Lót vùng tổn thương bằng stockinette và gòn/vật liệu đệm phù hợp, bảo vệ da và mỏm xương. (3) Làm ẩm bột thạch cao hoặc vật liệu sợi thủy tinh theo hướng dẫn rồi quấn bó bên ngoài lớp đệm. (4) Kiểm tra sau bó và theo dõi tưới máu, cảm giác, vận động đầu chi; hướng dẫn người bệnh báo ngay khi đau tăng, tê, tím tái hoặc bột quá chặt. Các thao tác nắn và hình thức bột phải theo kỹ thuật riêng của vị trí tổn thương và chỉ định bác sĩ.",
+        "risks_followup": "tai biến tức thì gồm choáng do đau, phản vệ thuốc tê/mê và tai biến hô hấp khi gây mê; biến chứng sớm gồm chèn ép bột, loét da, tổn thương mạch máu/thần kinh và gãy thêm; biến chứng muộn gồm lỏng bột, rối loạn dinh dưỡng/thiếu máu mạn, can lệch, khớp giả hoặc không liền xương. Theo dõi đau, màu sắc/nhiệt độ, cảm giác, vận động và tưới máu đầu chi; xử trí/đánh giá cấp cứu khi có dấu hiệu bất thường.",
+        "local_confirmation": "Đây là hướng dẫn bó bột chung, không mô tả đầy đủ từng loại bột liền/bột ống hoặc kỹ thuật riêng cho mọi xương/khớp. Bác sĩ chuyên khoa cần xác nhận chỉ định, kiểu bột, tư thế bất động, kiểm tra sau bó và hướng dẫn theo dõi theo từng dịch vụ trước khi ban hành."
+      }
+    },
+    "bot_xuong_chay": {
+      "match_status": "Có QT.30 nội bộ về kỹ thuật bó bột chung; chỉ dùng phần nguyên tắc chung, cần đối chiếu quy trình QĐ 199 và kỹ thuật cụ thể theo vị trí tổn thương.",
+      "source_ids": [
+        "hospital_qt30",
+        "qd199"
+      ],
+      "form_fields": {
+        "overview": "Bó bột nhằm bất động xương gãy, giữ tư thế giải phẫu, hạn chế di lệch, hỗ trợ liền xương và phục hồi phần mềm; đồng thời giúp giảm đau, sưng nề và co cơ sau chấn thương.",
+        "indications": "gãy xương kín không di lệch hoặc ít di lệch; một số gãy xương ở trẻ em (ngoại trừ các trường hợp được nêu trong quy trình); cần bất động tạm thời chờ phẫu thuật; chấn thương phần mềm các khớp như cổ tay, cổ chân. Chỉ định cụ thể phải do bác sĩ chuyên khoa đánh giá theo vị trí và kiểu tổn thương.",
+        "contraindications": "gãy hở xương độ II trở lên chưa được xử lý phẫu thuật; gãy xương kèm đụng dập phần mềm nặng; tổn thương mạch máu hoặc thần kinh, hoặc hội chứng chèn ép khoang. Cần đánh giá và xử trí chuyên khoa trước khi quyết định bất động.",
+        "preparation": "2–3 người tùy vị trí, gồm người thực hiện chính và người hỗ trợ giữ/nắn chỉnh. Chuẩn bị bàn nắn, đai đối lực, thuốc tê/mê nếu có chỉ định và hỗ trợ GMHS, bột thạch cao hoặc sợi thủy tinh, stockinette, gòn bó bột, cưa rung/kéo cắt bột, nước ngâm bột và găng. Khám toàn diện, đánh giá tổn thương phối hợp, giải thích kỹ thuật, vệ sinh vùng tổn thương; người bệnh gây mê cần tuân thủ chuẩn bị gây mê.",
+        "steps": "(1) Thăm khám, xác định vị trí/mức độ di lệch qua X-quang; đánh giá toàn trạng, dấu hiệu sinh tồn, tổn thương phối hợp và xử trí tổn thương cần thiết. (2) Lót vùng tổn thương bằng stockinette và gòn/vật liệu đệm phù hợp, bảo vệ da và mỏm xương. (3) Làm ẩm bột thạch cao hoặc vật liệu sợi thủy tinh theo hướng dẫn rồi quấn bó bên ngoài lớp đệm. (4) Kiểm tra sau bó và theo dõi tưới máu, cảm giác, vận động đầu chi; hướng dẫn người bệnh báo ngay khi đau tăng, tê, tím tái hoặc bột quá chặt. Các thao tác nắn và hình thức bột phải theo kỹ thuật riêng của vị trí tổn thương và chỉ định bác sĩ.",
+        "risks_followup": "tai biến tức thì gồm choáng do đau, phản vệ thuốc tê/mê và tai biến hô hấp khi gây mê; biến chứng sớm gồm chèn ép bột, loét da, tổn thương mạch máu/thần kinh và gãy thêm; biến chứng muộn gồm lỏng bột, rối loạn dinh dưỡng/thiếu máu mạn, can lệch, khớp giả hoặc không liền xương. Theo dõi đau, màu sắc/nhiệt độ, cảm giác, vận động và tưới máu đầu chi; xử trí/đánh giá cấp cứu khi có dấu hiệu bất thường.",
+        "local_confirmation": "Đây là hướng dẫn bó bột chung, không mô tả đầy đủ từng loại bột liền/bột ống hoặc kỹ thuật riêng cho mọi xương/khớp. Bác sĩ chuyên khoa cần xác nhận chỉ định, kiểu bột, tư thế bất động, kiểm tra sau bó và hướng dẫn theo dõi theo từng dịch vụ trước khi ban hành."
+      }
+    },
+    "bot_xuong_got": {
+      "match_status": "Có QT.30 nội bộ về kỹ thuật bó bột chung; chỉ dùng phần nguyên tắc chung, cần đối chiếu quy trình QĐ 199 và kỹ thuật cụ thể theo vị trí tổn thương.",
+      "source_ids": [
+        "hospital_qt30",
+        "qd199"
+      ],
+      "form_fields": {
+        "overview": "Bó bột nhằm bất động xương gãy, giữ tư thế giải phẫu, hạn chế di lệch, hỗ trợ liền xương và phục hồi phần mềm; đồng thời giúp giảm đau, sưng nề và co cơ sau chấn thương.",
+        "indications": "gãy xương kín không di lệch hoặc ít di lệch; một số gãy xương ở trẻ em (ngoại trừ các trường hợp được nêu trong quy trình); cần bất động tạm thời chờ phẫu thuật; chấn thương phần mềm các khớp như cổ tay, cổ chân. Chỉ định cụ thể phải do bác sĩ chuyên khoa đánh giá theo vị trí và kiểu tổn thương.",
+        "contraindications": "gãy hở xương độ II trở lên chưa được xử lý phẫu thuật; gãy xương kèm đụng dập phần mềm nặng; tổn thương mạch máu hoặc thần kinh, hoặc hội chứng chèn ép khoang. Cần đánh giá và xử trí chuyên khoa trước khi quyết định bất động.",
+        "preparation": "2–3 người tùy vị trí, gồm người thực hiện chính và người hỗ trợ giữ/nắn chỉnh. Chuẩn bị bàn nắn, đai đối lực, thuốc tê/mê nếu có chỉ định và hỗ trợ GMHS, bột thạch cao hoặc sợi thủy tinh, stockinette, gòn bó bột, cưa rung/kéo cắt bột, nước ngâm bột và găng. Khám toàn diện, đánh giá tổn thương phối hợp, giải thích kỹ thuật, vệ sinh vùng tổn thương; người bệnh gây mê cần tuân thủ chuẩn bị gây mê.",
+        "steps": "(1) Thăm khám, xác định vị trí/mức độ di lệch qua X-quang; đánh giá toàn trạng, dấu hiệu sinh tồn, tổn thương phối hợp và xử trí tổn thương cần thiết. (2) Lót vùng tổn thương bằng stockinette và gòn/vật liệu đệm phù hợp, bảo vệ da và mỏm xương. (3) Làm ẩm bột thạch cao hoặc vật liệu sợi thủy tinh theo hướng dẫn rồi quấn bó bên ngoài lớp đệm. (4) Kiểm tra sau bó và theo dõi tưới máu, cảm giác, vận động đầu chi; hướng dẫn người bệnh báo ngay khi đau tăng, tê, tím tái hoặc bột quá chặt. Các thao tác nắn và hình thức bột phải theo kỹ thuật riêng của vị trí tổn thương và chỉ định bác sĩ.",
+        "risks_followup": "tai biến tức thì gồm choáng do đau, phản vệ thuốc tê/mê và tai biến hô hấp khi gây mê; biến chứng sớm gồm chèn ép bột, loét da, tổn thương mạch máu/thần kinh và gãy thêm; biến chứng muộn gồm lỏng bột, rối loạn dinh dưỡng/thiếu máu mạn, can lệch, khớp giả hoặc không liền xương. Theo dõi đau, màu sắc/nhiệt độ, cảm giác, vận động và tưới máu đầu chi; xử trí/đánh giá cấp cứu khi có dấu hiệu bất thường.",
+        "local_confirmation": "Đây là hướng dẫn bó bột chung, không mô tả đầy đủ từng loại bột liền/bột ống hoặc kỹ thuật riêng cho mọi xương/khớp. Bác sĩ chuyên khoa cần xác nhận chỉ định, kiểu bột, tư thế bất động, kiểm tra sau bó và hướng dẫn theo dõi theo từng dịch vụ trước khi ban hành."
+      }
+    },
+    "bot_xuong_ngon_chan": {
+      "match_status": "Có QT.30 nội bộ về kỹ thuật bó bột chung; chỉ dùng phần nguyên tắc chung, cần đối chiếu quy trình QĐ 199 và kỹ thuật cụ thể theo vị trí tổn thương.",
+      "source_ids": [
+        "hospital_qt30",
+        "qd199"
+      ],
+      "form_fields": {
+        "overview": "Bó bột nhằm bất động xương gãy, giữ tư thế giải phẫu, hạn chế di lệch, hỗ trợ liền xương và phục hồi phần mềm; đồng thời giúp giảm đau, sưng nề và co cơ sau chấn thương.",
+        "indications": "gãy xương kín không di lệch hoặc ít di lệch; một số gãy xương ở trẻ em (ngoại trừ các trường hợp được nêu trong quy trình); cần bất động tạm thời chờ phẫu thuật; chấn thương phần mềm các khớp như cổ tay, cổ chân. Chỉ định cụ thể phải do bác sĩ chuyên khoa đánh giá theo vị trí và kiểu tổn thương.",
+        "contraindications": "gãy hở xương độ II trở lên chưa được xử lý phẫu thuật; gãy xương kèm đụng dập phần mềm nặng; tổn thương mạch máu hoặc thần kinh, hoặc hội chứng chèn ép khoang. Cần đánh giá và xử trí chuyên khoa trước khi quyết định bất động.",
+        "preparation": "2–3 người tùy vị trí, gồm người thực hiện chính và người hỗ trợ giữ/nắn chỉnh. Chuẩn bị bàn nắn, đai đối lực, thuốc tê/mê nếu có chỉ định và hỗ trợ GMHS, bột thạch cao hoặc sợi thủy tinh, stockinette, gòn bó bột, cưa rung/kéo cắt bột, nước ngâm bột và găng. Khám toàn diện, đánh giá tổn thương phối hợp, giải thích kỹ thuật, vệ sinh vùng tổn thương; người bệnh gây mê cần tuân thủ chuẩn bị gây mê.",
+        "steps": "(1) Thăm khám, xác định vị trí/mức độ di lệch qua X-quang; đánh giá toàn trạng, dấu hiệu sinh tồn, tổn thương phối hợp và xử trí tổn thương cần thiết. (2) Lót vùng tổn thương bằng stockinette và gòn/vật liệu đệm phù hợp, bảo vệ da và mỏm xương. (3) Làm ẩm bột thạch cao hoặc vật liệu sợi thủy tinh theo hướng dẫn rồi quấn bó bên ngoài lớp đệm. (4) Kiểm tra sau bó và theo dõi tưới máu, cảm giác, vận động đầu chi; hướng dẫn người bệnh báo ngay khi đau tăng, tê, tím tái hoặc bột quá chặt. Các thao tác nắn và hình thức bột phải theo kỹ thuật riêng của vị trí tổn thương và chỉ định bác sĩ.",
+        "risks_followup": "tai biến tức thì gồm choáng do đau, phản vệ thuốc tê/mê và tai biến hô hấp khi gây mê; biến chứng sớm gồm chèn ép bột, loét da, tổn thương mạch máu/thần kinh và gãy thêm; biến chứng muộn gồm lỏng bột, rối loạn dinh dưỡng/thiếu máu mạn, can lệch, khớp giả hoặc không liền xương. Theo dõi đau, màu sắc/nhiệt độ, cảm giác, vận động và tưới máu đầu chi; xử trí/đánh giá cấp cứu khi có dấu hiệu bất thường.",
+        "local_confirmation": "Đây là hướng dẫn bó bột chung, không mô tả đầy đủ từng loại bột liền/bột ống hoặc kỹ thuật riêng cho mọi xương/khớp. Bác sĩ chuyên khoa cần xác nhận chỉ định, kiểu bột, tư thế bất động, kiểm tra sau bó và hướng dẫn theo dõi theo từng dịch vụ trước khi ban hành."
+      }
+    },
+    "bot_trat_co_chan": {
+      "match_status": "Có QT.30 nội bộ về kỹ thuật bó bột chung; chỉ dùng phần nguyên tắc chung, cần đối chiếu quy trình QĐ 199 và kỹ thuật cụ thể theo vị trí tổn thương.",
+      "source_ids": [
+        "hospital_qt30",
+        "qd199"
+      ],
+      "autofill_fields": [
+        "source"
+      ],
+      "form_fields": {
+        "overview": "Bó bột nhằm bất động xương gãy, giữ tư thế giải phẫu, hạn chế di lệch, hỗ trợ liền xương và phục hồi phần mềm; đồng thời giúp giảm đau, sưng nề và co cơ sau chấn thương.",
+        "indications": "gãy xương kín không di lệch hoặc ít di lệch; một số gãy xương ở trẻ em (ngoại trừ các trường hợp được nêu trong quy trình); cần bất động tạm thời chờ phẫu thuật; chấn thương phần mềm các khớp như cổ tay, cổ chân. Chỉ định cụ thể phải do bác sĩ chuyên khoa đánh giá theo vị trí và kiểu tổn thương.",
+        "contraindications": "gãy hở xương độ II trở lên chưa được xử lý phẫu thuật; gãy xương kèm đụng dập phần mềm nặng; tổn thương mạch máu hoặc thần kinh, hoặc hội chứng chèn ép khoang. Cần đánh giá và xử trí chuyên khoa trước khi quyết định bất động.",
+        "preparation": "2–3 người tùy vị trí, gồm người thực hiện chính và người hỗ trợ giữ/nắn chỉnh. Chuẩn bị bàn nắn, đai đối lực, thuốc tê/mê nếu có chỉ định và hỗ trợ GMHS, bột thạch cao hoặc sợi thủy tinh, stockinette, gòn bó bột, cưa rung/kéo cắt bột, nước ngâm bột và găng. Khám toàn diện, đánh giá tổn thương phối hợp, giải thích kỹ thuật, vệ sinh vùng tổn thương; người bệnh gây mê cần tuân thủ chuẩn bị gây mê.",
+        "steps": "(1) Thăm khám, xác định vị trí/mức độ di lệch qua X-quang; đánh giá toàn trạng, dấu hiệu sinh tồn, tổn thương phối hợp và xử trí tổn thương cần thiết. (2) Lót vùng tổn thương bằng stockinette và gòn/vật liệu đệm phù hợp, bảo vệ da và mỏm xương. (3) Làm ẩm bột thạch cao hoặc vật liệu sợi thủy tinh theo hướng dẫn rồi quấn bó bên ngoài lớp đệm. (4) Kiểm tra sau bó và theo dõi tưới máu, cảm giác, vận động đầu chi; hướng dẫn người bệnh báo ngay khi đau tăng, tê, tím tái hoặc bột quá chặt. Các thao tác nắn và hình thức bột phải theo kỹ thuật riêng của vị trí tổn thương và chỉ định bác sĩ.",
+        "risks_followup": "tai biến tức thì gồm choáng do đau, phản vệ thuốc tê/mê và tai biến hô hấp khi gây mê; biến chứng sớm gồm chèn ép bột, loét da, tổn thương mạch máu/thần kinh và gãy thêm; biến chứng muộn gồm lỏng bột, rối loạn dinh dưỡng/thiếu máu mạn, can lệch, khớp giả hoặc không liền xương. Theo dõi đau, màu sắc/nhiệt độ, cảm giác, vận động và tưới máu đầu chi; xử trí/đánh giá cấp cứu khi có dấu hiệu bất thường.",
+        "local_confirmation": "Đây là hướng dẫn bó bột chung, không mô tả đầy đủ từng loại bột liền/bột ống hoặc kỹ thuật riêng cho mọi xương/khớp. Bác sĩ chuyên khoa cần xác nhận chỉ định, kiểu bột, tư thế bất động, kiểm tra sau bó và hướng dẫn theo dõi theo từng dịch vụ trước khi ban hành."
+      }
+    },
+    "bot_trat_khuyu": {
+      "match_status": "Có QT.30 nội bộ về kỹ thuật bó bột chung; chỉ dùng phần nguyên tắc chung, cần đối chiếu quy trình QĐ 199 và kỹ thuật cụ thể theo vị trí tổn thương.",
+      "source_ids": [
+        "hospital_qt30",
+        "qd199"
+      ],
+      "form_fields": {
+        "overview": "Bó bột nhằm bất động xương gãy, giữ tư thế giải phẫu, hạn chế di lệch, hỗ trợ liền xương và phục hồi phần mềm; đồng thời giúp giảm đau, sưng nề và co cơ sau chấn thương.",
+        "indications": "gãy xương kín không di lệch hoặc ít di lệch; một số gãy xương ở trẻ em (ngoại trừ các trường hợp được nêu trong quy trình); cần bất động tạm thời chờ phẫu thuật; chấn thương phần mềm các khớp như cổ tay, cổ chân. Chỉ định cụ thể phải do bác sĩ chuyên khoa đánh giá theo vị trí và kiểu tổn thương.",
+        "contraindications": "gãy hở xương độ II trở lên chưa được xử lý phẫu thuật; gãy xương kèm đụng dập phần mềm nặng; tổn thương mạch máu hoặc thần kinh, hoặc hội chứng chèn ép khoang. Cần đánh giá và xử trí chuyên khoa trước khi quyết định bất động.",
+        "preparation": "2–3 người tùy vị trí, gồm người thực hiện chính và người hỗ trợ giữ/nắn chỉnh. Chuẩn bị bàn nắn, đai đối lực, thuốc tê/mê nếu có chỉ định và hỗ trợ GMHS, bột thạch cao hoặc sợi thủy tinh, stockinette, gòn bó bột, cưa rung/kéo cắt bột, nước ngâm bột và găng. Khám toàn diện, đánh giá tổn thương phối hợp, giải thích kỹ thuật, vệ sinh vùng tổn thương; người bệnh gây mê cần tuân thủ chuẩn bị gây mê.",
+        "steps": "(1) Thăm khám, xác định vị trí/mức độ di lệch qua X-quang; đánh giá toàn trạng, dấu hiệu sinh tồn, tổn thương phối hợp và xử trí tổn thương cần thiết. (2) Lót vùng tổn thương bằng stockinette và gòn/vật liệu đệm phù hợp, bảo vệ da và mỏm xương. (3) Làm ẩm bột thạch cao hoặc vật liệu sợi thủy tinh theo hướng dẫn rồi quấn bó bên ngoài lớp đệm. (4) Kiểm tra sau bó và theo dõi tưới máu, cảm giác, vận động đầu chi; hướng dẫn người bệnh báo ngay khi đau tăng, tê, tím tái hoặc bột quá chặt. Các thao tác nắn và hình thức bột phải theo kỹ thuật riêng của vị trí tổn thương và chỉ định bác sĩ.",
+        "risks_followup": "tai biến tức thì gồm choáng do đau, phản vệ thuốc tê/mê và tai biến hô hấp khi gây mê; biến chứng sớm gồm chèn ép bột, loét da, tổn thương mạch máu/thần kinh và gãy thêm; biến chứng muộn gồm lỏng bột, rối loạn dinh dưỡng/thiếu máu mạn, can lệch, khớp giả hoặc không liền xương. Theo dõi đau, màu sắc/nhiệt độ, cảm giác, vận động và tưới máu đầu chi; xử trí/đánh giá cấp cứu khi có dấu hiệu bất thường.",
+        "local_confirmation": "Đây là hướng dẫn bó bột chung, không mô tả đầy đủ từng loại bột liền/bột ống hoặc kỹ thuật riêng cho mọi xương/khớp. Bác sĩ chuyên khoa cần xác nhận chỉ định, kiểu bột, tư thế bất động, kiểm tra sau bó và hướng dẫn theo dõi theo từng dịch vụ trước khi ban hành."
+      }
+    },
+    "thay_bang_cat_chi": {
+      "match_status": "Có quy trình nội bộ về chăm sóc và cắt chỉ vết thương do người dùng cung cấp; tài liệu cần xác minh mã QT.41/QT.31 trước khi ban hành.",
+      "source_ids": [
+        "hospital_qt41",
+        "qd3671",
+        "guide55_2010",
+        "le2014"
+      ],
+      "form_fields": {
+        "overview": "chăm sóc vết thương và cắt chỉ. Chăm sóc đúng giúp ngăn vi khuẩn xâm nhập, loại bỏ mô chết/chất tiết, bảo vệ vết thương và hỗ trợ liền thương. Phần cắt chỉ nêu thời điểm phụ thuộc vị trí và tình trạng vết thương.",
+        "indications": "Chưa có mục “Chỉ định” riêng cho dịch vụ gộp thay băng/cắt chỉ. Thực hiện theo chỉ định trong hồ sơ bệnh án và tình trạng vết thương; cắt chỉ khi đến thời điểm phù hợp và vết thương được đánh giá.",
+        "contraindications": "Chưa nêu chống chỉ định riêng. Cần đánh giá vết thương, mức độ nhiễm khuẩn, chảy máu và tình trạng người bệnh; trường hợp bất thường hoặc phức tạp cần báo bác sĩ và làm theo chỉ định chuyên môn.",
+        "preparation": "điều dưỡng thực hiện; chuẩn bị mâm tiêm, băng dính/băng keo, tấm lót không thấm, nước muối sinh lý, Povidine-iod 10%, dung dịch sát khuẩn tay, 2 đôi găng, thùng/túi đựng chất thải và gói dụng cụ vô khuẩn gồm kềm, chén, gòn, gạc, kéo cắt chỉ. Kiểm tra chỉ định và định danh người bệnh, giải thích thủ thuật, đặt tư thế thuận lợi.",
+        "steps": "(1) Trang phục và vệ sinh tay; kiểm tra chỉ định, định danh và đánh giá người bệnh/vết thương. (2) Chuẩn bị dụng cụ, giải thích, đặt tấm lót và bộc lộ vùng vết thương. (3) Tháo băng cũ nhẹ nhàng; đánh giá vị trí, chân chỉ, dịch tiết và da xung quanh; tháo găng bẩn, sát khuẩn tay. (4) Mở bộ dụng cụ vô khuẩn, sát khuẩn tay và mang găng mới. (5) Rửa vết thương theo nguyên tắc trong ra ngoài, trên xuống dưới, xa đến gần. (6) Dùng kềm nhấc nút chỉ, luồn kéo sát mặt da cắt chỉ, rút chỉ nhẹ nhàng và kiểm tra từng mối chỉ. (7) Theo dõi người bệnh; sát khuẩn, thấm khô bằng gạc và che phủ vết thương phù hợp. (8) Thu dọn, xử lý chất thải, hướng dẫn người bệnh và ghi hồ sơ.",
+        "risks_followup": "Theo dõi đau, chảy máu, tình trạng mép vết thương, chân chỉ và dịch tiết; kiểm tra các mối chỉ sau khi cắt. Báo bác sĩ khi vết thương hở mép, chảy máu hoặc có dấu hiệu bất thường. Tài liệu lưu ý dùng thuốc giảm đau trước thủ thuật nếu có y lệnh và xử lý dụng cụ/chất thải đúng quy định.",
+        "local_confirmation": "Tài liệu ghi mã số trên bìa và trong nội dung không thống nhất; cần xác minh mã/phiên bản kiểm soát tài liệu. Nội dung không quy định riêng ngưỡng chiều dài ≤15 cm cho dịch vụ thay băng/cắt chỉ gộp. Cần khoa xác nhận phạm vi áp dụng, điều kiện cắt chỉ, dung dịch/vật tư hiện hành và người thực hiện theo phân công."
+      }
+    },
+    "duong_mau_mot_lan": {
+      "match_status": "Có quy trình nội bộ QT.17 do người dùng cung cấp; dịch vụ tại giường cần xác nhận quy trình theo máy/que thử hiện dùng và phạm vi đơn vị.",
+      "source_ids": [
+        "hospital_qt17",
+        "qd1904",
+        "bachmai2015"
+      ],
+      "form_fields": {
+        "overview": "Theo dõi chỉ số đường huyết của người bệnh đái tháo đường hỗ trợ chẩn đoán, điều trị và theo dõi. Thử đường máu mao mạch là kỹ thuật đơn giản nhưng cần thực hiện đúng quy trình để hạn chế sai số kết quả và tai biến.",
+        "indications": "Áp dụng cho điều dưỡng viên tại các khoa có người bệnh được chỉ định thử đường máu mao mạch.",
+        "contraindications": "không có chống chỉ định tuyệt đối với thử đường máu mao mạch.",
+        "preparation": "Máy thử đường máu mao mạch; bút chích máu.",
+        "steps": "Bước 1: Dùng cồn 70° vệ sinh ngón tay và để khô; vuốt nhẹ ngón tay từ trên xuống, chích cạnh bên đầu ngón tay thứ 3 hoặc 4, nặn nhẹ lấy đủ giọt máu.\nBước 2: Cho que thử tiếp xúc giọt máu đến khi máy báo đủ mẫu.\nBước 3: Lau sạch máu trên tay người bệnh bằng bông khô.\nBước 4: Chờ máy hiển thị kết quả, thông báo và dặn dò người bệnh.\nBước 5: Ghi kết quả vào phiếu theo dõi.\nBước 6: Bỏ kim và que đã sử dụng, phân loại rác đúng quy định.\nBước 7: Thu dọn dụng cụ và rửa tay thường quy.",
+        "risks_followup": "chảy máu khó cầm do chích quá sâu, nhất là người bệnh rối loạn đông máu; nguy cơ sai kết quả nếu lấy mẫu/thao tác không đúng. Theo dõi chảy máu tại vị trí chích, đảm bảo kết quả hiển thị và ghi nhận/báo kết quả theo quy định.",
+        "local_confirmation": "Xác nhận máy và loại que thử đang sử dụng, quy trình kiểm soát chất lượng, đơn vị kết quả, phạm vi thực hiện tại giường/nội trú và quy định báo cáo trong bệnh viện. Điều dưỡng là người thực hiện; vai trò người được phân công quản lý quy trình cần được xác nhận.",
+        "consumables": "Que thử đúng loại theo khuyến cáo của máy và còn hạn sử dụng; kim chích máu; bông gòn khô; cồn 70°; dung dịch sát khuẩn tay nhanh; phiếu/sổ xét nghiệm để ghi kết quả; hộp phân loại rác thải.",
+        "pre_test_checks": "Xác định đúng người bệnh và giờ thử theo chỉ định; giải thích để người bệnh phối hợp (nếu người bệnh rối loạn ý thức/hôn mê thì thông báo với người nhà). Với chỉ định thử lúc đói, bảo đảm người bệnh đã được hướng dẫn trước đó. Đặt người bệnh ở tư thế thoải mái, có thể ngồi hoặc nằm; người bệnh có thể rửa tay và lau khô trước khi lấy mẫu.",
+        "instrument_setup": "Lắp kim vào bút chích máu và điều chỉnh độ sâu phù hợp. Lấy que thử ra khỏi hộp, đóng nắp hộp; lắp que vào máy và kiểm tra que đã khớp, máy ở trạng thái sẵn sàng.",
+        "performer": "Điều dưỡng viên thực hiện; người phụ trách theo danh sách phân công: Phan Văn Hiếu.",
+        "responsibilities": "Điều dưỡng tại khoa có người bệnh được chỉ định thực hiện đúng quy trình; thông báo và dặn dò người bệnh, ghi kết quả vào phiếu theo dõi, phân loại rác thải đúng quy định. Với người bệnh rối loạn tri giác/hôn mê, giải thích và thông báo với người nhà.",
+        "abbreviations": "NB | Người bệnh\nĐMMM | Đường máu mao mạch",
+        "sample": "Loại mẫu: máu mao mạch, lấy ở cạnh bên đầu ngón tay thứ 3 hoặc 4. Chưa có thông tin về thể tích mẫu, điều kiện bảo quản hoặc tiêu chuẩn từ chối mẫu; cần theo hướng dẫn sử dụng máy/que thử được bệnh viện phê duyệt.",
+        "location": "Tại giường người bệnh ở các khoa có người bệnh được chỉ định thử đường máu mao mạch."
+      }
+    }
+  }
+}
