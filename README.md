@@ -85,3 +85,26 @@ Gói cập nhật không kèm `login.json`. Khi chép bản mới vào máy, gi�
 - Tệp `login.json` chỉ dùng trên máy cá nhân và được bỏ theo dõi Git (`git rm --cached login.json`); phải tự xử lý bản sao còn tồn tại trong lịch sử các commit cũ và cân nhắc đổi mật khẩu nếu từng đẩy thông tin xác thực lên repository công khai.
 - Thư mục `debug/` chứa HTML, ảnh màn hình và log có khả năng lộ dữ liệu hồ sơ; không tải lên GitHub và không chia sẻ khi chưa ẩn thông tin người bệnh.
 - Kiểm tra dữ liệu offline: `py -m unittest discover -s tests -v`.
+
+
+## Xem trước nội dung 8 quy trình trên biểu mẫu (19/10/2026)
+
+Sau khi đã thẩm định dữ liệu dự thảo, có thể dùng chế độ **xem trước có nhập dữ liệu vào biểu mẫu** để kiểm tra bố cục các ô. Chế độ này chỉ hiển thị nội dung chưa được duyệt trong phiên Chrome hiện tại, **không được bấm Lưu, không phải văn bản được phê duyệt**. Phải đóng biểu mẫu mà không lưu và không sử dụng nội dung dự thảo làm chỉ định lâm sàng.
+
+```powershell
+python run_all.py --id bot_trat_khuyu --draft-preview
+```
+
+Khi được yêu cầu, nhập đúng `XEM` để xác nhận đang kiểm tra bản nháp. Chương trình sử dụng các thuộc tính `data-qf` đã kiểm chứng từ `--inspect` để điền Đại cương, Chỉ định, Chống chỉ định, Thận trọng, hai nhóm nhân lực, thuốc, vật tư, thiết bị, người bệnh, hồ sơ, thời gian, địa điểm, kiểm tra hồ sơ, các bước thực hiện và ba nhóm tai biến/biến chứng. Các trường không có dữ liệu được để trống để người có thẩm quyền kiểm tra.
+
+**Bảo vệ chống lưu nháp:** không thể ghép `--draft-preview` với `--save`; chương trình vô hiệu hóa nút Lưu trong giao diện đang xem sau khi điền. Nếu trang tự tải lại, trạng thái nút có thể thay đổi, nên người dùng vẫn phải tránh lưu. Cờ `requires_clinical_review` và danh sách trường cho phép tự điền ở chế độ thường không bị thay đổi. Chế độ `--inspect` tiếp tục chỉ đọc trường và không viết dữ liệu.
+
+Cấu hình trường `selectors.json` dựa trên danh sách 46 ô trả về trực tiếp từ website trong phiên người dùng đã kiểm tra. Không dùng XPath vị trí dạng `tr[20]` hoặc `div[23]` vì giao diện có thể thay đổi. Mã dịch vụ được chọn bằng mã PL01 có kiểm tra trùng khớp; không dùng chuỗi click thủ công cố định.
+
+Để chạy phiên chỉ điền thông tin đã được cho phép như trước, không thêm tùy chọn `--draft-preview`:
+
+```powershell
+python run_all.py --id bot_trat_khuyu
+```
+
+**Quan trọng:** Đối với kỹ thuật trật khớp cổ chân, bước nắn độc lập chưa có nguồn Bộ Y tế phù hợp được xác minh. Dù bản nháp được trình bày trên biểu mẫu, không được phê duyệt hoặc sử dụng nếu chưa có chuyên gia chuyên khoa thẩm định, bổ sung căn cứ.
