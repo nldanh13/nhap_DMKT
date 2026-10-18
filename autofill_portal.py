@@ -624,18 +624,6 @@ try:
     perform_login(driver, username, password, login_unit)
     password = ""
     print("Đăng nhập thành công; chương trình đang mở biểu mẫu.")
-    if args.inspect:
-        fields = driver.execute_script("""
-          return Array.from(document.querySelectorAll('input,textarea,select,[contenteditable="true"]'))
-            .filter(e => e.getClientRects().length && !e.disabled && e.type !== 'hidden')
-            .map(e => ({tag:e.tagName, type:e.type||'', id:e.id||'', name:e.name||'',
-              placeholder:e.getAttribute('placeholder')||'', ariaLabel:e.getAttribute('aria-label')||'',
-              dataQf:e.getAttribute('data-qf')||'',
-              labels:Array.from(e.labels||[]).map(x=>x.innerText.trim()).filter(Boolean).join(' | ')}));
-        """)
-        print(json.dumps(fields, ensure_ascii=False, indent=2))
-        input("Nhấn Enter để đóng Chrome... ")
-        raise SystemExit(0)
 
     current_step = "Mở danh sách quy trình kỹ thuật"
     click_unique(driver, '[data-tab="qt"]', "Quy trình kỹ thuật")
@@ -652,6 +640,23 @@ try:
         save_message = "Đã thêm quy trình vào danh mục."
     current_step = "Chờ biểu mẫu sẵn sàng"
     WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.ID, "qfLuu")))
+    if args.inspect:
+        current_step = "Kiểm tra cấu trúc biểu mẫu đã mở"
+        print("Đang đọc các ô nhập của biểu mẫu QTKT...")
+        fields = driver.execute_script("""
+          return Array.from(document.querySelectorAll('input,textarea,select,[contenteditable="true"]'))
+            .filter(e => e.getClientRects().length && !e.disabled && e.type !== 'hidden')
+            .map(e => ({tag:e.tagName, type:e.type||'', id:e.id||'', name:e.name||'',
+              placeholder:e.getAttribute('placeholder')||'', ariaLabel:e.getAttribute('aria-label')||'',
+              dataQf:e.getAttribute('data-qf')||'',
+              labels:Array.from(e.labels||[]).map(x=>x.innerText.trim()).filter(Boolean).join(' | ')}));
+        """)
+        if not fields:
+            raise RuntimeError("Biểu mẫu QTKT đã mở nhưng không tìm thấy ô nhập đang hiển thị. Kiểm tra lại giao diện website.")
+        print(f"Đã tìm thấy {len(fields)} ô nhập đang hiển thị.")
+        print(json.dumps(fields, ensure_ascii=False, indent=2))
+        input("Nhấn Enter để đóng Chrome... ")
+        raise SystemExit(0)
     current_step = "Điền các trường nội dung"
     filled, skipped, field_selectors = fill_fields(driver)
     current_step = "Chọn đơn vị thực hiện"
