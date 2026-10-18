@@ -270,32 +270,40 @@ def perform_login(driver, username: str, password: str, unit: str) -> None:
 
 
 def click_unique(driver, selector: str, label: str, timeout: int = 20):
+    """Retry the entire lookup: elements can become stale even during visibility checks."""
     def click_fresh(d):
-        elements = [e for e in d.find_elements(By.CSS_SELECTOR, selector) if e.is_displayed() and e.is_enabled()]
-        if len(elements) > 1:
-            raise RuntimeError(f"Không xác định duy nhất nút {label}: tìm thấy {len(elements)} nút.")
-        if not elements:
-            return False
         try:
+            elements = [
+                e for e in d.find_elements(By.CSS_SELECTOR, selector)
+                if e.is_displayed() and e.is_enabled()
+            ]
+            if len(elements) > 1:
+                raise RuntimeError(f"Không xác định duy nhất nút {label}: tìm thấy {len(elements)} nút.")
+            if not elements:
+                return False
             elements[0].click()
             return True
         except StaleElementReferenceException:
+            # SPA rerendered while checking/clicking: acquire a new element next poll.
             return False
 
     WebDriverWait(driver, timeout, poll_frequency=0.2).until(click_fresh)
 
 
 def set_text_fresh(driver, selector: str, value: str, label: str, timeout: int = 15) -> None:
-    """Reacquire the input on every retry because the app may rerender after input events."""
+    """Reacquire the input when the app rerenders, including during visibility checks."""
     value = str(value)
 
     def replace(d):
-        elements = [e for e in d.find_elements(By.CSS_SELECTOR, selector) if e.is_displayed() and e.is_enabled()]
-        if len(elements) > 1:
-            raise RuntimeError(f"Không xác định duy nhất trường {label}: tìm thấy {len(elements)} trường.")
-        if not elements:
-            return False
         try:
+            elements = [
+                e for e in d.find_elements(By.CSS_SELECTOR, selector)
+                if e.is_displayed() and e.is_enabled()
+            ]
+            if len(elements) > 1:
+                raise RuntimeError(f"Không xác định duy nhất trường {label}: tìm thấy {len(elements)} trường.")
+            if not elements:
+                return False
             el = elements[0]
             el.clear()
             el.send_keys(value)
@@ -443,13 +451,13 @@ def fill_fields(driver) -> tuple[list[str], list[str], dict[str, str]]:
             continue
         try:
             def fill_fresh(d):
-                elements = [e for e in d.find_elements(By.CSS_SELECTOR, selector)
-                            if e.is_displayed() and e.is_enabled()]
-                if len(elements) > 1:
-                    raise RuntimeError(f"{key}: selector khớp {len(elements)} trường")
-                if not elements:
-                    return False
                 try:
+                    elements = [e for e in d.find_elements(By.CSS_SELECTOR, selector)
+                                if e.is_displayed() and e.is_enabled()]
+                    if len(elements) > 1:
+                        raise RuntimeError(f"{key}: selector khớp {len(elements)} trường")
+                    if not elements:
+                        return False
                     el = elements[0]
                     if el.tag_name.lower() == "input" and el.get_attribute("type") == "checkbox":
                         if el.is_selected() != bool(values[key]):
