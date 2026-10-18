@@ -87,6 +87,14 @@ Gói cập nhật không kèm `login.json`. Khi chép bản mới vào máy, gi�
 - Kiểm tra dữ liệu offline: `py -m unittest discover -s tests -v`.
 
 
+## Kiểm tra dữ liệu trực tiếp từ PowerShell (không dùng Chrome DevTools)
+
+Sau khi chạy `python run_all.py --id bot_trat_khuyu --draft-preview`, công cụ tự đọc giá trị `element.value` và trạng thái checkbox/nút Lưu trong DOM hiện tại. PowerShell sẽ in nhóm `KIỂM TRA TRỰC TIẾP TỪ CHROME` với **số ký tự** của các ô đã điền, `Đang triển khai: KHÔNG đánh dấu` và `Nút Lưu: ĐÃ VÔ HIỆU HÓA`. Công cụ không in nội dung chuyên môn ra báo cáo này và không lưu lên cổng. Các thông số này chỉ xác nhận thao tác nhập và trạng thái giao diện, không thay thế việc kiểm tra chuyên môn.
+
+Không dán mã không hiểu vào Console để vượt cảnh báo bảo mật `Don't paste code`. Cảnh báo `favicon.ico: 404` chỉ liên quan biểu tượng website, không phản ánh kết quả tự động nhập. Cảnh báo `Chưa nhúng dữ liệu danh mục` do website phát ra, không thể khắc phục chỉ bằng sửa script Selenium; nếu tra mã kỹ thuật thất bại cần liên hệ quản trị cổng.
+
+Mục 5.1 của 8 quy trình nháp ghi **cơ cấu nhân lực theo chức danh**, không tự động kèm tên người được phân công. Trong chế độ điền thông thường, trường nhân lực của 8 quy trình chưa thẩm định được để cho người rà soát hoàn thiện.
+
 ## Xem trước nội dung 8 quy trình trên biểu mẫu (19/10/2026)
 
 Sau khi đã thẩm định dữ liệu dự thảo, có thể dùng chế độ **xem trước có nhập dữ liệu vào biểu mẫu** để kiểm tra bố cục các ô. Chế độ này chỉ hiển thị nội dung chưa được duyệt trong phiên Chrome hiện tại, **không được bấm Lưu, không phải văn bản được phê duyệt**. Phải đóng biểu mẫu mà không lưu và không sử dụng nội dung dự thảo làm chỉ định lâm sàng.
