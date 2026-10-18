@@ -91,13 +91,17 @@ values = {
     **form_fields,
 }
 
+# Trong mẫu lâm sàng, ô 5.1 cần chức danh và số lượng nhân lực, không ghi tên
+# cá nhân được phân công. Với 8 bản dự thảo, chỉ điền nhân lực trong preview.
+if procedure.get("requires_clinical_review", False):
+    values["performer"] = None
 
-def separate_personnel(personnel: str, assigned_person: str) -> tuple[str, str]:
-    """Split the draft's direct and support personnel into two confirmed portal fields."""
+
+def separate_personnel(personnel: str) -> tuple[str, str]:
+    """Split staffing by role and quantity; do not append any person's name."""
     direct, marker, support = personnel.partition("\nNhân lực hỗ trợ:")
     direct = direct.removeprefix("Nhân lực trực tiếp:").strip()
-    primary = f"Người được phân công: {assigned_person}\n{direct}" if direct else assigned_person
-    return primary, support.strip() if marker else ""
+    return direct, support.strip() if marker else ""
 
 
 if args.draft_preview:
@@ -107,8 +111,8 @@ if args.draft_preview:
     print("CẢNH BÁO: Đây là BẢN NHÁP chưa được bệnh viện phê duyệt. Không sử dụng làm quy trình chính thức.")
     if input("Chỉ xem trước trong biểu mẫu, KHÔNG LƯU. Nhập XEM để tiếp tục: ").strip() != "XEM":
         raise SystemExit("Đã hủy điền bản nháp.")
-    direct, support = separate_personnel(draft["personnel"], item["performer"])
-    values.update(performer=direct, support_personnel=support)
+    direct, support = separate_personnel(draft["personnel"])
+    values.update(performer=direct or None, support_personnel=support or None)
 
 
 def visible(driver, selector: str) -> bool:
@@ -534,6 +538,48 @@ def verify_fields(driver, filled: list[str], field_selectors: dict[str, str]) ->
             raise RuntimeError(f"Giá trị trường {key} chưa khớp; dừng trước khi lưu.")
 
 
+def report_draft_preview_state(driver, filled: list[str], field_selectors: dict[str, str]) -> None:
+    """Read actual DOM properties (not HTML attributes) without printing medical content."""
+    wanted = {key: field_selectors[key] for key in filled}
+    state = driver.execute_script("""
+        const wanted = arguments[0];
+        const inputs = {};
+        for (const [key, selector] of Object.entries(wanted)) {
+            const elements = Array.from(document.querySelectorAll(selector))
+                .filter(e => e.getClientRects().length);
+            if (elements.length !== 1) {
+                inputs[key] = null;
+                continue;
+            }
+            const el = elements[0];
+            inputs[key] = {
+                length: String(el.value ?? el.textContent ?? '').length,
+                checked: el.type === 'checkbox' ? !!el.checked : null
+            };
+        }
+        const checkbox = document.querySelector('#qfDanhDauTT');
+        const save = document.querySelector('#qfLuu');
+        return {
+            inputs,
+            deployment_checked: checkbox ? !!checkbox.checked : null,
+            save_disabled: save ? !!save.disabled : null
+        };
+    """, wanted)
+    missing = [key for key, item_state in state["inputs"].items() if item_state is None]
+    if missing:
+        raise RuntimeError("Không còn tìm thấy duy nhất các ô: " + ", ".join(missing))
+    if state["deployment_checked"] is not False:
+        raise RuntimeError("Ô 'Đang triển khai' không ở trạng thái bỏ chọn.")
+    if state["save_disabled"] is not True:
+        raise RuntimeError("Nút 'Lưu' chưa bị vô hiệu hóa. Không tiếp tục bản nháp.")
+    print("KIỂM TRA TRỰC TIẾP TỪ CHROME (không cần mở Console):")
+    for key, item_state in state["inputs"].items():
+        if key not in {"deployment_flag", "template_type", "catalog_annex", "section6_title"}:
+            print(f"  {key}: {item_state['length']} ký tự")
+    print("  Đang triển khai: KHÔNG đánh dấu")
+    print("  Nút Lưu: ĐÃ VÔ HIỆU HÓA")
+
+
 def find_existing_procedure(driver):
     """Tìm bản có sẵn để cập nhật, tránh tạo thêm quy trình trùng tên."""
     set_text_fresh(driver, "#dmSearch", item["service"], "tìm quy trình hiện có")
@@ -714,6 +760,7 @@ try:
                     btn.title = 'Bản nháp chưa thẩm định: không được lưu';
                 }
             """)
+            report_draft_preview_state(driver, filled, field_selectors)
             print("BẢN NHÁP CHƯA THẨM ĐỊNH: đã vô hiệu hóa nút Lưu trong giao diện hiện tại.")
             print("KHÔNG LƯU dữ liệu lên cổng. Kiểm tra để chuẩn bị duyệt chuyên môn.")
         else:
