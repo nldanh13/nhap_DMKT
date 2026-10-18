@@ -11,5 +11,18 @@
   "indications": "[data-qf=\"chiDinh\"]",
   "contraindications": "[data-qf=\"chongCD\"]",
   "steps": "[data-qf=\"cacBuoc\"]",
-  "source": "[data-qf=\"taiLieu\"]"
+  "source": "[data-qf=\"taiLieu\"]",
+  "precautions": "[data-qf=\"thanTrong\"]",
+  "support_personnel": "[data-qf=\"nhanLucHT\"]",
+  "drugs": "[data-qf=\"thuoc\"]",
+  "supplies": "[data-qf=\"vatTu\"]",
+  "equipment": "[data-qf=\"thietBi\"]",
+  "patient": "[data-qf=\"nguoiBenh\"]",
+  "records": "[data-qf=\"hoSoBA\"]",
+  "duration_hours": "[data-qf=\"thoiGian\"]",
+  "location": "[data-qf=\"diaDiem\"]",
+  "preprocedure_checks": "[data-qf=\"kiemTraHS\"]",
+  "during_procedure_events": "[data-qf=\"taiBien1\"]",
+  "post_procedure_events": "[data-qf=\"taiBien2\"]",
+  "late_complications": "[data-qf=\"bienChungMuon\"]"
 }
