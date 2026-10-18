@@ -34,8 +34,11 @@ parser = argparse.ArgumentParser(
 )
 parser.add_argument("--id", help="ID dịch vụ trong data/services.json")
 parser.add_argument("--inspect", action="store_true", help="Chỉ liệt kê các trường biểu mẫu")
+parser.add_argument("--draft-preview", action="store_true", help="Điền bản NHÁP chưa thẩm định vào biểu mẫu để kiểm tra, KHÔNG LƯU")
 parser.add_argument("--save", action="store_true", help="Cho phép lưu tự động sau khi người dùng nhập xác nhận LƯU; không dùng cho bản dự thảo chưa duyệt")
 args = parser.parse_args()
+if args.draft_preview and (args.save or args.inspect):
+    parser.error("--draft-preview không thể dùng cùng --save hoặc --inspect")
 
 if args.id:
     matches = [x for x in services if x["id"] == args.id]
@@ -87,6 +90,25 @@ values = {
     "source": source_text,
     **form_fields,
 }
+
+
+def separate_personnel(personnel: str, assigned_person: str) -> tuple[str, str]:
+    """Split the draft's direct and support personnel into two confirmed portal fields."""
+    direct, marker, support = personnel.partition("\nNhân lực hỗ trợ:")
+    direct = direct.removeprefix("Nhân lực trực tiếp:").strip()
+    primary = f"Người được phân công: {assigned_person}\n{direct}" if direct else assigned_person
+    return primary, support.strip() if marker else ""
+
+
+if args.draft_preview:
+    draft = json.loads((DATA / "clinical_drafts.json").read_text(encoding="utf-8"))["procedures"].get(item["id"])
+    if not draft or not procedure.get("requires_clinical_review", False):
+        parser.error("Chỉ dùng --draft-preview cho các QTKT có dữ liệu nháp cần thẩm định")
+    print("CẢNH BÁO: Đây là BẢN NHÁP chưa được bệnh viện phê duyệt. Không sử dụng làm quy trình chính thức.")
+    if input("Chỉ xem trước trong biểu mẫu, KHÔNG LƯU. Nhập XEM để tiếp tục: ").strip() != "XEM":
+        raise SystemExit("Đã hủy điền bản nháp.")
+    direct, support = separate_personnel(draft["personnel"], item["performer"])
+    values.update(performer=direct, support_personnel=support)
 
 
 def visible(driver, selector: str) -> bool:
@@ -440,7 +462,7 @@ def fill_fields(driver) -> tuple[list[str], list[str], dict[str, str]]:
         field_selectors.pop("section6_title", None)
 
     filled, skipped = [], []
-    allowed_fields = set(procedure.get("autofill_fields", []))
+    allowed_fields = set(field_selectors) if args.draft_preview else set(procedure.get("autofill_fields", []))
     for key, selector in field_selectors.items():
         if not selector or key not in values or values[key] is None:
             continue
@@ -683,7 +705,19 @@ try:
     if not args.save:
         print("CHẾ ĐỘ XEM TRƯỚC: Chương trình KHÔNG bấm Lưu.")
         print("Kiểm tra lại tất cả trường còn trống, đối chiếu hồ sơ và tài liệu đã phê duyệt.")
-        print("Bạn có thể tự lưu trong giao diện nếu đã xác minh đầy đủ.")
+        if args.draft_preview:
+            # Additional UI safeguard; this is only a draft preview, not authorization to save.
+            driver.execute_script("""
+                const btn = document.querySelector('#qfLuu');
+                if (btn) {
+                    btn.disabled = true;
+                    btn.title = 'Bản nháp chưa thẩm định: không được lưu';
+                }
+            """)
+            print("BẢN NHÁP CHƯA THẨM ĐỊNH: đã vô hiệu hóa nút Lưu trong giao diện hiện tại.")
+            print("KHÔNG LƯU dữ liệu lên cổng. Kiểm tra để chuẩn bị duyệt chuyên môn.")
+        else:
+            print("Bạn có thể tự lưu trong giao diện nếu đã xác minh đầy đủ.")
         input("Nhấn Enter khi đã kiểm tra xong và muốn đóng Chrome... ")
     else:
         if procedure.get("requires_clinical_review", False):
