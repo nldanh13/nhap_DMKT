@@ -49,7 +49,7 @@ Quy tắc phân công áp dụng theo yêu cầu của bạn: dịch vụ nắn 
 
 ## Tự động điền
 
-`run_all.py` điều phối tạo CSV và chạy `autofill_portal.py`; Selenium được cài nếu chưa có. `autofill_portal.py` dùng các selector trong `selectors.json`, chỉ điền trường đã cấu hình và không lưu biểu mẫu. Dùng `--inspect` để kiểm tra nhãn/trường khi giao diện thay đổi.
+`run_all.py` điều phối tạo CSV và chạy `autofill_portal.py`; Selenium được cài nếu chưa có. `autofill_portal.py` chỉ điền các trường đã cấu hình; mặc định không tự lưu biểu mẫu. Dùng `--inspect` để kiểm tra nhãn/trường khi giao diện thay đổi.
 
 Nếu Chrome không mở được, cập nhật Chrome và thử `py -m pip install --upgrade selenium`.
 
@@ -73,3 +73,15 @@ Nếu Chrome không mở được, cập nhật Chrome và thử `py -m pip inst
 ### Giữ thông tin đăng nhập đã lưu
 
 Gói cập nhật không kèm `login.json`. Khi chép bản mới vào máy, giữ nguyên `login.json` hiện có trong thư mục chương trình để bảo toàn tài khoản, đơn vị và mật khẩu đã mã hóa. Nếu đây là lần chạy đầu tiên, chương trình sẽ tự tạo tệp này sau khi nhập thông tin đăng nhập.
+
+
+## Bản vá an toàn và dự thảo 8 QTKT (18/10/2026)
+
+- Lệnh `py run_all.py` chỉ **điền trước và mở biểu mẫu để kiểm tra**, không tự bấm Lưu.
+- `py run_all.py --save` chỉ cho phép lưu sau khi người dùng gõ `LƯU`, các trường được điền đã xác minh, dịch vụ **không** bị đánh dấu `requires_clinical_review` và **đã được đơn vị phê duyệt** qua `approved_for_auto_save=true`. Mặc định không dịch vụ nào được bật cờ này.
+- Tám kỹ thuật nắn, bó bột có nội dung **dự thảo riêng** ở `data/clinical_drafts.json` và `data/procedures.json`. Các phần lâm sàng chưa được duyệt **không** tự điền vào cổng. Đề nghị bệnh viện thẩm định từng thủ thuật, duyệt định mức thuốc/vật tư và phê duyệt phạm vi kỹ thuật trước sử dụng.
+- Trật khớp cổ chân chưa có quy trình nắn độc lập đã được xác minh trong bộ tài liệu; tuyệt đối không suy diễn động tác nắn từ quy trình bó bột.
+- Chỉ các selector xác nhận trên giao diện mới được phép dùng. `--inspect` in thêm `data-qf` để phục vụ đối chiếu; không tự đoán selector cho các trường 5.1–5.9 và 7.1–7.3.
+- Tệp `login.json` chỉ dùng trên máy cá nhân và được bỏ theo dõi Git (`git rm --cached login.json`); phải tự xử lý bản sao còn tồn tại trong lịch sử các commit cũ và cân nhắc đổi mật khẩu nếu từng đẩy thông tin xác thực lên repository công khai.
+- Thư mục `debug/` chứa HTML, ảnh màn hình và log có khả năng lộ dữ liệu hồ sơ; không tải lên GitHub và không chia sẻ khi chưa ẩn thông tin người bệnh.
+- Kiểm tra dữ liệu offline: `py -m unittest discover -s tests -v`.

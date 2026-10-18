@@ -30,10 +30,11 @@ config_path = ROOT / "selectors.json"
 login_config_path = ROOT / "login.json"
 
 parser = argparse.ArgumentParser(
-    description="Sau khi bạn đăng nhập, tự mở biểu mẫu, điền dữ liệu, chọn mã kỹ thuật và lưu."
+    description="Điền trước biểu mẫu để người dùng kiểm tra; mặc định KHÔNG tự lưu."
 )
 parser.add_argument("--id", help="ID dịch vụ trong data/services.json")
 parser.add_argument("--inspect", action="store_true", help="Chỉ liệt kê các trường biểu mẫu")
+parser.add_argument("--save", action="store_true", help="Cho phép lưu tự động sau khi người dùng nhập xác nhận LƯU; không dùng cho bản dự thảo chưa duyệt")
 args = parser.parse_args()
 
 if args.id:
@@ -486,7 +487,7 @@ def verify_fields(driver, filled: list[str], field_selectors: dict[str, str]) ->
         expected = values[key]
         if el["tag"] == "input" and el["type"] == "checkbox":
             actual = el["checked"]
-        elif key == "template_type" and el["tag"] == "select":
+        elif el["tag"] == "select" and key != "catalog_annex":
             actual = el["selectedText"].strip()
         else:
             actual = el["value"]
@@ -577,11 +578,11 @@ def save_debug_bundle(driver, error: BaseException, step: str) -> Path | None:
             # Never leave a typed password in a debug screenshot or HTML snapshot.
             snapshot = driver.execute_script("""
               const clone = document.documentElement.cloneNode(true);
-              clone.querySelectorAll('input[type=password]').forEach(e => e.value = '');
+              clone.querySelectorAll('input[type=password]').forEach(e => { e.value = ''; e.removeAttribute('value'); });
               return '<!doctype html>\\n' + clone.outerHTML;
             """)
         except Exception:
-            snapshot = "Không thể tạo snapshot HTML.\\n" + (driver.page_source or "")
+            snapshot = "Không thể tạo snapshot HTML đã ẩn mật khẩu; không lưu DOM gốc vì có thể chứa thông tin nhạy cảm."
         (bundle / "page.html").write_text(snapshot, encoding="utf-8")
         try:
             driver.save_screenshot(str(bundle / "screenshot.png"))
@@ -629,6 +630,7 @@ try:
             .filter(e => e.getClientRects().length && !e.disabled && e.type !== 'hidden')
             .map(e => ({tag:e.tagName, type:e.type||'', id:e.id||'', name:e.name||'',
               placeholder:e.getAttribute('placeholder')||'', ariaLabel:e.getAttribute('aria-label')||'',
+              dataQf:e.getAttribute('data-qf')||'',
               labels:Array.from(e.labels||[]).map(x=>x.innerText.trim()).filter(Boolean).join(' | ')}));
         """)
         print(json.dumps(fields, ensure_ascii=False, indent=2))
@@ -660,22 +662,37 @@ try:
     verify_fields(driver, filled, field_selectors)
 
     if skipped:
-        print("Các trường chưa điền được:")
+        print("Các trường chưa điền được (PHẢI KIỂM TRA THỦ CÔNG):")
         print("\n".join(f"- {x}" for x in skipped))
-        raise RuntimeError("Có trường bị bỏ qua; biểu mẫu chưa được lưu.")
 
     print("Đã điền và kiểm tra trường:", ", ".join(filled))
     print("Mã PL1 đã chọn:", ", ".join(codes))
-    current_step = "Bấm lưu quy trình"
-    print("Đang tự động lưu quy trình...")
-    click_unique(driver, "#qfLuu", "Lưu quy trình")
-    current_step = "Chờ xác nhận lưu từ trang"
-    message = wait_for_success(driver)
-    if message != save_message:
-        raise RuntimeError(f"Trang báo trạng thái khác dự kiến: {message}")
-    print(message)
-    print("Chrome vẫn mở để bạn kiểm tra bản đã lưu.")
-    input("Nhấn Enter khi muốn đóng Chrome... ")
+    if not args.save:
+        print("CHẾ ĐỘ XEM TRƯỚC: Chương trình KHÔNG bấm Lưu.")
+        print("Kiểm tra lại tất cả trường còn trống, đối chiếu hồ sơ và tài liệu đã phê duyệt.")
+        print("Bạn có thể tự lưu trong giao diện nếu đã xác minh đầy đủ.")
+        input("Nhấn Enter khi đã kiểm tra xong và muốn đóng Chrome... ")
+    else:
+        if procedure.get("requires_clinical_review", False):
+            raise RuntimeError("Quy trình dự thảo chưa được bệnh viện thẩm định; KHÔNG cho phép tự động lưu.")
+        if not procedure.get("approved_for_auto_save", False):
+            raise RuntimeError("Chưa xác nhận hồ sơ đủ điều kiện lưu tự động; hãy kiểm tra và lưu thủ công.")
+        if skipped:
+            raise RuntimeError("Có trường bị bỏ qua; KHÔNG cho phép tự động lưu.")
+        confirmation = input("Bạn đã kiểm tra chuyên môn và muốn lưu lên cổng? Nhập đúng LƯU để xác nhận: ").strip()
+        if confirmation != "LƯU":
+            print("Không lưu. Biểu mẫu vẫn mở để kiểm tra thủ công.")
+            input("Nhấn Enter để đóng Chrome... ")
+        else:
+            current_step = "Bấm lưu quy trình (đã xác nhận)"
+            click_unique(driver, "#qfLuu", "Lưu quy trình")
+            current_step = "Chờ xác nhận lưu từ trang"
+            message = wait_for_success(driver)
+            if message != save_message:
+                raise RuntimeError(f"Trang báo trạng thái khác dự kiến: {message}")
+            print(message)
+            print("Chrome vẫn mở để bạn kiểm tra bản đã lưu.")
+            input("Nhấn Enter khi muốn đóng Chrome... ")
 except Exception as exc:
     print(f"\nCHƯA XÁC NHẬN LƯU: {exc}")
     print(f"Bước gặp lỗi: {current_step}")
