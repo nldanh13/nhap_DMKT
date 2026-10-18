@@ -468,7 +468,7 @@ def fill_fields(driver) -> tuple[list[str], list[str], dict[str, str]]:
     filled, skipped = [], []
     allowed_fields = set(field_selectors) if args.draft_preview else set(procedure.get("autofill_fields", []))
     for key, selector in field_selectors.items():
-        if not selector or key not in values or values[key] is None:
+        if not selector or key not in values or values[key] is None or values[key] == "":
             continue
         if allowed_fields and key not in allowed_fields and key not in {
             "service", "performer", "technical_name", "template_type", "specialty",
@@ -748,6 +748,20 @@ try:
 
     print("Đã điền và kiểm tra trường:", ", ".join(filled))
     print("Mã PL1 đã chọn:", ", ".join(codes))
+    if args.draft_preview:
+        missing_clinical = [
+            key for key in (
+                "overview", "indications", "contraindications", "precautions", "performer",
+                "support_personnel", "drugs", "supplies", "equipment", "patient",
+                "records", "duration_hours", "location", "preprocedure_checks", "steps",
+                "during_procedure_events", "post_procedure_events", "late_complications"
+            ) if key in field_selectors and not str(values.get(key) or "").strip()
+        ]
+        if missing_clinical:
+            print("CÁC MỤC CHƯA ĐỦ CĂN CỨ – ĐỂ TRỐNG, KHÔNG TỰ SUY DIỄN:")
+            for key in missing_clinical:
+                print("  -", key)
+        print("Các trường trống KHÔNG được ghi đè vào biểu mẫu và không được xem là hoàn tất.")
     if not args.save:
         print("CHẾ ĐỘ XEM TRƯỚC: Chương trình KHÔNG bấm Lưu.")
         print("Kiểm tra lại tất cả trường còn trống, đối chiếu hồ sơ và tài liệu đã phê duyệt.")
