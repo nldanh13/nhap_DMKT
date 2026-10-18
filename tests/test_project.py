@@ -52,7 +52,7 @@ class ProjectIntegrityTests(unittest.TestCase):
                 'location','preprocedure_checks','steps','during_procedure_events',
                 'post_procedure_events','late_complications')
         import re
-        note=re.compile(r'\\[(?:BỔ SUNG|ĐỀ XUẤT|KHUNG|CHỜ THẨM ĐỊNH|THAM CHIẾU)')
+        note=re.compile(r'\[(?:BỔ SUNG|ĐỀ XUẤT|KHUNG|CHỜ THẨM ĐỊNH|THAM CHIẾU)')
         for pid in CAST_IDS:
             with self.subTest(procedure=pid):
                 record=drafts[pid]
