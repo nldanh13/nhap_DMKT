@@ -154,9 +154,54 @@ class ProjectIntegrityTests(unittest.TestCase):
         exec(compile(ast.fix_missing_locations(ast.Module(body=[fn],type_ignores=[])),
                      'autofill_portal.py','exec'),ns)
         text='Nhân lực trực tiếp: 01 bác sĩ, 03 KTV' + chr(10) + 'Nhân lực hỗ trợ: 01 điều dưỡng'
-        primary,support=ns['separate_personnel'](text,'Người được phân công')
-        self.assertIn('01 bác sĩ, 03 KTV',primary)
+        primary,support=ns['separate_personnel'](text)
+        self.assertEqual(primary,'01 bác sĩ, 03 KTV')
         self.assertEqual(support,'01 điều dưỡng')
+        self.assertNotIn('Người được phân công',primary)
+
+    def test_preview_report_checks_live_dom_without_content(self):
+        source=(ROOT/'autofill_portal.py').read_text(encoding='utf-8')
+        tree=ast.parse(source)
+        fn=next(node for node in tree.body if isinstance(node,ast.FunctionDef)
+                and node.name=='report_draft_preview_state')
+        messages=[]
+        ns={'print':lambda *args:messages.append(' '.join(map(str,args)))}
+        exec(compile(ast.fix_missing_locations(ast.Module(body=[fn],type_ignores=[])),
+                     'autofill_portal.py','exec'),ns)
+
+        class FakeDriver:
+            def __init__(self,deployed=False,save_disabled=True):
+                self.deployed=deployed
+                self.save_disabled=save_disabled
+                self.want=None
+            def execute_script(self,script,want):
+                self.want=want
+                self.script=script
+                return {
+                    'inputs':{k:{'length':42,'checked':None} for k in want},
+                    'deployment_checked':self.deployed,
+                    'save_disabled':self.save_disabled
+                }
+
+        driver=FakeDriver()
+        ns['report_draft_preview_state'](driver,['overview'],
+                                         {'overview':'[data-qf="daiCuong"]'})
+        self.assertEqual(driver.want,{'overview':'[data-qf="daiCuong"]'})
+        self.assertIn('el.value',driver.script)
+        self.assertTrue(any('42 ký tự' in s for s in messages))
+        self.assertTrue(any('Đang triển khai: KHÔNG' in s for s in messages))
+        with self.assertRaisesRegex(RuntimeError,'Đang triển khai'):
+            ns['report_draft_preview_state'](
+                FakeDriver(deployed=True),['overview'],{'overview':'[data-qf="daiCuong"]'})
+        with self.assertRaisesRegex(RuntimeError,'Lưu'):
+            ns['report_draft_preview_state'](
+                FakeDriver(save_disabled=False),['overview'],{'overview':'[data-qf="daiCuong"]'})
+
+    def test_reviewed_clinical_personnel_not_assigned_individual_name(self):
+        source=(ROOT/'autofill_portal.py').read_text(encoding='utf-8')
+        self.assertIn('if procedure.get("requires_clinical_review", False):', source)
+        self.assertIn('values["performer"] = None', source)
+        self.assertIn('separate_personnel(draft["personnel"])', source)
 
     def test_credential_file_not_tracked(self):
         if not (ROOT/'.git').exists(): return
