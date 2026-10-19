@@ -126,6 +126,36 @@ python -m unittest discover -s tests -v
 python run_all.py --id bot_trat_khuyu --draft-preview
 ```
 
+## Dành cho người được giao NHẬP QTKT, sau đó người khác duyệt
+
+**Nếu quy trình làm việc trên cổng của bệnh viện là nhập → bấm Lưu → người có thẩm quyền kiểm tra/duyệt**, dùng chế độ `--all-for-review` thay vì `--all-approved`. Chế độ này dùng 8 bản dự thảo đã đối chiếu nguồn BYT, **không yêu cầu số quyết định phê duyệt của bệnh viện, không coi bản nháp là bản đã được phê duyệt**.
+
+Kiểm tra xem 8 bản nháp đã đủ dữ liệu nhận diện chưa và đọc danh sách các mục còn thiếu (không mở Chrome, không lưu):
+
+```powershell
+cd E:\DMKT
+git pull --ff-only origin main
+python run_all.py --all-for-review
+```
+
+Khi đã xác nhận nút **Lưu** trên cổng **chỉ lưu dữ liệu để chuyển cho người khác duyệt** và bạn được giao nhập 8 bản đó, chạy:
+
+```powershell
+python run_all.py --all-for-review --save
+```
+
+Chương trình báo các mục thiếu của từng kỹ thuật; bạn xác nhận bằng cách nhập đúng `LƯU 8 BẢN NHÁP CHỜ DUYỆT` một lần. Selenium lần lượt đăng nhập, tạo QTKT, điền những trường có dữ liệu, chọn mã PL1, để **Đang triển khai** bỏ chọn, kiểm tra dữ liệu và bấm Lưu. Không tự điền số quyết định, ngày ban hành, người phê duyệt hoặc biến bản nháp thành bản được duyệt. Nếu cổng báo lỗi, nếu đã tồn tại quy trình cùng tên hoặc nếu một mục không lưu được, chương trình dừng để tránh trùng; báo cáo đặt tại `output/qtkt_batch_*.json`.
+
+**Giới hạn nội dung:** ba QTKT gãy một xương cẳng tay, xương bàn chân, ngón chân mới xác minh rõ phần bó bột, còn thiếu nguồn nắn riêng; đặc biệt trật khớp cổ chân đang thiếu nội dung nắn, chỉ định và nhiều mục khác. Chế độ gửi duyệt để các chuyên gia hoàn thiện, không dùng như hướng dẫn điều trị chính thức. Trang có thể từ chối lưu nếu yêu cầu trường bắt buộc còn trống; chương trình không tự bịa để bỏ qua kiểm tra. Dữ liệu đã bấm Lưu **không tự động trở thành đã phê duyệt**; phải kiểm tra trạng thái tiếp nhận với người duyệt trên cổng. Nếu nút Lưu trên website lại công bố/ban hành ngay, **không sử dụng lệnh gửi duyệt**.
+
+Xem trước một kỹ thuật mà không lưu vẫn dùng:
+
+```powershell
+python run_all.py --id bot_trat_khuyu --draft-preview
+```
+
+Không cần điền hoặc sửa 8 tệp `local_approved/*.approved-qtkt.json` được tạo trước đó để **gửi bản nháp cho người khác duyệt**; các tệp đó chỉ phục vụ chế độ lưu hồ sơ *đã phê duyệt thực tế*.
+
 ## Nhập hàng loạt QTKT bằng MỘT lệnh
 
 Sau khi đã có **từng QTKT bệnh viện phê duyệt** ở thư mục cục bộ `local_approved/`, dùng `--all-approved` trên `run_all.py`. Mặc định nhóm `casts` là **8 kỹ thuật nắn, bó bột** đã biên tập. Công cụ không tự lấy bản nháp làm tài liệu đã phê duyệt và không bấm Lưu khi chưa đủ hồ sơ.

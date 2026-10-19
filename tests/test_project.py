@@ -98,8 +98,8 @@ class ProjectIntegrityTests(unittest.TestCase):
 
     def test_portal_preview_uses_source_citations_only(self):
         script=(ROOT/'autofill_portal.py').read_text(encoding='utf-8')
-        self.assertIn('source=draft.get("references") or None',script)
-        self.assertIn('if args.draft_preview and (args.save or args.inspect or args.approved_package)',script)
+        self.assertIn('source=review_draft["references"]',script)
+        self.assertIn('if args.draft_preview and (args.save or args.inspect or args.approved_package or args.submit_for_review)',script)
         self.assertIn('if procedure.get("requires_clinical_review", False):',script)
 
     def test_legacy_word_import_requires_explicit_force(self):
@@ -214,10 +214,10 @@ class ProjectIntegrityTests(unittest.TestCase):
 
     def test_draft_preview_gated_and_never_saves(self):
         source=(ROOT/'autofill_portal.py').read_text(encoding='utf-8')
-        self.assertIn('if args.draft_preview and (args.save or args.inspect or args.approved_package)', source)
+        self.assertIn('if args.draft_preview and (args.save or args.inspect or args.approved_package or args.submit_for_review)', source)
         self.assertIn('if input("Chỉ xem trước trong biểu mẫu, KHÔNG LƯU. Nhập XEM', source)
         self.assertIn('btn.disabled = true', source)
-        self.assertIn('allowed_fields = set(field_selectors) if (args.draft_preview or args.approved_package) else', source)
+        self.assertIn('allowed_fields = set(field_selectors) if (args.draft_preview or args.approved_package or args.submit_for_review) else', source)
         self.assertIn('if not args.save:', source)
 
     def test_separate_personnel_into_two_fields(self):
@@ -276,15 +276,27 @@ class ProjectIntegrityTests(unittest.TestCase):
         source=(ROOT/'autofill_portal.py').read_text(encoding='utf-8')
         self.assertIn('if procedure.get("requires_clinical_review", False):', source)
         self.assertIn('values["performer"] = None', source)
-        self.assertIn('separate_personnel(draft["personnel"])', source)
+        self.assertIn('separate_personnel(review_draft["personnel"])', source)
 
     def test_approved_package_must_be_checked_before_browser_save(self):
         source=(ROOT/'autofill_portal.py').read_text(encoding='utf-8')
         self.assertIn('load_approved_package(',source)
         self.assertIn('approved_package["content"]["references"]',source)
-        self.assertIn('if existing and args.approved_package:',source)
+        self.assertIn('if existing and (args.approved_package or args.submit_for_review):',source)
         self.assertIn('must_fill = set(REQUIRED_FIELDS)',source)
         self.assertIn('expected_confirmation = "LƯU " + item["id"]',source)
+
+    def test_review_submission_does_not_claim_approval(self):
+        source=(ROOT/'autofill_portal.py').read_text(encoding='utf-8')
+        self.assertIn('if args.submit_for_review:',source)
+        self.assertIn('load_review_draft(item["id"])',source)
+        self.assertIn('validate_review_item(item, procedure, review_draft)',source)
+        self.assertIn('expected_confirmation = "LƯU CHỜ DUYỆT " + item["id"]',source)
+        self.assertIn('review_batch_authorized = bool(',source)
+        self.assertIn('if draft_digest(current_draft) != review_meta["digest"]:',source)
+        self.assertIn('document.querySelector(\'#qfDanhDauTT\')?.checked',source)
+        self.assertIn('if existing and (args.approved_package or args.submit_for_review):',source)
+        self.assertNotIn('procedure["approved_for_auto_save"] = True',source)
 
     def test_credential_file_not_tracked(self):
         if not (ROOT/'.git').exists(): return

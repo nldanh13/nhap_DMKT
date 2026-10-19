@@ -15,6 +15,7 @@ import sys
 from typing import Callable
 
 from approved_package import load_approved_package
+from review_submission import DATA as REVIEW_DATA, load_and_validate_review_item
 
 ROOT = Path(__file__).resolve().parent
 SERVICES_PATH = ROOT / "data" / "services.json"
@@ -130,7 +131,8 @@ def write_report(rows: list[dict], *, scope: str, consent: bool, result: str,
     report_dir.mkdir(parents=True, exist_ok=True)
     now = datetime.now()
     path = report_dir / f"qtkt_batch_{now:%Y%m%d_%H%M%S_%f}.json"
-    allowed = {"id", "service", "code", "status", "reason"}
+    allowed = {"id", "service", "code", "status", "reason",
+               "missing", "critical_missing"}
     summary = [{k: v for k, v in row.items() if k in allowed} for row in rows]
     document = {
         "created_at": now.isoformat(timespec="seconds"),
@@ -217,6 +219,109 @@ def run_batch(services: list[dict], approved_dir: Path, scope: str,
     return 0
 
 
+def preflight_review(selected: list[dict], *, data_dir: Path = REVIEW_DATA) -> list[dict]:
+    """Check all eight clinical drafts without pretending hospital approval."""
+    procedures = json.loads((data_dir / "procedures.json").read_text(encoding="utf-8"))["procedures"]
+    records = []
+    for item in selected:
+        result = {"id": item["id"], "service": item["service"],
+                  "status": "BLOCKED", "reason": ""}
+        try:
+            draft, check = load_and_validate_review_item(
+                item, procedures.get(item["id"], {}), data_dir=data_dir
+            )
+            result.update(
+                code=check["code"], digest=check["digest"],
+                missing=check["missing"], critical_missing=check["critical_missing"],
+                status="READY_WITH_GAPS" if check["missing"] else "READY_FOR_REVIEW"
+            )
+        except (ValueError, KeyError, OSError, json.JSONDecodeError) as exc:
+            result["reason"] = str(exc)
+        records.append(result)
+    return records
+
+
+def run_review_batch(services: list[dict], *, save: bool,
+                     ask: Callable[[str], str] = input,
+                     invoke: Callable[..., object] = subprocess.run,
+                     report_dir: Path = REPORT_DIR,
+                     data_dir: Path = REVIEW_DATA) -> int:
+    selected = select_services(services, "casts")
+    if len(selected) != 8:
+        print("Danh sách 8 nắn bó bột không còn đúng; dừng trước khi lưu.")
+        return 2
+    records = preflight_review(selected, data_dir=data_dir)
+    for i, row in enumerate(records, 1):
+        print(f"[{i}/8] {row['id']}: {row['status']}")
+        if row.get("missing"):
+            print("  Các mục chưa đủ nội dung:", ", ".join(row["missing"]))
+        if row.get("critical_missing"):
+            print("  CẢNH BÁO THIẾU NỘI DUNG CỐT LÕI:", ", ".join(row["critical_missing"]))
+        if row["status"] == "BLOCKED":
+            print("  Lý do:", row["reason"])
+    if any(r["status"] == "BLOCKED" for r in records):
+        print("DỪNG: chưa đủ dữ liệu cơ bản để nhập; không mở Chrome.")
+        path = write_report(records, scope="casts_for_review", consent=False,
+                            result="REVIEW_PREFLIGHT_BLOCKED", report_dir=report_dir)
+        print("Báo cáo:", path)
+        return 2
+    if not save:
+        print("KIỂM TRA BẢN NHÁP: không mở Chrome, không bấm Lưu.")
+        path = write_report(records, scope="casts_for_review", consent=False,
+                            result="REVIEW_CHECK_ONLY", report_dir=report_dir)
+        print("Báo cáo:", path)
+        return 0
+
+    phrase = "LƯU 8 BẢN NHÁP CHỜ DUYỆT"
+    print("CẢNH BÁO: nội dung đang là bản dự thảo. Lưu không có nghĩa được phê duyệt.")
+    print("Chương trình chỉ để cờ 'Đang triển khai' BỎ CHỌN. Các ô không có căn cứ được để trống.")
+    confirmation = ask(
+        "Bạn xác nhận trên cổng này nút Lưu chỉ ghi hồ sơ để người khác duyệt, "
+        f"và chấp nhận các mục chưa hoàn thiện? Nhập đúng {phrase}: "
+    ).strip()
+    if confirmation != phrase:
+        print("Đã hủy, chưa đăng nhập cổng.")
+        path = write_report(records, scope="casts_for_review", consent=False,
+                            result="REVIEW_CANCELLED", report_dir=report_dir)
+        print("Báo cáo:", path)
+        return 1
+
+    for i, row in enumerate(records, 1):
+        pid = row["id"]
+        env = dict(os.environ)
+        env["DMKT_BATCH_REVIEW_ID"] = pid
+        env["DMKT_BATCH_REVIEW_SHA256"] = row["digest"]
+        print(f"\nĐang nhập bản nháp [{i}/8]: {pid}")
+        try:
+            response = invoke(
+                [sys.executable, str(ROOT / "autofill_portal.py"),
+                 "--id", pid, "--submit-for-review", "--save"],
+                cwd=ROOT, env=env, check=False,
+            )
+            exit_code = response.returncode
+        except Exception as exc:
+            exit_code = 1
+            row["reason"] = f"Chưa chạy được Chrome/Selenium ({type(exc).__name__})."
+        if exit_code:
+            row["status"] = "FAILED_OR_UNCONFIRMED"
+            if not row["reason"]:
+                row["reason"] = f"Không xác nhận lưu trên cổng (exit code {exit_code})."
+            for pending in records[i:]:
+                pending["status"] = "NOT_ATTEMPTED"
+            path = write_report(records, scope="casts_for_review", consent=True,
+                                result="REVIEW_STOPPED_ON_ERROR", report_dir=report_dir)
+            print("DỪNG tại mục lỗi. Kiểm tra trên website trước khi chạy lại để tránh trùng.")
+            print("Báo cáo:", path)
+            return 1
+        row["status"] = "SAVED_TO_PORTAL_UNAPPROVED"
+        print(f"Cổng đã xác nhận lưu bản nháp [{i}/8]: {pid}. Chưa có xác nhận phê duyệt.")
+    path = write_report(records, scope="casts_for_review", consent=True,
+                        result="REVIEW_ALL_SAVED_UNAPPROVED", report_dir=report_dir)
+    print("Đã lưu 8 bản lên cổng. Trạng thái duyệt do bộ phận có thẩm quyền quản lý.")
+    print("Báo cáo:", path)
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Kiểm tra hoặc lưu lần lượt các QTKT đã phê duyệt; dừng nếu thiếu bất kỳ hồ sơ nào."
@@ -225,12 +330,18 @@ def main(argv: list[str] | None = None) -> int:
                         help="casts=8 nắn bó bột; clinical=11 lâm sàng; all=13 (xét nghiệm chưa hỗ trợ)")
     parser.add_argument("--approved-dir", type=Path, default=DEFAULT_APPROVED_DIR)
     parser.add_argument("--save", action="store_true", help="Cho phép lưu sau một lần xác nhận toàn bộ danh sách")
+    parser.add_argument("--for-review", action="store_true",
+                        help="8 QTKT bản nháp để người khác duyệt; KHÔNG yêu cầu quyết định phê duyệt đã ban hành")
     parser.add_argument("--init-templates", action="store_true",
                         help="Tạo khung JSON cho từng dịch vụ, không tự lấy dữ liệu nháp và không tự lưu")
     args = parser.parse_args(argv)
     if args.save and args.init_templates:
         parser.error("--init-templates không thể dùng cùng --save.")
+    if args.for_review and (args.init_templates or args.scope != "casts"):
+        parser.error("--for-review chỉ dùng cho 8 QTKT nắn bó bột, không dùng --init-templates/--scope khác.")
     services = json.loads(SERVICES_PATH.read_text(encoding="utf-8"))
+    if args.for_review:
+        return run_review_batch(services, save=args.save)
     if args.init_templates:
         chosen = select_services(services, args.scope)
         created, skipped = initialize_templates(chosen, args.approved_dir.resolve())

@@ -16,6 +16,7 @@ from datetime import date, datetime
 from pathlib import Path
 
 from approved_package import CLINICAL_FIELDS, REQUIRED_FIELDS, load_approved_package
+from review_submission import REVIEW_FIELDS, draft_digest, load_review_draft, validate_review_item
 
 from selenium import webdriver
 from selenium.common.exceptions import StaleElementReferenceException, TimeoutException, WebDriverException
@@ -37,15 +38,18 @@ parser = argparse.ArgumentParser(
 parser.add_argument("--id", help="ID dịch vụ trong data/services.json")
 parser.add_argument("--inspect", action="store_true", help="Chỉ liệt kê các trường biểu mẫu")
 parser.add_argument("--draft-preview", action="store_true", help="Điền bản NHÁP chưa thẩm định vào biểu mẫu để kiểm tra, KHÔNG LƯU")
+parser.add_argument("--submit-for-review", action="store_true", help="Nhập và LƯU bản nháp để bộ phận khác xem xét, KHÔNG phê duyệt.")
 parser.add_argument("--save", action="store_true", help="Chỉ lưu sau khi đã kiểm tra và xác nhận rõ ràng.")
 parser.add_argument("--approved-package", type=Path, help="JSON dữ liệu QTKT chính thức kèm thông tin quyết định và dấu vân tay PDF đã ký.")
 args = parser.parse_args()
-if args.draft_preview and (args.save or args.inspect or args.approved_package):
-    parser.error("--draft-preview không thể dùng cùng --save, --inspect hoặc --approved-package")
+if args.draft_preview and (args.save or args.inspect or args.approved_package or args.submit_for_review):
+    parser.error("--draft-preview không thể dùng với --save, --inspect, --approved-package hoặc --submit-for-review")
+if args.submit_for_review and (not args.save or args.inspect or args.approved_package or not args.id):
+    parser.error("--submit-for-review yêu cầu --id và --save; không dùng với --approved-package/--inspect")
 if args.approved_package and (not args.save or args.inspect or not args.id):
     parser.error("--approved-package yêu cầu --id và --save; không dùng cùng --inspect")
-if args.save and not args.approved_package:
-    parser.error("--save bắt buộc có --approved-package trỏ tới dữ liệu QTKT bệnh viện đã phê duyệt.")
+if args.save and not (args.approved_package or args.submit_for_review):
+    parser.error("--save phải dùng với --approved-package hoặc --submit-for-review.")
 
 if args.id:
     matches = [x for x in services if x["id"] == args.id]
@@ -149,19 +153,35 @@ if args.approved_package:
     )
     print(f"Đã xác minh checksum gói và PDF: {item['id']} — {approval['decision_number']}")
     print("Lưu ý: checksum không xác minh chữ ký hoặc độ chính xác chuyển nội dung PDF; người phụ trách phải kiểm tra.")
-if args.draft_preview:
-    draft = json.loads((DATA / "clinical_drafts.json").read_text(encoding="utf-8"))["procedures"].get(item["id"])
-    if not draft or not procedure.get("requires_clinical_review", False):
-        parser.error("Chỉ dùng --draft-preview cho các QTKT có dữ liệu nháp cần thẩm định")
-    print("CẢNH BÁO: Đây là BẢN NHÁP chưa được bệnh viện phê duyệt. Không sử dụng làm quy trình chính thức.")
-    if input("Chỉ xem trước trong biểu mẫu, KHÔNG LƯU. Nhập XEM để tiếp tục: ").strip() != "XEM":
-        raise SystemExit("Đã hủy điền bản nháp.")
-    direct, support = separate_personnel(draft["personnel"])
-    values.update(performer=direct or None, support_personnel=support or None,
-                  source=draft.get("references") or None)
+review_draft = None
+review_meta = None
+if args.draft_preview or args.submit_for_review:
+    try:
+        review_draft = load_review_draft(item["id"])
+        review_meta = validate_review_item(item, procedure, review_draft)
+    except (ValueError, OSError, KeyError, json.JSONDecodeError) as exc:
+        parser.error(f"Bản nháp chưa hợp lệ để xem/nhập: {exc}")
+    if args.draft_preview:
+        print("CẢNH BÁO: Đây là BẢN NHÁP chưa được bệnh viện phê duyệt. Không sử dụng làm quy trình chính thức.")
+        if input("Chỉ xem trước trong biểu mẫu, KHÔNG LƯU. Nhập XEM để tiếp tục: ").strip() != "XEM":
+            raise SystemExit("Đã hủy điền bản nháp.")
+    if args.submit_for_review:
+        print("CHẾ ĐỘ NHẬP HỒ SƠ CHỜ DUYỆT: không ghi quyết định, người phê duyệt hay trạng thái triển khai.")
+        print("Người khác phải thẩm định chuyên môn; lưu trên cổng không đồng nghĩa phê duyệt.")
+        if review_meta["missing"]:
+            print("CÁC TRƯỜNG CÒN TRỐNG CHO NGƯỜI DUYỆT HOÀN THIỆN:", ", ".join(review_meta["missing"]))
+        if review_meta["critical_missing"]:
+            print("CẢNH BÁO NỘI DUNG KỸ THUẬT THIẾU:", ", ".join(review_meta["critical_missing"]))
+    for key in REVIEW_FIELDS:
+        values[key] = review_draft.get(key) or None
+    direct, support = separate_personnel(review_draft["personnel"])
+    values.update(
+        performer=direct or None, support_personnel=support or None,
+        source=review_draft["references"], deployment_flag=False
+    )
 
 
-# Batch confirmation is valid only for this exact validated local package.
+# Batch confirmation is valid only for the exact validated approved package.
 batch_authorized = bool(
     approved_package is not None
     and os.environ.get("DMKT_BATCH_SAVE_CONFIRMED_ID") == item["id"]
@@ -169,6 +189,16 @@ batch_authorized = bool(
 )
 if os.environ.get("DMKT_BATCH_SAVE_CONFIRMED_ID") and not batch_authorized:
     parser.error("Lệnh hàng loạt không khớp ID hoặc SHA256 gói đã phê duyệt.")
+# Separately authorize draft *submission for review* without treating it as approval.
+review_batch_authorized = bool(
+    args.submit_for_review
+    and review_meta is not None
+    and os.environ.get("DMKT_BATCH_REVIEW_ID") == item["id"]
+    and os.environ.get("DMKT_BATCH_REVIEW_SHA256") == review_meta["digest"]
+)
+if os.environ.get("DMKT_BATCH_REVIEW_ID") and not review_batch_authorized:
+    parser.error("Lệnh gửi duyệt hàng loạt không khớp ID hoặc nội dung bản nháp.")
+batch_automated = batch_authorized or review_batch_authorized
 
 
 def visible(driver, selector: str) -> bool:
@@ -534,7 +564,7 @@ def fill_fields(driver) -> tuple[list[str], list[str], dict[str, str]]:
         field_selectors.pop("section6_title", None)
 
     filled, skipped = [], []
-    allowed_fields = set(field_selectors) if (args.draft_preview or args.approved_package) else set(procedure.get("autofill_fields", []))
+    allowed_fields = set(field_selectors) if (args.draft_preview or args.approved_package or args.submit_for_review) else set(procedure.get("autofill_fields", []))
     for key, selector in field_selectors.items():
         if not selector or key not in values or values[key] is None or values[key] == "":
             continue
@@ -774,8 +804,8 @@ try:
     WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.ID, "qtThem")))
     current_step = "Tìm dịch vụ đã có để cập nhật hoặc tạo mới"
     existing = find_existing_procedure(driver)
-    if existing and args.approved_package:
-        raise RuntimeError("Đã có QTKT cùng tên trên cổng; chế độ nhập đã duyệt không tự ghi đè. Hãy kiểm tra bản hiện có trước khi quyết định cập nhật.")
+    if existing and (args.approved_package or args.submit_for_review):
+        raise RuntimeError("Đã có QTKT cùng tên trên cổng; không tự ghi đè. Kiểm tra bản đã nhập trước khi gửi duyệt/lưu tiếp.")
     if existing:
         current_step = "Mở biểu mẫu sửa quy trình hiện có"
         click_edit_existing(driver)
@@ -870,38 +900,61 @@ try:
             print("Người xác nhận đối chiếu:", approved_package["approval"]["attested_by"])
             print("Vui lòng đối chiếu trực tiếp tất cả các trường vừa nhập với PDF đã ký.")
             expected_confirmation = "LƯU " + item["id"]
+        elif args.submit_for_review:
+            must_fill = {
+                "service", "template_type", "catalog_annex", "specialty",
+                "issuing_authority", "section6_title", "deployment_flag",
+                "overview", "source",
+            }
+            missing_fields = sorted(must_fill - set(filled))
+            if missing_fields:
+                raise RuntimeError("Dừng gửi duyệt: chưa điền đủ trường nhận diện và nguồn: " + ", ".join(missing_fields))
+            if codes != [review_meta["code"]]:
+                raise RuntimeError("Mã PL1 trên cổng không trùng mã của bản nháp.")
+            if not driver.find_element(By.ID, "qfLuu").is_enabled():
+                raise RuntimeError("Nút Lưu không khả dụng; không tự bỏ qua điều kiện của website.")
+            if driver.execute_script("return document.querySelector('#qfDanhDauTT')?.checked") is not False:
+                raise RuntimeError("Cờ Đang triển khai đang bật; không được gửi duyệt dưới dạng quy trình triển khai.")
+            print("SẮP LƯU BẢN NHÁP chưa phê duyệt. Nút Lưu trên cổng không xác nhận kết quả duyệt.")
+            expected_confirmation = "LƯU CHỜ DUYỆT " + item["id"]
         else:
-            if procedure.get("requires_clinical_review", False):
-                raise RuntimeError("Quy trình dự thảo chưa được bệnh viện thẩm định; KHÔNG cho phép tự động lưu.")
-            if not procedure.get("approved_for_auto_save", False):
-                raise RuntimeError("Chưa xác nhận hồ sơ đủ điều kiện lưu tự động; hãy kiểm tra và lưu thủ công.")
-            expected_confirmation = "LƯU"
+            raise RuntimeError("Không có chế độ hợp lệ cho phép thao tác Lưu.")
         if skipped:
-            raise RuntimeError("Có trường bị bỏ qua; KHÔNG cho phép tự động lưu.")
-        if batch_authorized:
-            print("Đã xác nhận LƯU TẤT CẢ tại phiên hàng loạt; không hỏi lại từng mục.")
+            raise RuntimeError("Có trường bị bỏ qua; KHÔNG cho phép lưu.")
+        if batch_automated:
+            print("Đã xác nhận toàn bộ danh sách tại phiên hàng loạt; không hỏi lại từng mục.")
             confirmation = expected_confirmation
         else:
-            confirmation = input(f"Đã đối chiếu xong và đồng ý lưu lên cổng? Nhập đúng {expected_confirmation}: ").strip()
+            confirmation = input(f"Đồng ý lưu dữ liệu lên cổng? Nhập đúng {expected_confirmation}: ").strip()
         if confirmation != expected_confirmation:
             print("Không lưu. Biểu mẫu vẫn mở để kiểm tra thủ công.")
             input("Nhấn Enter để đóng Chrome... ")
         else:
-            current_step = "Kiểm tra lại chữ ký tệp và dữ liệu trước khi ghi"
-            package_now = load_approved_package(
-                args.approved_package, item["id"],
-                approved_package["catalog_code"], approved_package["approval"]["approved_title"]
-            )
-            if package_now["content_sha256"] != approved_package["content_sha256"]:
-                raise RuntimeError("Nội dung gói hồ sơ thay đổi trong lúc Chrome đang nhập; không lưu.")
-            current_step = "Bấm lưu quy trình (đã xác nhận)"
+            if args.submit_for_review:
+                current_step = "Kiểm tra lại nội dung bản nháp và trạng thái trước khi lưu"
+                current_draft = load_review_draft(item["id"])
+                if draft_digest(current_draft) != review_meta["digest"]:
+                    raise RuntimeError("Nội dung bản nháp thay đổi sau khi kiểm tra; dừng gửi duyệt.")
+                if driver.execute_script("return document.querySelector('#qfDanhDauTT')?.checked") is not False:
+                    raise RuntimeError("Ô Đang triển khai vừa bật; từ chối bấm Lưu.")
+            else:
+                current_step = "Kiểm tra lại chữ ký tệp và dữ liệu trước khi ghi"
+                package_now = load_approved_package(
+                    args.approved_package, item["id"],
+                    approved_package["catalog_code"], approved_package["approval"]["approved_title"]
+                )
+                if package_now["content_sha256"] != approved_package["content_sha256"]:
+                    raise RuntimeError("Nội dung gói hồ sơ thay đổi trong lúc Chrome đang nhập; không lưu.")
+            current_step = "Bấm lưu dữ liệu (đã xác nhận)"
             click_unique(driver, "#qfLuu", "Lưu quy trình")
             current_step = "Chờ xác nhận lưu từ trang"
             message = wait_for_success(driver)
             if message != save_message:
                 raise RuntimeError(f"Trang báo trạng thái khác dự kiến: {message}")
             print(message)
-            if not batch_authorized:
+            if args.submit_for_review:
+                print("ĐÃ LƯU DỮ LIỆU lên cổng; tình trạng chờ duyệt cần đối chiếu với quy trình của bệnh viện.")
+            if not batch_automated:
                 print("Chrome vẫn mở để bạn kiểm tra bản đã lưu.")
                 input("Nhấn Enter khi muốn đóng Chrome... ")
 except Exception as exc:
@@ -911,7 +964,7 @@ except Exception as exc:
     if debug_bundle:
         print(f"Tệp chẩn đoán đã lưu tại: {debug_bundle}")
         print("Gồm error.txt, page.html, screenshot.png và browser_console.json; không ghi mật khẩu vào log.")
-    if batch_authorized:
+    if batch_automated:
         print("LỖI CHẾ ĐỘ HÀNG LOẠT: chưa xác nhận lưu; dừng các mục tiếp theo.")
         raise SystemExit(1)
     print("Biểu mẫu được giữ mở trong Chrome để bạn kiểm tra hoặc sửa.")
