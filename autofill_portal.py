@@ -564,7 +564,7 @@ def fill_fields(driver) -> tuple[list[str], list[str], dict[str, str]]:
         field_selectors.pop("section6_title", None)
 
     filled, skipped = [], []
-    allowed_fields = set(field_selectors) if (args.draft_preview or args.approved_package) else set(procedure.get("autofill_fields", []))
+    allowed_fields = set(field_selectors) if (args.draft_preview or args.approved_package or args.submit_for_review) else set(procedure.get("autofill_fields", []))
     for key, selector in field_selectors.items():
         if not selector or key not in values or values[key] is None or values[key] == "":
             continue
@@ -804,8 +804,8 @@ try:
     WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.ID, "qtThem")))
     current_step = "Tìm dịch vụ đã có để cập nhật hoặc tạo mới"
     existing = find_existing_procedure(driver)
-    if existing and args.approved_package:
-        raise RuntimeError("Đã có QTKT cùng tên trên cổng; chế độ nhập đã duyệt không tự ghi đè. Hãy kiểm tra bản hiện có trước khi quyết định cập nhật.")
+    if existing and (args.approved_package or args.submit_for_review):
+        raise RuntimeError("Đã có QTKT cùng tên trên cổng; không tự ghi đè. Kiểm tra bản đã nhập trước khi gửi duyệt/lưu tiếp.")
     if existing:
         current_step = "Mở biểu mẫu sửa quy trình hiện có"
         click_edit_existing(driver)
@@ -900,38 +900,61 @@ try:
             print("Người xác nhận đối chiếu:", approved_package["approval"]["attested_by"])
             print("Vui lòng đối chiếu trực tiếp tất cả các trường vừa nhập với PDF đã ký.")
             expected_confirmation = "LƯU " + item["id"]
+        elif args.submit_for_review:
+            must_fill = {
+                "service", "template_type", "catalog_annex", "specialty",
+                "issuing_authority", "section6_title", "deployment_flag",
+                "overview", "source",
+            }
+            missing_fields = sorted(must_fill - set(filled))
+            if missing_fields:
+                raise RuntimeError("Dừng gửi duyệt: chưa điền đủ trường nhận diện và nguồn: " + ", ".join(missing_fields))
+            if codes != [review_meta["code"]]:
+                raise RuntimeError("Mã PL1 trên cổng không trùng mã của bản nháp.")
+            if not driver.find_element(By.ID, "qfLuu").is_enabled():
+                raise RuntimeError("Nút Lưu không khả dụng; không tự bỏ qua điều kiện của website.")
+            if driver.execute_script("return document.querySelector('#qfDanhDauTT')?.checked") is not False:
+                raise RuntimeError("Cờ Đang triển khai đang bật; không được gửi duyệt dưới dạng quy trình triển khai.")
+            print("SẮP LƯU BẢN NHÁP chưa phê duyệt. Nút Lưu trên cổng không xác nhận kết quả duyệt.")
+            expected_confirmation = "LƯU CHỜ DUYỆT " + item["id"]
         else:
-            if procedure.get("requires_clinical_review", False):
-                raise RuntimeError("Quy trình dự thảo chưa được bệnh viện thẩm định; KHÔNG cho phép tự động lưu.")
-            if not procedure.get("approved_for_auto_save", False):
-                raise RuntimeError("Chưa xác nhận hồ sơ đủ điều kiện lưu tự động; hãy kiểm tra và lưu thủ công.")
-            expected_confirmation = "LƯU"
+            raise RuntimeError("Không có chế độ hợp lệ cho phép thao tác Lưu.")
         if skipped:
-            raise RuntimeError("Có trường bị bỏ qua; KHÔNG cho phép tự động lưu.")
-        if batch_authorized:
-            print("Đã xác nhận LƯU TẤT CẢ tại phiên hàng loạt; không hỏi lại từng mục.")
+            raise RuntimeError("Có trường bị bỏ qua; KHÔNG cho phép lưu.")
+        if batch_automated:
+            print("Đã xác nhận toàn bộ danh sách tại phiên hàng loạt; không hỏi lại từng mục.")
             confirmation = expected_confirmation
         else:
-            confirmation = input(f"Đã đối chiếu xong và đồng ý lưu lên cổng? Nhập đúng {expected_confirmation}: ").strip()
+            confirmation = input(f"Đồng ý lưu dữ liệu lên cổng? Nhập đúng {expected_confirmation}: ").strip()
         if confirmation != expected_confirmation:
             print("Không lưu. Biểu mẫu vẫn mở để kiểm tra thủ công.")
             input("Nhấn Enter để đóng Chrome... ")
         else:
-            current_step = "Kiểm tra lại chữ ký tệp và dữ liệu trước khi ghi"
-            package_now = load_approved_package(
-                args.approved_package, item["id"],
-                approved_package["catalog_code"], approved_package["approval"]["approved_title"]
-            )
-            if package_now["content_sha256"] != approved_package["content_sha256"]:
-                raise RuntimeError("Nội dung gói hồ sơ thay đổi trong lúc Chrome đang nhập; không lưu.")
-            current_step = "Bấm lưu quy trình (đã xác nhận)"
+            if args.submit_for_review:
+                current_step = "Kiểm tra lại nội dung bản nháp và trạng thái trước khi lưu"
+                current_draft = load_review_draft(item["id"])
+                if draft_digest(current_draft) != review_meta["digest"]:
+                    raise RuntimeError("Nội dung bản nháp thay đổi sau khi kiểm tra; dừng gửi duyệt.")
+                if driver.execute_script("return document.querySelector('#qfDanhDauTT')?.checked") is not False:
+                    raise RuntimeError("Ô Đang triển khai vừa bật; từ chối bấm Lưu.")
+            else:
+                current_step = "Kiểm tra lại chữ ký tệp và dữ liệu trước khi ghi"
+                package_now = load_approved_package(
+                    args.approved_package, item["id"],
+                    approved_package["catalog_code"], approved_package["approval"]["approved_title"]
+                )
+                if package_now["content_sha256"] != approved_package["content_sha256"]:
+                    raise RuntimeError("Nội dung gói hồ sơ thay đổi trong lúc Chrome đang nhập; không lưu.")
+            current_step = "Bấm lưu dữ liệu (đã xác nhận)"
             click_unique(driver, "#qfLuu", "Lưu quy trình")
             current_step = "Chờ xác nhận lưu từ trang"
             message = wait_for_success(driver)
             if message != save_message:
                 raise RuntimeError(f"Trang báo trạng thái khác dự kiến: {message}")
             print(message)
-            if not batch_authorized:
+            if args.submit_for_review:
+                print("ĐÃ LƯU DỮ LIỆU lên cổng; tình trạng chờ duyệt cần đối chiếu với quy trình của bệnh viện.")
+            if not batch_automated:
                 print("Chrome vẫn mở để bạn kiểm tra bản đã lưu.")
                 input("Nhấn Enter khi muốn đóng Chrome... ")
 except Exception as exc:
@@ -941,7 +964,7 @@ except Exception as exc:
     if debug_bundle:
         print(f"Tệp chẩn đoán đã lưu tại: {debug_bundle}")
         print("Gồm error.txt, page.html, screenshot.png và browser_console.json; không ghi mật khẩu vào log.")
-    if batch_authorized:
+    if batch_automated:
         print("LỖI CHẾ ĐỘ HÀNG LOẠT: chưa xác nhận lưu; dừng các mục tiếp theo.")
         raise SystemExit(1)
     print("Biểu mẫu được giữ mở trong Chrome để bạn kiểm tra hoặc sửa.")
