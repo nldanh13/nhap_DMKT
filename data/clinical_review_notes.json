@@ -6,13 +6,20 @@
       "QĐ 199/QĐ-BYT (2014)",
       "QĐ 5728/QĐ-BYT (2017)"
     ],
-    "status": "DRAFT_REQUIRES_CLINICAL_APPROVAL"
+    "status": "DRAFT_REQUIRES_CLINICAL_APPROVAL",
+    "last_rechecked": "2026-10-19",
+    "policy": "Các trang nêu dưới đây là trang in theo mục lục QĐ 199; không đồng nghĩa bản QTKT nội viện đã ban hành.",
+    "primary_source_pdf": "https://kcb.vn/upload/2005611/20210723/B%C3%B3-B%E1%BB%99t.pdf",
+    "additional_source_qd5728": "https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-5728-QD-BYT-2017-quy-trinh-ky-thuat-Ngoai-khoa-chuyen-khoa-Chan-thuong-chinh-hinh-370394.aspx",
+    "format_source_qd3023": "https://static.luatvietnam.vn/uploaded/VIETLAWFILE/2023/8/3023_QD-BYT_020823144557.pdf"
   },
   "procedures": {
     "bot_hai_xuong_cang_tay_duoi": {
       "title": "1. NẮN, BÓ BỘT GÃY 1/3 DƯỚI HAI XƯƠNG CẲNG TAY [BỘT LIỀN]",
-      "status": "NEEDS_SPECIALIST_AND_HOSPITAL_APPROVAL",
+      "status": "SOURCE_REVIEW_DONE_LOCAL_ADOPTION_PENDING",
       "review_items": [
+        "Quy trình danh mục yêu cầu riêng gãy 1/3 dưới; nguồn mô tả gãy thân và phân loại cả 1/3 dưới.",
+        "Định mức thời gian thủ thuật, địa điểm và vật tư phụ phải xác nhận theo bệnh viện.",
         "Đối chiếu QĐ 199 bài 29 gãy thân hai xương cẳng tay với vị trí riêng 1/3 dưới; xác nhận nhóm tuổi và chỉ định bảo tồn.",
         "Xác minh thuốc trực tiếp thuộc mục 5.2, loại thuốc vô cảm thuộc quy trình vô cảm riêng.",
         "Xác định địa điểm thực hiện và các số lượng vật tư/trang thiết bị còn thiếu tại bệnh viện.",
@@ -30,12 +37,49 @@
         "medications": "Thuốc gây tê hoặc gây mê theo chỉ định; QĐ 199 mô tả lidocaine 1% tại ổ gãy nhưng không dùng một công thức liều chung cho mọi người bệnh; dịch truyền, thuốc và phương tiện cấp cứu theo đánh giá vô cảm.",
         "duration": "Chưa quy định thời gian bằng giờ trong QĐ 199 – đơn vị thẩm định và ấn định thời gian chuẩn.",
         "location": "Phòng thực hiện kỹ thuật/chỉnh hình hoặc khu vực phù hợp, có điều kiện chụp kiểm tra và cấp cứu vô cảm. [BỔ SUNG/ĐỀ XUẤT; nguồn cũ chưa quy định thành một mục riêng]"
+      },
+      "source_alignment": {
+        "match": "source_covers_anatomic_subregion",
+        "articles": [
+          {
+            "decision": "199/QĐ-BYT",
+            "number": 29,
+            "title": "Điều trị bảo tồn gãy thân hai xương cẳng tay",
+            "printed_pages": "101–104",
+            "url": "https://kcb.vn/upload/2005611/20210723/B%C3%B3-B%E1%BB%99t.pdf",
+            "coverage": [
+              "đại cương",
+              "chỉ định bảo tồn",
+              "chống chỉ định",
+              "nhân lực",
+              "bột",
+              "nắn gãy thân hai xương",
+              "theo dõi"
+            ]
+          },
+          {
+            "decision": "199/QĐ-BYT",
+            "number": 3,
+            "title": "Bột cánh–cẳng–bàn tay",
+            "printed_pages": "9–12",
+            "url": "https://kcb.vn/upload/2005611/20210723/B%C3%B3-B%E1%BB%99t.pdf",
+            "coverage": [
+              "kỹ thuật bó bột"
+            ]
+          }
+        ],
+        "gaps": [
+          "Quy trình danh mục yêu cầu riêng gãy 1/3 dưới; nguồn mô tả gãy thân và phân loại cả 1/3 dưới.",
+          "Định mức thời gian thủ thuật, địa điểm và vật tư phụ phải xác nhận theo bệnh viện."
+        ]
       }
     },
     "bot_mot_xuong_cang_tay": {
       "title": "2. NẮN, BÓ BỘT GÃY MỘT XƯƠNG CẲNG TAY [BỘT LIỀN]",
-      "status": "NEEDS_SPECIALIST_AND_HOSPITAL_APPROVAL",
+      "status": "SOURCE_REVIEW_DONE_LOCAL_ADOPTION_PENDING",
       "review_items": [
+        "Không thể dùng Bài 3 làm nguồn cho thao tác nắn riêng của gãy một xương cẳng tay.",
+        "Cần xác minh bài nắn gãy một xương riêng nếu muốn đủ nội dung quy trình nắn + bó.",
         "QĐ 199 bài 29 không trùng tên gãy một xương cẳng tay; cần đối chiếu quy trình nguồn tương ứng.",
         "Định mức nhân lực chưa xác minh được.",
         "Xác minh thuốc trực tiếp thuộc mục 5.2, loại thuốc vô cảm thuộc quy trình vô cảm riêng.",
@@ -54,12 +98,35 @@
         "medications": "Thuốc tê/mê và thuốc cấp cứu theo phương pháp vô cảm do bác sĩ chỉ định; không có định mức liều riêng cho gãy một xương trong nguồn.",
         "duration": "Không có số giờ riêng cho kỹ thuật này trong các nguồn đã kiểm tra; cần bệnh viện xác định.",
         "location": "Phòng thực hiện kỹ thuật/chỉnh hình hoặc khu vực phù hợp, có điều kiện chụp kiểm tra và cấp cứu vô cảm. [BỔ SUNG/ĐỀ XUẤT; nguồn cũ chưa quy định thành một mục riêng]"
+      },
+      "source_alignment": {
+        "match": "immobilization_only",
+        "articles": [
+          {
+            "decision": "199/QĐ-BYT",
+            "number": 3,
+            "title": "Bột cánh–cẳng–bàn tay",
+            "printed_pages": "9–12",
+            "url": "https://kcb.vn/upload/2005611/20210723/B%C3%B3-B%E1%BB%99t.pdf",
+            "coverage": [
+              "gãy một hoặc hai xương cẳng tay là chỉ định bó bột",
+              "nhân lực bó bột",
+              "bột cánh–cẳng–bàn tay"
+            ]
+          }
+        ],
+        "gaps": [
+          "Không thể dùng Bài 3 làm nguồn cho thao tác nắn riêng của gãy một xương cẳng tay.",
+          "Cần xác minh bài nắn gãy một xương riêng nếu muốn đủ nội dung quy trình nắn + bó."
+        ]
       }
     },
     "bot_xuong_ban_chan": {
       "title": "3. NẮN, BÓ BỘT GÃY XƯƠNG BÀN CHÂN [BỘT LIỀN]",
-      "status": "NEEDS_SPECIALIST_AND_HOSPITAL_APPROVAL",
+      "status": "SOURCE_REVIEW_DONE_LOCAL_ADOPTION_PENDING",
       "review_items": [
+        "Bài 10 nêu rõ chỉ mô tả bó bột, không mô tả thao tác nắn xương bàn chân.",
+        "Định mức 6–8 cuộn khổ 15 cm là bột tiêu chuẩn ở người lớn; không áp dụng mặc định cho bột ngắn hoặc mỗi ca.",
         "QĐ 199 bài 10 mô tả bột cẳng–bàn chân, chưa có quy cách/định mức riêng cho gãy xương bàn chân.",
         "Thẩm định lựa chọn kiểu bột và loại trừ tổn thương Lisfranc.",
         "Xác minh thuốc trực tiếp thuộc mục 5.2, loại thuốc vô cảm thuộc quy trình vô cảm riêng.",
@@ -79,12 +146,35 @@
         "medications": "Thuốc tê/mê theo chỉ định nếu cần nắn; dịch truyền, thuốc cấp cứu khi thực hiện vô cảm. Không có định mức dùng thuốc riêng.",
         "duration": "Chưa được lượng hóa trong QĐ 199 – cần đơn vị xác lập.",
         "location": "Phòng thực hiện kỹ thuật/chỉnh hình hoặc khu vực phù hợp, có điều kiện chụp kiểm tra và cấp cứu vô cảm. [BỔ SUNG/ĐỀ XUẤT; nguồn cũ chưa quy định thành một mục riêng]"
+      },
+      "source_alignment": {
+        "match": "immobilization_only",
+        "articles": [
+          {
+            "decision": "199/QĐ-BYT",
+            "number": 10,
+            "title": "Bột cẳng–bàn chân",
+            "printed_pages": "32–35",
+            "url": "https://kcb.vn/upload/2005611/20210723/B%C3%B3-B%E1%BB%99t.pdf",
+            "coverage": [
+              "chỉ định bó bột cho gãy xương bàn chân",
+              "bột ngắn",
+              "đệm lót và bó bột"
+            ]
+          }
+        ],
+        "gaps": [
+          "Bài 10 nêu rõ chỉ mô tả bó bột, không mô tả thao tác nắn xương bàn chân.",
+          "Định mức 6–8 cuộn khổ 15 cm là bột tiêu chuẩn ở người lớn; không áp dụng mặc định cho bột ngắn hoặc mỗi ca."
+        ]
       }
     },
     "bot_xuong_chay": {
       "title": "4. NẮN, BÓ BỘT GÃY XƯƠNG CHÀY [BỘT LIỀN]",
-      "status": "NEEDS_SPECIALIST_AND_HOSPITAL_APPROVAL",
+      "status": "SOURCE_REVIEW_DONE_LOCAL_ADOPTION_PENDING",
       "review_items": [
+        "Bài 40 áp dụng gãy cẳng chân nói chung, cần bảo đảm trường hợp gãy xương chày thuộc chỉ định.",
+        "Chưa có thời gian thủ thuật tính bằng giờ.",
         "QĐ 199 bài 40 là điều trị bảo tồn gãy cẳng chân; đối chiếu với riêng gãy xương chày.",
         "Xác minh thuốc trực tiếp thuộc mục 5.2, loại thuốc vô cảm thuộc quy trình vô cảm riêng.",
         "Xác định địa điểm thực hiện và các số lượng vật tư/trang thiết bị còn thiếu tại bệnh viện.",
@@ -101,12 +191,49 @@
         "medications": "Thuốc tê hoặc gây mê do bác sĩ quyết định; thuốc giảm đau, dịch và phương tiện hồi sức theo tình trạng người bệnh, không có định mức chung trong Bài 40.",
         "duration": "Chưa quy định số giờ trong QĐ 199 – cần đơn vị xác lập.",
         "location": "Phòng thực hiện kỹ thuật/chỉnh hình hoặc khu vực phù hợp, có điều kiện chụp kiểm tra và cấp cứu vô cảm. [BỔ SUNG/ĐỀ XUẤT; nguồn cũ chưa quy định thành một mục riêng]"
+      },
+      "source_alignment": {
+        "match": "source_covers_target_bone",
+        "articles": [
+          {
+            "decision": "199/QĐ-BYT",
+            "number": 40,
+            "title": "Điều trị bảo tồn gãy cẳng chân",
+            "printed_pages": "140–143",
+            "url": "https://kcb.vn/upload/2005611/20210723/B%C3%B3-B%E1%BB%99t.pdf",
+            "coverage": [
+              "xương chày",
+              "chỉ định bảo tồn",
+              "chống chỉ định",
+              "nhân lực",
+              "nắn chỉnh",
+              "bột đùi–cẳng–bàn chân",
+              "theo dõi chèn ép khoang"
+            ]
+          },
+          {
+            "decision": "199/QĐ-BYT",
+            "number": 11,
+            "title": "Bột đùi–cẳng–bàn chân",
+            "printed_pages": "36–38",
+            "url": "https://kcb.vn/upload/2005611/20210723/B%C3%B3-B%E1%BB%99t.pdf",
+            "coverage": [
+              "phương pháp bó bột"
+            ]
+          }
+        ],
+        "gaps": [
+          "Bài 40 áp dụng gãy cẳng chân nói chung, cần bảo đảm trường hợp gãy xương chày thuộc chỉ định.",
+          "Chưa có thời gian thủ thuật tính bằng giờ."
+        ]
       }
     },
     "bot_xuong_got": {
       "title": "5. NẮN, BÓ BỘT GÃY XƯƠNG GÓT",
-      "status": "NEEDS_SPECIALIST_AND_HOSPITAL_APPROVAL",
+      "status": "SOURCE_REVIEW_DONE_LOCAL_ADOPTION_PENDING",
       "review_items": [
+        "Các nhánh gãy không di lệch và gãy có di lệch được điều trị khác nhau; không áp dụng một tư thế bó bột cho mọi trường hợp.",
+        "Thời gian bất động 4–5 hoặc 6–8 tuần không đồng nghĩa thời gian thực hiện thủ thuật tính bằng giờ.",
         "Xác nhận loại gãy xương gót được chọn bảo tồn, tình trạng mặt khớp và kỹ thuật nắn tương ứng.",
         "Xác minh thuốc trực tiếp thuộc mục 5.2, loại thuốc vô cảm thuộc quy trình vô cảm riêng.",
         "Xác định địa điểm thực hiện và các số lượng vật tư/trang thiết bị còn thiếu tại bệnh viện.",
@@ -123,12 +250,40 @@
         "medications": "Thuốc tê/mê theo chỉ định; hỗ trợ giảm đau và cấp cứu theo tình trạng, không có liều chung trong tài liệu.",
         "duration": "Chưa có định mức giờ trong QĐ 199 – đơn vị thẩm định bổ sung.",
         "location": "Phòng thực hiện kỹ thuật/chỉnh hình hoặc khu vực phù hợp, có điều kiện chụp kiểm tra và cấp cứu vô cảm. [BỔ SUNG/ĐỀ XUẤT; nguồn cũ chưa quy định thành một mục riêng]"
+      },
+      "source_alignment": {
+        "match": "same_condition_and_treatment",
+        "articles": [
+          {
+            "decision": "199/QĐ-BYT",
+            "number": 41,
+            "title": "Điều trị bảo tồn gãy xương gót",
+            "printed_pages": "144–147",
+            "url": "https://kcb.vn/upload/2005611/20210723/B%C3%B3-B%E1%BB%99t.pdf",
+            "coverage": [
+              "phân loại",
+              "chỉ định",
+              "chống chỉ định",
+              "nhân lực",
+              "vật tư",
+              "nắn gãy gót",
+              "bó bột",
+              "thời gian bất động"
+            ]
+          }
+        ],
+        "gaps": [
+          "Các nhánh gãy không di lệch và gãy có di lệch được điều trị khác nhau; không áp dụng một tư thế bó bột cho mọi trường hợp.",
+          "Thời gian bất động 4–5 hoặc 6–8 tuần không đồng nghĩa thời gian thực hiện thủ thuật tính bằng giờ."
+        ]
       }
     },
     "bot_xuong_ngon_chan": {
       "title": "6. NẮN, BÓ BỘT GÃY XƯƠNG NGÓN CHÂN [BỘT LIỀN]",
-      "status": "NEEDS_SPECIALIST_AND_HOSPITAL_APPROVAL",
+      "status": "SOURCE_REVIEW_DONE_LOCAL_ADOPTION_PENDING",
       "review_items": [
+        "Bài 10 không nêu thao tác nắn riêng gãy xương ngón chân.",
+        "Không lấy số cuộn bột của người lớn tiêu chuẩn làm định mức cố định cho bột ngắn.",
         "QĐ 199 bài 10 là bột cẳng–bàn chân, không phải quy trình nắn ngón chân độc lập.",
         "Chưa xác minh định mức nhân lực hoặc số lượng vật tư riêng.",
         "Xác minh thuốc trực tiếp thuộc mục 5.2, loại thuốc vô cảm thuộc quy trình vô cảm riêng.",
@@ -148,12 +303,35 @@
         "medications": "Thuốc tê tại chỗ nếu có chỉ định nắn; thuốc giảm đau theo đánh giá, nguồn gốc không quy định định mức riêng cho ngón chân.",
         "duration": "Chưa có số giờ trong QĐ 199 – cần phê duyệt nội bộ.",
         "location": "Phòng thực hiện kỹ thuật/chỉnh hình hoặc khu vực phù hợp, có điều kiện chụp kiểm tra và cấp cứu vô cảm. [BỔ SUNG/ĐỀ XUẤT; nguồn cũ chưa quy định thành một mục riêng]"
+      },
+      "source_alignment": {
+        "match": "immobilization_only",
+        "articles": [
+          {
+            "decision": "199/QĐ-BYT",
+            "number": 10,
+            "title": "Bột cẳng–bàn chân",
+            "printed_pages": "32–35",
+            "url": "https://kcb.vn/upload/2005611/20210723/B%C3%B3-B%E1%BB%99t.pdf",
+            "coverage": [
+              "gãy ngón chân là chỉ định bó bột",
+              "bột ngắn Bottine",
+              "đế dài đỡ ngón"
+            ]
+          }
+        ],
+        "gaps": [
+          "Bài 10 không nêu thao tác nắn riêng gãy xương ngón chân.",
+          "Không lấy số cuộn bột của người lớn tiêu chuẩn làm định mức cố định cho bột ngắn."
+        ]
       }
     },
     "bot_trat_co_chan": {
       "title": "7. NẮN, BÓ BỘT TRẬT KHỚP CỔ CHÂN [BỘT LIỀN]",
-      "status": "NEEDS_SPECIALIST_AND_HOSPITAL_APPROVAL",
+      "status": "SOURCE_REVIEW_DONE_LOCAL_ADOPTION_PENDING",
       "review_items": [
+        "Không có tài liệu đủ phù hợp cho các bước nắn trật khớp cổ chân đơn thuần bằng bột liền.",
+        "Tài liệu y học cổ truyền năm 2026 khác phương pháp nên không được thay thế nguồn chấn thương chỉnh hình.",
         "Không có quy trình nắn trật khớp cổ chân đơn thuần được xác minh từ tài liệu đang có. Không suy diễn động tác nắn từ hướng dẫn bó bột hoặc gãy-trật khác.",
         "Chưa đủ căn cứ chuyên môn để điền chỉ định, chống chỉ định, định mức, bước nắn, tai biến.",
         "Xác minh thuốc trực tiếp thuộc mục 5.2, loại thuốc vô cảm thuộc quy trình vô cảm riêng.",
@@ -175,12 +353,43 @@
         "medications": "Vô cảm/giảm đau theo bác sĩ phụ trách và hướng dẫn gây mê tại đơn vị. Không có định mức thuốc chứng minh được riêng cho quy trình này.",
         "duration": "Chưa có định mức giờ quốc gia xác minh được; phải thẩm định.",
         "location": "Phòng thực hiện kỹ thuật/chỉnh hình hoặc khu vực phù hợp, có điều kiện chụp kiểm tra và cấp cứu vô cảm. [BỔ SUNG/ĐỀ XUẤT; nguồn cũ chưa quy định thành một mục riêng]"
+      },
+      "source_alignment": {
+        "match": "no_matching_reduction_guideline",
+        "articles": [
+          {
+            "decision": "199/QĐ-BYT",
+            "number": 10,
+            "title": "Bột cẳng–bàn chân",
+            "printed_pages": "32–35",
+            "url": "https://kcb.vn/upload/2005611/20210723/B%C3%B3-B%E1%BB%99t.pdf",
+            "coverage": [
+              "bất động cổ–bàn chân"
+            ]
+          },
+          {
+            "decision": "5728/QĐ-BYT",
+            "number": 34,
+            "title": "Nắn, bó bột gãy Dupuytren",
+            "printed_pages": "không áp dụng",
+            "url": "https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-5728-QD-BYT-2017-quy-trinh-ky-thuat-Ngoai-khoa-chuyen-khoa-Chan-thuong-chinh-hinh-370394.aspx",
+            "coverage": [
+              "tổn thương gãy–trật khác, chỉ để phân biệt"
+            ]
+          }
+        ],
+        "gaps": [
+          "Không có tài liệu đủ phù hợp cho các bước nắn trật khớp cổ chân đơn thuần bằng bột liền.",
+          "Tài liệu y học cổ truyền năm 2026 khác phương pháp nên không được thay thế nguồn chấn thương chỉnh hình."
+        ]
       }
     },
     "bot_trat_khuyu": {
       "title": "8. NẮN, BÓ BỘT TRẬT KHỚP KHUỶU [BỘT LIỀN]",
-      "status": "NEEDS_SPECIALIST_AND_HOSPITAL_APPROVAL",
+      "status": "SOURCE_REVIEW_DONE_LOCAL_ADOPTION_PENDING",
       "review_items": [
+        "Đề cương QĐ 3023 có thêm các mục chưa quy định độc lập trong bài nguồn: địa điểm, thuốc trực tiếp và hồ sơ chi tiết.",
+        "Không suy rộng chỉ định cho trật hở hoặc mất mạch/thần kinh.",
         "Đối chiếu khác biệt nhân lực/vật tư giữa QĐ 199 bài 18 và QĐ 5728 bài 32; dữ liệu nhân lực/vật tư được dựa theo bài 32 của QĐ 5728.",
         "Thẩm định thời gian bất động và tư thế bó bột theo từng ca.",
         "Xác minh thuốc trực tiếp thuộc mục 5.2, loại thuốc vô cảm thuộc quy trình vô cảm riêng.",
@@ -198,6 +407,44 @@
         "medications": "QĐ 5728: gây mê tĩnh mạch hoặc gây tê tại chỗ, thuốc và liều do người có thẩm quyền quyết định; phương tiện hồi sức sẵn sàng.",
         "duration": "40–50 phút = khoảng 0,67–0,83 giờ (QĐ 5728; không bao gồm thời gian theo dõi kéo dài sau thủ thuật).",
         "location": "Phòng thực hiện kỹ thuật/chỉnh hình hoặc khu vực phù hợp, có điều kiện chụp kiểm tra và cấp cứu vô cảm. [BỔ SUNG/ĐỀ XUẤT; nguồn cũ chưa quy định thành một mục riêng]"
+      },
+      "source_alignment": {
+        "match": "direct_named_procedure",
+        "articles": [
+          {
+            "decision": "5728/QĐ-BYT",
+            "number": 32,
+            "title": "Nắn, bó bột trật khớp khuỷu",
+            "printed_pages": "không áp dụng",
+            "url": "https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-5728-QD-BYT-2017-quy-trinh-ky-thuat-Ngoai-khoa-chuyen-khoa-Chan-thuong-chinh-hinh-370394.aspx",
+            "coverage": [
+              "đại cương",
+              "chỉ định",
+              "chống chỉ định",
+              "04 nhân lực",
+              "bột 4–6 cuộn",
+              "bông 2–3 cuộn",
+              "40–50 phút",
+              "nắn trật khuỷu",
+              "bó bột",
+              "kiểm tra lại"
+            ]
+          },
+          {
+            "decision": "199/QĐ-BYT",
+            "number": 18,
+            "title": "Điều trị bảo tồn trật khớp khuỷu",
+            "printed_pages": "62–64",
+            "url": "https://kcb.vn/upload/2005611/20210723/B%C3%B3-B%E1%BB%99t.pdf",
+            "coverage": [
+              "đối chiếu phương pháp điều trị bảo tồn"
+            ]
+          }
+        ],
+        "gaps": [
+          "Đề cương QĐ 3023 có thêm các mục chưa quy định độc lập trong bài nguồn: địa điểm, thuốc trực tiếp và hồ sơ chi tiết.",
+          "Không suy rộng chỉ định cho trật hở hoặc mất mạch/thần kinh."
+        ]
       }
     }
   }
