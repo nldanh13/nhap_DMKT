@@ -45,6 +45,56 @@ def package_file(approved_dir: Path, procedure_id: str) -> Path:
     return approved_dir / (procedure_id + ".approved-qtkt.json")
 
 
+def initialize_templates(selected: list[dict], approved_dir: Path) -> tuple[int, int]:
+    """Create invalid-by-design starter JSON files; NEVER use a clinical draft as a source."""
+    from approved_package import CLINICAL_FIELDS, OPTIONAL_FIELDS
+
+    approved_dir.mkdir(parents=True, exist_ok=True)
+    created = skipped = 0
+    for item in selected:
+        if not str(item.get("form_template", "")).startswith("Lâm sàng"):
+            print(f"  Không tạo cho biểu mẫu xét nghiệm: {item['id']}")
+            skipped += 1
+            continue
+        codes = item.get("form_decision", {}).get("codes", [])
+        if len(codes) != 1:
+            print(f"  Không có một mã PL1 duy nhất: {item['id']}")
+            skipped += 1
+            continue
+        path = package_file(approved_dir, item["id"])
+        if path.exists():
+            print(f"  Đã tồn tại, không ghi đè: {path.name}")
+            skipped += 1
+            continue
+        starter = {
+            "schema_version": 1,
+            "procedure_id": item["id"],
+            "catalog_code": codes[0],
+            "approval": {
+                "issuer": "BỆNH VIỆN",
+                "decision_number": "__SỐ QUYẾT ĐỊNH BỆNH VIỆN__",
+                "decision_date": "YYYY-MM-DD",
+                "approved_title": item["technical_catalog"]["annex1"]["name"],
+                "approved_by": "__NGƯỜI PHÊ DUYỆT__",
+                "attested_by": "__NGƯỜI ĐỐI CHIẾU PDF VỚI JSON__",
+                "signed_pdf": item["id"] + "-QTKT-da-ky.pdf",
+                "signed_pdf_sha256": "",
+                "serial_number": "",
+                "writer": "", "reviewer": "", "approver_title": "",
+            },
+            "content": {
+                key: ("" if key in OPTIONAL_FIELDS else "__NHẬP NGUYÊN VĂN TỪ HỒ SƠ BỆNH VIỆN__")
+                for key in CLINICAL_FIELDS
+            },
+            "content_sha256": "",
+        }
+        with path.open("x", encoding="utf-8") as stream:
+            stream.write(json.dumps(starter, ensure_ascii=False, indent=2) + "\n")
+        created += 1
+        print(f"  Đã tạo khung nhập, CHƯA ĐƯỢC DUYỆT: {path.name}")
+    return created, skipped
+
+
 def preflight(selected: list[dict], approved_dir: Path) -> list[dict]:
     """Validate all local packages offline; do not touch Selenium or the portal."""
     results = []
@@ -175,8 +225,17 @@ def main(argv: list[str] | None = None) -> int:
                         help="casts=8 nắn bó bột; clinical=11 lâm sàng; all=13 (xét nghiệm chưa hỗ trợ)")
     parser.add_argument("--approved-dir", type=Path, default=DEFAULT_APPROVED_DIR)
     parser.add_argument("--save", action="store_true", help="Cho phép lưu sau một lần xác nhận toàn bộ danh sách")
+    parser.add_argument("--init-templates", action="store_true",
+                        help="Tạo khung JSON cho từng dịch vụ, không tự lấy dữ liệu nháp và không tự lưu")
     args = parser.parse_args(argv)
+    if args.save and args.init_templates:
+        parser.error("--init-templates không thể dùng cùng --save.")
     services = json.loads(SERVICES_PATH.read_text(encoding="utf-8"))
+    if args.init_templates:
+        chosen = select_services(services, args.scope)
+        created, skipped = initialize_templates(chosen, args.approved_dir.resolve())
+        print(f"Đã tạo {created} khung; bỏ qua {skipped}. TẤT CẢ khung còn phải nhập từ PDF bệnh viện.")
+        return 0
     return run_batch(services, args.approved_dir.resolve(), args.scope, save=args.save)
 
 
