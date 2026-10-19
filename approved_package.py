@@ -82,6 +82,13 @@ def _validate_structure(data: dict, procedure_id: str, catalog_code: str, expect
     for k in ("decision_number", "approved_title", "approved_by", "attested_by", "signed_pdf"):
         if not isinstance(approval[k], str) or not approval[k].strip() or PLACEHOLDER.search(approval[k]):
             raise ValueError(f"Chưa có thông tin bệnh viện hợp lệ: approval.{k}")
+    for key in ("serial_number", "writer", "writer_title", "reviewer",
+                "reviewer_title", "approver_title"):
+        value = approval.get(key)
+        if value is not None and (
+            not isinstance(value, str) or PLACEHOLDER.search(value)
+        ):
+            raise ValueError(f"Thông tin người viết/xem xét/duyệt hoặc STT không hợp lệ: approval.{key}")
     if _normalized_title(approval["approved_title"]) != _normalized_title(expected_title):
         raise ValueError("Tên quy trình được duyệt không khớp tên kỹ thuật trong danh mục.")
     try:
