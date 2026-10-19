@@ -126,6 +126,43 @@ python -m unittest discover -s tests -v
 python run_all.py --id bot_trat_khuyu --draft-preview
 ```
 
+## Nhập hàng loạt QTKT bằng MỘT lệnh
+
+Sau khi đã có **từng QTKT bệnh viện phê duyệt** ở thư mục cục bộ `local_approved/`, dùng `--all-approved` trên `run_all.py`. Mặc định nhóm `casts` là **8 kỹ thuật nắn, bó bột** đã biên tập. Công cụ không tự lấy bản nháp làm tài liệu đã phê duyệt và không bấm Lưu khi chưa đủ hồ sơ.
+
+**Tạo 8 khung JSON trống (mỗi dịch vụ một tệp):**
+
+```powershell
+cd E:\DMKT
+python run_all.py --all-approved --init-templates
+```
+
+Mỗi khung nằm ở `local_approved\\<ID>.approved-qtkt.json`, đã có đúng ID, mã PL1 và tên kỹ thuật. Trường nội dung ban đầu chỉ là **chỗ trống**: phải điền chính xác từ QTKT bệnh viện đã ký duyệt, bổ sung số/ngày quyết định, người ký, người đối chiếu và PDF nguồn. Không sử dụng nội dung nguồn `data/clinical_drafts.json` để tự đánh dấu đã phê duyệt. Chạy lần lượt `python approved_package.py local_approved\\<ID>.approved-qtkt.json --seal-checksums` sau khi đối chiếu PDF từng tệp.
+
+**Kiểm tra đủ 8 hồ sơ trước khi đăng nhập (không lưu):**
+
+```powershell
+python run_all.py --all-approved
+```
+
+Nếu bất kỳ hồ sơ nào thiếu, sai mã danh mục, chưa có dấu vân tay hoặc tệp PDF thay đổi, chương trình **không chạy Chrome và không lưu bản nào**. Hãy sửa và thử lại.
+
+**Nhập và lưu tự động cả 8 trong một lượt:**
+
+```powershell
+python run_all.py --all-approved --save
+```
+
+Khi cả 8 gói đạt kiểm tra ngoại tuyến, chương trình liệt kê đúng 8 dịch vụ và yêu cầu nhập **`LƯU TẤT CẢ 8`**. Sau một lần xác nhận, Selenium đăng nhập/mở biểu mẫu, nhập dữ liệu, đối chiếu từng trường và lưu lần lượt. Mỗi lần thành công chỉ được ghi nhận khi website báo đã thêm quy trình; Chrome tự đóng để chuyển sang kỹ thuật kế tiếp. Nếu gặp lỗi hay QTKT cùng tên đã tồn tại, chương trình **dừng ngay** và báo các mục chưa chạy; không âm thầm bỏ qua. Báo cáo cục bộ nằm trong `output/qtkt_batch_*.json` (Git ignore).
+
+**Các phạm vi:**
+
+- `--scope casts` (mặc định): 8 QTKT nắn, bó bột.
+- `--scope clinical`: 11 QTKT mẫu lâm sàng; sẽ không lưu nếu thiếu bộ hồ sơ hoặc dịch vụ có nhiều mã PL1 chưa được giải quyết.
+- `--scope all`: kiểm tra cả 13; **2 dịch vụ xét nghiệm dùng mẫu QĐ 3376 chưa được chức năng lưu đã duyệt hỗ trợ** nên phạm vi này sẽ báo không đủ điều kiện và không lưu. Không được ép xét nghiệm vào mẫu lâm sàng.
+
+Cơ chế này không xác thực tính hợp pháp của chữ ký bệnh viện hoặc chứng minh văn bản sao chép đúng từ PDF: người phụ trách vẫn phải đối chiếu bộ hồ sơ chính thức. Không chạy thử với quyết định Bộ Y tế để giả làm quyết định bệnh viện. Nếu thao tác lưu trên cổng trả trạng thái bất định, kiểm tra danh mục trực tiếp trước khi chạy lại để tránh trùng.
+
 ## Tự động nhập và lưu QTKT đã được bệnh viện phê duyệt
 
 **Không dùng dữ liệu nháp trong `data/clinical_drafts.json` để lưu.** Chế độ `--save` chỉ chấp nhận một gói JSON riêng được biên soạn **từ bản QTKT đã được bệnh viện ký duyệt**, kèm PDF quyết định và quy trình gốc, mã kỹ thuật PL1, số/ngày quyết định và thông tin người phê duyệt. Chương trình kiểm tra dữ liệu, checksum, trạng thái biểu mẫu và yêu cầu người phụ trách xác nhận riêng từng lần lưu.
