@@ -110,6 +110,12 @@ class ApprovedPackageTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "BỆNH VIỆN"):
             self.seal()
 
+    def test_moh_catalog_decision_is_not_hospital_approval(self):
+        self.payload["approval"]["decision_number"] = "3116/QĐ-BYT"
+        self.write()
+        with self.assertRaisesRegex(ValueError, "phải của bệnh viện"):
+            self.seal()
+
     def test_future_approval_date_rejected(self):
         self.payload["approval"]["decision_date"] = str(date.today().year + 1) + "-12-31"
         self.write()
