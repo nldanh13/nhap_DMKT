@@ -153,19 +153,35 @@ if args.approved_package:
     )
     print(f"Đã xác minh checksum gói và PDF: {item['id']} — {approval['decision_number']}")
     print("Lưu ý: checksum không xác minh chữ ký hoặc độ chính xác chuyển nội dung PDF; người phụ trách phải kiểm tra.")
-if args.draft_preview:
-    draft = json.loads((DATA / "clinical_drafts.json").read_text(encoding="utf-8"))["procedures"].get(item["id"])
-    if not draft or not procedure.get("requires_clinical_review", False):
-        parser.error("Chỉ dùng --draft-preview cho các QTKT có dữ liệu nháp cần thẩm định")
-    print("CẢNH BÁO: Đây là BẢN NHÁP chưa được bệnh viện phê duyệt. Không sử dụng làm quy trình chính thức.")
-    if input("Chỉ xem trước trong biểu mẫu, KHÔNG LƯU. Nhập XEM để tiếp tục: ").strip() != "XEM":
-        raise SystemExit("Đã hủy điền bản nháp.")
-    direct, support = separate_personnel(draft["personnel"])
-    values.update(performer=direct or None, support_personnel=support or None,
-                  source=draft.get("references") or None)
+review_draft = None
+review_meta = None
+if args.draft_preview or args.submit_for_review:
+    try:
+        review_draft = load_review_draft(item["id"])
+        review_meta = validate_review_item(item, procedure, review_draft)
+    except (ValueError, OSError, KeyError, json.JSONDecodeError) as exc:
+        parser.error(f"Bản nháp chưa hợp lệ để xem/nhập: {exc}")
+    if args.draft_preview:
+        print("CẢNH BÁO: Đây là BẢN NHÁP chưa được bệnh viện phê duyệt. Không sử dụng làm quy trình chính thức.")
+        if input("Chỉ xem trước trong biểu mẫu, KHÔNG LƯU. Nhập XEM để tiếp tục: ").strip() != "XEM":
+            raise SystemExit("Đã hủy điền bản nháp.")
+    if args.submit_for_review:
+        print("CHẾ ĐỘ NHẬP HỒ SƠ CHỜ DUYỆT: không ghi quyết định, người phê duyệt hay trạng thái triển khai.")
+        print("Người khác phải thẩm định chuyên môn; lưu trên cổng không đồng nghĩa phê duyệt.")
+        if review_meta["missing"]:
+            print("CÁC TRƯỜNG CÒN TRỐNG CHO NGƯỜI DUYỆT HOÀN THIỆN:", ", ".join(review_meta["missing"]))
+        if review_meta["critical_missing"]:
+            print("CẢNH BÁO NỘI DUNG KỸ THUẬT THIẾU:", ", ".join(review_meta["critical_missing"]))
+    for key in REVIEW_FIELDS:
+        values[key] = review_draft.get(key) or None
+    direct, support = separate_personnel(review_draft["personnel"])
+    values.update(
+        performer=direct or None, support_personnel=support or None,
+        source=review_draft["references"], deployment_flag=False
+    )
 
 
-# Batch confirmation is valid only for this exact validated local package.
+# Batch confirmation is valid only for the exact validated approved package.
 batch_authorized = bool(
     approved_package is not None
     and os.environ.get("DMKT_BATCH_SAVE_CONFIRMED_ID") == item["id"]
@@ -173,6 +189,16 @@ batch_authorized = bool(
 )
 if os.environ.get("DMKT_BATCH_SAVE_CONFIRMED_ID") and not batch_authorized:
     parser.error("Lệnh hàng loạt không khớp ID hoặc SHA256 gói đã phê duyệt.")
+# Separately authorize draft *submission for review* without treating it as approval.
+review_batch_authorized = bool(
+    args.submit_for_review
+    and review_meta is not None
+    and os.environ.get("DMKT_BATCH_REVIEW_ID") == item["id"]
+    and os.environ.get("DMKT_BATCH_REVIEW_SHA256") == review_meta["digest"]
+)
+if os.environ.get("DMKT_BATCH_REVIEW_ID") and not review_batch_authorized:
+    parser.error("Lệnh gửi duyệt hàng loạt không khớp ID hoặc nội dung bản nháp.")
+batch_automated = batch_authorized or review_batch_authorized
 
 
 def visible(driver, selector: str) -> bool:
