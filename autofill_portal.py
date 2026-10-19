@@ -16,6 +16,7 @@ from datetime import date, datetime
 from pathlib import Path
 
 from approved_package import CLINICAL_FIELDS, REQUIRED_FIELDS, load_approved_package
+from review_submission import REVIEW_FIELDS, draft_digest, load_review_draft, validate_review_item
 
 from selenium import webdriver
 from selenium.common.exceptions import StaleElementReferenceException, TimeoutException, WebDriverException
@@ -37,15 +38,18 @@ parser = argparse.ArgumentParser(
 parser.add_argument("--id", help="ID dịch vụ trong data/services.json")
 parser.add_argument("--inspect", action="store_true", help="Chỉ liệt kê các trường biểu mẫu")
 parser.add_argument("--draft-preview", action="store_true", help="Điền bản NHÁP chưa thẩm định vào biểu mẫu để kiểm tra, KHÔNG LƯU")
+parser.add_argument("--submit-for-review", action="store_true", help="Nhập và LƯU bản nháp để bộ phận khác xem xét, KHÔNG phê duyệt.")
 parser.add_argument("--save", action="store_true", help="Chỉ lưu sau khi đã kiểm tra và xác nhận rõ ràng.")
 parser.add_argument("--approved-package", type=Path, help="JSON dữ liệu QTKT chính thức kèm thông tin quyết định và dấu vân tay PDF đã ký.")
 args = parser.parse_args()
-if args.draft_preview and (args.save or args.inspect or args.approved_package):
-    parser.error("--draft-preview không thể dùng cùng --save, --inspect hoặc --approved-package")
+if args.draft_preview and (args.save or args.inspect or args.approved_package or args.submit_for_review):
+    parser.error("--draft-preview không thể dùng với --save, --inspect, --approved-package hoặc --submit-for-review")
+if args.submit_for_review and (not args.save or args.inspect or args.approved_package or not args.id):
+    parser.error("--submit-for-review yêu cầu --id và --save; không dùng với --approved-package/--inspect")
 if args.approved_package and (not args.save or args.inspect or not args.id):
     parser.error("--approved-package yêu cầu --id và --save; không dùng cùng --inspect")
-if args.save and not args.approved_package:
-    parser.error("--save bắt buộc có --approved-package trỏ tới dữ liệu QTKT bệnh viện đã phê duyệt.")
+if args.save and not (args.approved_package or args.submit_for_review):
+    parser.error("--save phải dùng với --approved-package hoặc --submit-for-review.")
 
 if args.id:
     matches = [x for x in services if x["id"] == args.id]
