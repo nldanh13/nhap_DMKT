@@ -161,6 +161,16 @@ if args.draft_preview:
                   source=draft.get("references") or None)
 
 
+# Batch confirmation is valid only for this exact validated local package.
+batch_authorized = bool(
+    approved_package is not None
+    and os.environ.get("DMKT_BATCH_SAVE_CONFIRMED_ID") == item["id"]
+    and os.environ.get("DMKT_BATCH_SAVE_CONFIRMED_SHA256") == approved_package["content_sha256"]
+)
+if os.environ.get("DMKT_BATCH_SAVE_CONFIRMED_ID") and not batch_authorized:
+    parser.error("Lệnh hàng loạt không khớp ID hoặc SHA256 gói đã phê duyệt.")
+
+
 def visible(driver, selector: str) -> bool:
     return bool(driver.execute_script("""
       return Array.from(document.querySelectorAll(arguments[0]))
@@ -868,11 +878,22 @@ try:
             expected_confirmation = "LƯU"
         if skipped:
             raise RuntimeError("Có trường bị bỏ qua; KHÔNG cho phép tự động lưu.")
-        confirmation = input(f"Đã đối chiếu xong và đồng ý lưu lên cổng? Nhập đúng {expected_confirmation}: ").strip()
+        if batch_authorized:
+            print("Đã xác nhận LƯU TẤT CẢ tại phiên hàng loạt; không hỏi lại từng mục.")
+            confirmation = expected_confirmation
+        else:
+            confirmation = input(f"Đã đối chiếu xong và đồng ý lưu lên cổng? Nhập đúng {expected_confirmation}: ").strip()
         if confirmation != expected_confirmation:
             print("Không lưu. Biểu mẫu vẫn mở để kiểm tra thủ công.")
             input("Nhấn Enter để đóng Chrome... ")
         else:
+            current_step = "Kiểm tra lại chữ ký tệp và dữ liệu trước khi ghi"
+            package_now = load_approved_package(
+                args.approved_package, item["id"],
+                approved_package["catalog_code"], approved_package["approval"]["approved_title"]
+            )
+            if package_now["content_sha256"] != approved_package["content_sha256"]:
+                raise RuntimeError("Nội dung gói hồ sơ thay đổi trong lúc Chrome đang nhập; không lưu.")
             current_step = "Bấm lưu quy trình (đã xác nhận)"
             click_unique(driver, "#qfLuu", "Lưu quy trình")
             current_step = "Chờ xác nhận lưu từ trang"
@@ -880,8 +901,9 @@ try:
             if message != save_message:
                 raise RuntimeError(f"Trang báo trạng thái khác dự kiến: {message}")
             print(message)
-            print("Chrome vẫn mở để bạn kiểm tra bản đã lưu.")
-            input("Nhấn Enter khi muốn đóng Chrome... ")
+            if not batch_authorized:
+                print("Chrome vẫn mở để bạn kiểm tra bản đã lưu.")
+                input("Nhấn Enter khi muốn đóng Chrome... ")
 except Exception as exc:
     print(f"\nCHƯA XÁC NHẬN LƯU: {exc}")
     print(f"Bước gặp lỗi: {current_step}")
@@ -889,6 +911,9 @@ except Exception as exc:
     if debug_bundle:
         print(f"Tệp chẩn đoán đã lưu tại: {debug_bundle}")
         print("Gồm error.txt, page.html, screenshot.png và browser_console.json; không ghi mật khẩu vào log.")
+    if batch_authorized:
+        print("LỖI CHẾ ĐỘ HÀNG LOẠT: chưa xác nhận lưu; dừng các mục tiếp theo.")
+        raise SystemExit(1)
     print("Biểu mẫu được giữ mở trong Chrome để bạn kiểm tra hoặc sửa.")
     input("Nhấn Enter khi muốn đóng Chrome... ")
 finally:
