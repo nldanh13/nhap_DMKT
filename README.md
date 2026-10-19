@@ -132,7 +132,7 @@ python run_all.py --id bot_trat_khuyu --draft-preview
 
 1. Đặt PDF có **quyết định bệnh viện và nội dung QTKT đã duyệt** ở `E:\DMKT\local_approved\`. Đây là dữ liệu cá nhân của bệnh viện, **KHÔNG commit lên GitHub**.
 2. Sao chép `examples/approved_qtkt.template.json` vào cùng thư mục với tên `bot_trat_khuyu.approved-qtkt.json`.
-3. Sửa tất cả trường trong `approval`: số quyết định, ngày ban hành (`YYYY-MM-DD`), tên kỹ thuật trùng PL1, họ tên người phê duyệt, tên người đã đối chiếu nội dung, đường dẫn PDF đã ký. Điền chính xác nội dung từng mục `content` theo QTKT bệnh viện đã phê duyệt; **không lấy nội dung dự thảo hiện có để điền tắt**. `drugs` và `support_personnel` có thể để trống nếu bản chính thức không quy định; các mục còn lại phải có nội dung. Tên chức danh/ê-kíp tại mục `personnel` không phải tên người nhận phân công.
+3. Sửa tất cả trường trong `approval`: số quyết định, ngày ban hành (`YYYY-MM-DD`), tên kỹ thuật trùng PL1, họ tên người phê duyệt, tên người đã đối chiếu nội dung, đường dẫn PDF đã ký. Có thể bổ sung số thứ tự trong quyết định (`serial_number`), người viết/kiểm tra và chức danh (`writer`, `writer_title`, `reviewer`, `reviewer_title`, `approver_title`) **khi những thông tin này có trong hồ sơ được duyệt**. Điền chính xác nội dung từng mục `content` theo QTKT bệnh viện đã phê duyệt; **không lấy nội dung dự thảo hiện có để điền tắt**. `drugs` và `support_personnel` có thể để trống nếu bản chính thức không quy định; các mục còn lại phải có nội dung. Tên chức danh/ê-kíp tại mục `personnel` không phải tên người nhận phân công.
 4. Sau khi người phụ trách đã đối chiếu JSON với PDF bệnh viện, chạy lệnh kiểm tra checksum:
 
 ```powershell
