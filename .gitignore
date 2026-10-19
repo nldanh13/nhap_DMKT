@@ -19,3 +19,6 @@ venv/
 # Keep these local; never commit signed hospital documents or personally identifying fields.
 local_approved/
 *.approved-qtkt.json
+
+# Local batch operation results (hospital workflow metadata)
+output/qtkt_batch_*.json
