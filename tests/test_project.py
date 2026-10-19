@@ -99,7 +99,7 @@ class ProjectIntegrityTests(unittest.TestCase):
     def test_portal_preview_uses_source_citations_only(self):
         script=(ROOT/'autofill_portal.py').read_text(encoding='utf-8')
         self.assertIn('source=draft.get("references") or None',script)
-        self.assertIn('if args.draft_preview and (args.save or args.inspect)',script)
+        self.assertIn('if args.draft_preview and (args.save or args.inspect or args.approved_package)',script)
         self.assertIn('if procedure.get("requires_clinical_review", False):',script)
 
     def test_legacy_word_import_requires_explicit_force(self):
@@ -217,7 +217,7 @@ class ProjectIntegrityTests(unittest.TestCase):
         self.assertIn('if args.draft_preview and (args.save or args.inspect or args.approved_package)', source)
         self.assertIn('if input("Chỉ xem trước trong biểu mẫu, KHÔNG LƯU. Nhập XEM', source)
         self.assertIn('btn.disabled = true', source)
-        self.assertIn('allowed_fields = set(field_selectors) if args.draft_preview else', source)
+        self.assertIn('allowed_fields = set(field_selectors) if (args.draft_preview or args.approved_package) else', source)
         self.assertIn('if not args.save:', source)
 
     def test_separate_personnel_into_two_fields(self):
@@ -281,7 +281,6 @@ class ProjectIntegrityTests(unittest.TestCase):
     def test_approved_package_must_be_checked_before_browser_save(self):
         source=(ROOT/'autofill_portal.py').read_text(encoding='utf-8')
         self.assertIn('load_approved_package(',source)
-        self.assertIn('source=approved_package',source) if False else None
         self.assertIn('approved_package["content"]["references"]',source)
         self.assertIn('if existing and args.approved_package:',source)
         self.assertIn('must_fill = set(REQUIRED_FIELDS)',source)
