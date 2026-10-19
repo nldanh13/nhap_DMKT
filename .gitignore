@@ -14,3 +14,8 @@ venv/
 # Operating system and editor
 .DS_Store
 .vscode/
+
+# Hospital-approved QTKT packages, signed decision PDFs, local receipts
+# Keep these local; never commit signed hospital documents or personally identifying fields.
+local_approved/
+*.approved-qtkt.json
