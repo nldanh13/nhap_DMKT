@@ -7,7 +7,7 @@ import tempfile
 import unittest
 
 from approved_package import REQUIRED_FIELDS, seal_local_package
-from batch_portal import preflight, run_batch, select_services
+from batch_portal import initialize_templates, preflight, run_batch, select_services
 
 ROOT = Path(__file__).resolve().parents[1]
 SERVICES = json.loads((ROOT / "data" / "services.json").read_text(encoding="utf-8"))
@@ -55,6 +55,21 @@ class ApprovedBatchTests(unittest.TestCase):
         files = list(self.out.glob("qtkt_batch_*.json"))
         self.assertEqual(len(files), 1)
         return json.loads(files[0].read_text(encoding="utf-8"))
+
+    def test_initialize_templates_does_not_copy_unapproved_drafts(self):
+        casts=select_services(SERVICES,"casts")
+        created, skipped=initialize_templates(casts,self.approved)
+        self.assertEqual((created,skipped),(8,0))
+        for item in casts:
+            path=self.approved/(item["id"]+".approved-qtkt.json")
+            obj=json.loads(path.read_text(encoding="utf-8"))
+            self.assertEqual(obj["procedure_id"],item["id"])
+            self.assertEqual(obj["catalog_code"],item["form_decision"]["codes"][0])
+            self.assertEqual(obj["content"]["steps"],
+                             "__NHẬP NGUYÊN VĂN TỪ HỒ SƠ BỆNH VIỆN__")
+            self.assertEqual(obj["content_sha256"],"")
+        made, existed=initialize_templates(casts,self.approved)
+        self.assertEqual((made,existed),(0,8))
 
     def test_scope_counts_and_lab_exclusion(self):
         self.assertEqual(len(SERVICES), 13)
