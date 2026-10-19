@@ -137,7 +137,12 @@ if args.approved_package:
         decision_number=approval["decision_number"],
         issue_date=date.fromisoformat(approval["decision_date"]).strftime("%d/%m/%Y"),
         serial_number=approval.get("serial_number"),
+        writer=approval.get("writer"),
+        writer_title=approval.get("writer_title"),
+        reviewer=approval.get("reviewer"),
+        reviewer_title=approval.get("reviewer_title"),
         approver=approval["approved_by"],
+        approver_title=approval.get("approver_title"),
         deployment_flag=False,
     )
     print(f"Đã xác minh checksum gói và PDF: {item['id']} — {approval['decision_number']}")
@@ -486,7 +491,12 @@ def fill_fields(driver) -> tuple[list[str], list[str], dict[str, str]]:
             "decision_number": '[data-qf="qdBV"]',
             "issue_date": '[data-qf="ngayBH"]',
             "serial_number": '[data-qf="sttQT"]',
+            "writer": '[data-qf="nguoiViet"]',
+            "writer_title": '[data-qf="cdViet"]',
+            "reviewer": '[data-qf="nguoiKiemTra"]',
+            "reviewer_title": '[data-qf="cdKiemTra"]',
             "approver": '[data-qf="nguoiPheDuyet"]',
+            "approver_title": '[data-qf="cdPheDuyet"]',
         })
     is_xn = str(item.get("form_template", "")).startswith("Xét nghiệm")
     if is_xn:
