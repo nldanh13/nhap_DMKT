@@ -10,7 +10,13 @@
     "approved_by": "__NGƯỜI KÝ QUYẾT ĐỊNH__",
     "attested_by": "__NGƯỜI ĐÃ KIỂM TRA NỘI DUNG VỚI PDF KÝ DUYỆT__",
     "signed_pdf": "quyet-dinh-va-qtkt-da-ky.pdf",
-    "signed_pdf_sha256": ""
+    "signed_pdf_sha256": "",
+    "serial_number": "",
+    "writer": "",
+    "writer_title": "",
+    "reviewer": "",
+    "reviewer_title": "",
+    "approver_title": ""
   },
   "content": {
     "overview": "__NHẬP TỪ QUY TRÌNH ĐƯỢC DUYỆT__",
