@@ -95,6 +95,37 @@ Không dán mã không hiểu vào Console để vượt cảnh báo bảo mật
 
 Mục 5.1 của 8 quy trình nháp ghi **cơ cấu nhân lực theo chức danh**, không tự động kèm tên người được phân công. Trong chế độ điền thông thường, trường nhân lực của 8 quy trình chưa thẩm định được để cho người rà soát hoàn thiện.
 
+## Đối chiếu nguồn Bộ Y tế cho 8 QTKT (19/10/2026)
+
+Các nội dung được đối chiếu với **QĐ 199/QĐ-BYT năm 2014**, **QĐ 5728/QĐ-BYT năm 2017**; **QĐ 3023/QĐ-BYT năm 2023** dùng để chuẩn hóa cấu trúc nhập biểu mẫu.
+
+- PDF QĐ 199: https://kcb.vn/upload/2005611/20210723/B%C3%B3-B%E1%BB%99t.pdf
+- Văn bản QĐ 5728: https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-5728-QD-BYT-2017-quy-trinh-ky-thuat-Ngoai-khoa-chuyen-khoa-Chan-thuong-chinh-hinh-370394.aspx
+- PDF đề cương QĐ 3023: https://static.luatvietnam.vn/uploaded/VIETLAWFILE/2023/8/3023_QD-BYT_020823144557.pdf
+
+| ID | Nguồn phù hợp | Phạm vi đối chiếu |
+| --- | --- | --- |
+| `bot_hai_xuong_cang_tay_duoi` | QĐ 199, Bài 29 và 3 | Nắn gãy thân hai xương cẳng tay, bao gồm vị trí 1/3 dưới; bó bột cánh–cẳng–bàn tay |
+| `bot_mot_xuong_cang_tay` | QĐ 199, Bài 3 | **Chỉ có nguồn bó bột**, chưa xác minh bài nắn riêng một xương |
+| `bot_xuong_ban_chan` | QĐ 199, Bài 10 | **Chỉ có nguồn bó bột**, không tự nhận thao tác nắn đã được mô tả |
+| `bot_xuong_chay` | QĐ 199, Bài 40 và 11 | Nắn và bó bột gãy cẳng chân có liên quan xương chày |
+| `bot_xuong_got` | QĐ 199, Bài 41 | Nắn/bó gãy xương gót theo **từng dạng gãy**; có trường hợp chỉ băng ép, không nắn |
+| `bot_xuong_ngon_chan` | QĐ 199, Bài 10 | **Chỉ có nguồn bó bột** cho gãy ngón, chưa xác minh bài nắn riêng |
+| `bot_trat_co_chan` | QĐ 199, Bài 10 (bột); QĐ 5728, Bài 34 (khác tổn thương) | **Chưa có nguồn nắn trật khớp cổ chân đơn thuần trùng phương pháp**, giữ trống thao tác |
+| `bot_trat_khuyu` | QĐ 5728, Bài 32; QĐ 199, Bài 18 | Nắn trật khớp khuỷu, nhân lực, vật tư và thời gian thực hiện |
+
+Dữ liệu truy vết chi tiết tại `data/clinical_review_notes.json`, bao gồm loại độ phù hợp, số quyết định, bài, link và các phạm vi **chưa được chứng minh**. Nội dung QTKT được lưu ở `data/clinical_drafts.json`, đồng bộ vào `data/procedures.json` để xem trước trên DMKT.
+
+Tài liệu Bộ Y tế **không tự động giải quyết việc phê duyệt quy trình nội viện**; Điều 2 QĐ 199 yêu cầu người đứng đầu cơ sở xây dựng và ban hành tài liệu phù hợp điều kiện đơn vị. Vì vậy cờ `requires_clinical_review` và khóa tự lưu được giữ nguyên đến khi có thẩm quyền quyết định.
+
+Cách xem trước một quy trình **không tự lưu**:
+
+```powershell
+git pull --ff-only origin main
+python -m unittest discover -s tests -v
+python run_all.py --id bot_trat_khuyu --draft-preview
+```
+
 ## Biên tập lại 8 nội dung QTKT và theo dõi thẩm định
 
 Dữ liệu 8 quy trình nắn, bó bột trong `data/clinical_drafts.json` và `data/procedures.json` đã được tách thành nội dung nhập cổng và ghi chú thẩm định riêng trong `data/clinical_review_notes.json`.

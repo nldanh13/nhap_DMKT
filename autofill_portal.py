@@ -112,7 +112,8 @@ if args.draft_preview:
     if input("Chỉ xem trước trong biểu mẫu, KHÔNG LƯU. Nhập XEM để tiếp tục: ").strip() != "XEM":
         raise SystemExit("Đã hủy điền bản nháp.")
     direct, support = separate_personnel(draft["personnel"])
-    values.update(performer=direct or None, support_personnel=support or None)
+    values.update(performer=direct or None, support_personnel=support or None,
+                  source=draft.get("references") or None)
 
 
 def visible(driver, selector: str) -> bool:

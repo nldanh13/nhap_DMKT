@@ -66,6 +66,42 @@ class ProjectIntegrityTests(unittest.TestCase):
                 self.assertTrue(review[pid]['review_items'])
                 self.assertEqual(procs[pid]['autofill_fields'],['source'])
 
+    def test_moh_source_traceability_for_all_eight(self):
+        drafts=json.loads((ROOT/'data/clinical_drafts.json').read_text(encoding='utf-8'))['procedures']
+        review=json.loads((ROOT/'data/clinical_review_notes.json').read_text(encoding='utf-8'))
+        notes=review['procedures']
+        self.assertEqual(set(CAST_IDS),set(notes))
+        self.assertEqual(review['metadata']['last_rechecked'],'2026-10-19')
+        for pid in CAST_IDS:
+            with self.subTest(procedure=pid):
+                entry=notes[pid]['source_alignment']
+                self.assertTrue(entry['articles'])
+                self.assertTrue(entry['gaps'])
+                self.assertTrue(all(a.get('decision') and a.get('number')
+                                    and a.get('url','').startswith('https://')
+                                    for a in entry['articles']))
+                self.assertTrue(drafts[pid]['references'])
+                self.assertNotIn('[BỔ SUNG',drafts[pid]['references'])
+
+        self.assertEqual(notes['bot_trat_khuyu']['source_alignment']['match'],
+                         'direct_named_procedure')
+        self.assertEqual(notes['bot_xuong_got']['source_alignment']['match'],
+                         'same_condition_and_treatment')
+        for pid in ('bot_mot_xuong_cang_tay','bot_xuong_ban_chan',
+                    'bot_xuong_ngon_chan'):
+            self.assertEqual(notes[pid]['source_alignment']['match'],'immobilization_only')
+        self.assertEqual(notes['bot_trat_co_chan']['source_alignment']['match'],
+                         'no_matching_reduction_guideline')
+        self.assertEqual(drafts['bot_trat_co_chan']['steps'],'')
+        self.assertNotIn('Bước 2. Nắn',drafts['bot_xuong_ban_chan']['steps'])
+        self.assertNotIn('Bước 2. Nắn',drafts['bot_xuong_ngon_chan']['steps'])
+
+    def test_portal_preview_uses_source_citations_only(self):
+        script=(ROOT/'autofill_portal.py').read_text(encoding='utf-8')
+        self.assertIn('source=draft.get("references") or None',script)
+        self.assertIn('if args.draft_preview and (args.save or args.inspect)',script)
+        self.assertIn('if procedure.get("requires_clinical_review", False):',script)
+
     def test_legacy_word_import_requires_explicit_force(self):
         src=(ROOT/'make_clinical_drafts.py').read_text(encoding='utf-8')
         self.assertIn('--force-source-import',src)
