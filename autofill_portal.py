@@ -12,8 +12,10 @@ import sys
 import time
 import traceback
 import unicodedata
-from datetime import datetime
+from datetime import date, datetime
 from pathlib import Path
+
+from approved_package import CLINICAL_FIELDS, REQUIRED_FIELDS, load_approved_package
 
 from selenium import webdriver
 from selenium.common.exceptions import StaleElementReferenceException, TimeoutException, WebDriverException
@@ -35,10 +37,15 @@ parser = argparse.ArgumentParser(
 parser.add_argument("--id", help="ID dịch vụ trong data/services.json")
 parser.add_argument("--inspect", action="store_true", help="Chỉ liệt kê các trường biểu mẫu")
 parser.add_argument("--draft-preview", action="store_true", help="Điền bản NHÁP chưa thẩm định vào biểu mẫu để kiểm tra, KHÔNG LƯU")
-parser.add_argument("--save", action="store_true", help="Cho phép lưu tự động sau khi người dùng nhập xác nhận LƯU; không dùng cho bản dự thảo chưa duyệt")
+parser.add_argument("--save", action="store_true", help="Chỉ lưu sau khi đã kiểm tra và xác nhận rõ ràng.")
+parser.add_argument("--approved-package", type=Path, help="JSON dữ liệu QTKT chính thức kèm thông tin quyết định và dấu vân tay PDF đã ký.")
 args = parser.parse_args()
-if args.draft_preview and (args.save or args.inspect):
-    parser.error("--draft-preview không thể dùng cùng --save hoặc --inspect")
+if args.draft_preview and (args.save or args.inspect or args.approved_package):
+    parser.error("--draft-preview không thể dùng cùng --save, --inspect hoặc --approved-package")
+if args.approved_package and (not args.save or args.inspect or not args.id):
+    parser.error("--approved-package yêu cầu --id và --save; không dùng cùng --inspect")
+if args.save and not args.approved_package:
+    parser.error("--save bắt buộc có --approved-package trỏ tới dữ liệu QTKT bệnh viện đã phê duyệt.")
 
 if args.id:
     matches = [x for x in services if x["id"] == args.id]
@@ -104,6 +111,44 @@ def separate_personnel(personnel: str) -> tuple[str, str]:
     return direct, support.strip() if marker else ""
 
 
+approved_package = None
+if args.approved_package:
+    if not str(item.get("form_template", "")).startswith("Lâm sàng"):
+        parser.error("Gói QTKT này chỉ hỗ trợ mẫu lâm sàng QĐ 3023; không dùng để lưu quy trình xét nghiệm.")
+    codes_expected = list(dict.fromkeys(item.get("form_decision", {}).get("codes", [])))
+    if len(codes_expected) != 1 or item.get("form_decision", {}).get("annex") != "PL1":
+        parser.error("Chế độ lưu dữ liệu đã duyệt yêu cầu chính xác một mã danh mục PL1.")
+    try:
+        approved_package = load_approved_package(
+            args.approved_package,
+            item["id"], codes_expected[0], item["technical_catalog"]["annex1"]["name"],
+        )
+    except (ValueError, OSError, KeyError, json.JSONDecodeError) as exc:
+        parser.error(f"Không thể xác nhận bộ hồ sơ đã duyệt: {exc}")
+
+    # NEVER inherit editorial fields from a generated draft for an approved save.
+    for key in CLINICAL_FIELDS:
+        values[key] = None
+    values.update(approved_package["content"])
+    values["performer"] = approved_package["content"]["personnel"]
+    values["support_personnel"] = approved_package["content"].get("support_personnel") or None
+    values["source"] = approved_package["content"]["references"]
+    approval = approved_package["approval"]
+    values.update(
+        issuing_authority=approval["issuer"],
+        decision_number=approval["decision_number"],
+        issue_date=date.fromisoformat(approval["decision_date"]).strftime("%d/%m/%Y"),
+        serial_number=approval.get("serial_number"),
+        writer=approval.get("writer"),
+        writer_title=approval.get("writer_title"),
+        reviewer=approval.get("reviewer"),
+        reviewer_title=approval.get("reviewer_title"),
+        approver=approval["approved_by"],
+        approver_title=approval.get("approver_title"),
+        deployment_flag=False,
+    )
+    print(f"Đã xác minh checksum gói và PDF: {item['id']} — {approval['decision_number']}")
+    print("Lưu ý: checksum không xác minh chữ ký hoặc độ chính xác chuyển nội dung PDF; người phụ trách phải kiểm tra.")
 if args.draft_preview:
     draft = json.loads((DATA / "clinical_drafts.json").read_text(encoding="utf-8"))["procedures"].get(item["id"])
     if not draft or not procedure.get("requires_clinical_review", False):
@@ -443,6 +488,18 @@ def choose_department(driver) -> None:
 
 def fill_fields(driver) -> tuple[list[str], list[str], dict[str, str]]:
     field_selectors = dict(selectors)
+    if args.approved_package:
+        field_selectors.update({
+            "decision_number": '[data-qf="qdBV"]',
+            "issue_date": '[data-qf="ngayBH"]',
+            "serial_number": '[data-qf="sttQT"]',
+            "writer": '[data-qf="nguoiViet"]',
+            "writer_title": '[data-qf="cdViet"]',
+            "reviewer": '[data-qf="nguoiKiemTra"]',
+            "reviewer_title": '[data-qf="cdKiemTra"]',
+            "approver": '[data-qf="nguoiPheDuyet"]',
+            "approver_title": '[data-qf="cdPheDuyet"]',
+        })
     is_xn = str(item.get("form_template", "")).startswith("Xét nghiệm")
     if is_xn:
         # Mẫu QĐ 3376 dùng bộ tên trường khác mẫu lâm sàng.
@@ -467,7 +524,7 @@ def fill_fields(driver) -> tuple[list[str], list[str], dict[str, str]]:
         field_selectors.pop("section6_title", None)
 
     filled, skipped = [], []
-    allowed_fields = set(field_selectors) if args.draft_preview else set(procedure.get("autofill_fields", []))
+    allowed_fields = set(field_selectors) if (args.draft_preview or args.approved_package) else set(procedure.get("autofill_fields", []))
     for key, selector in field_selectors.items():
         if not selector or key not in values or values[key] is None or values[key] == "":
             continue
@@ -707,6 +764,8 @@ try:
     WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.ID, "qtThem")))
     current_step = "Tìm dịch vụ đã có để cập nhật hoặc tạo mới"
     existing = find_existing_procedure(driver)
+    if existing and args.approved_package:
+        raise RuntimeError("Đã có QTKT cùng tên trên cổng; chế độ nhập đã duyệt không tự ghi đè. Hãy kiểm tra bản hiện có trước khi quyết định cập nhật.")
     if existing:
         current_step = "Mở biểu mẫu sửa quy trình hiện có"
         click_edit_existing(driver)
@@ -782,14 +841,35 @@ try:
             print("Bạn có thể tự lưu trong giao diện nếu đã xác minh đầy đủ.")
         input("Nhấn Enter khi đã kiểm tra xong và muốn đóng Chrome... ")
     else:
-        if procedure.get("requires_clinical_review", False):
-            raise RuntimeError("Quy trình dự thảo chưa được bệnh viện thẩm định; KHÔNG cho phép tự động lưu.")
-        if not procedure.get("approved_for_auto_save", False):
-            raise RuntimeError("Chưa xác nhận hồ sơ đủ điều kiện lưu tự động; hãy kiểm tra và lưu thủ công.")
+        if approved_package is not None:
+            # Fail closed on any missing approved content or administrative field.
+            must_fill = set(REQUIRED_FIELDS) - {"personnel", "references"}
+            must_fill.update({
+                "service", "template_type", "catalog_annex", "specialty",
+                "issuing_authority", "section6_title", "deployment_flag",
+                "performer", "source", "decision_number", "issue_date", "approver"
+            })
+            missing_fields = sorted(must_fill - set(filled))
+            if missing_fields:
+                raise RuntimeError("Dừng lưu: chưa điền và xác minh đủ trường hồ sơ đã duyệt: " + ", ".join(missing_fields))
+            if codes != [approved_package["catalog_code"]]:
+                raise RuntimeError("Mã kỹ thuật trên biểu mẫu không khớp hồ sơ được phê duyệt.")
+            if not driver.find_element(By.ID, "qfLuu").is_enabled():
+                raise RuntimeError("Nút Lưu bị khóa hoặc tài khoản không có quyền thao tác.")
+            print("Quyết định bệnh viện:", approved_package["approval"]["decision_number"])
+            print("Người xác nhận đối chiếu:", approved_package["approval"]["attested_by"])
+            print("Vui lòng đối chiếu trực tiếp tất cả các trường vừa nhập với PDF đã ký.")
+            expected_confirmation = "LƯU " + item["id"]
+        else:
+            if procedure.get("requires_clinical_review", False):
+                raise RuntimeError("Quy trình dự thảo chưa được bệnh viện thẩm định; KHÔNG cho phép tự động lưu.")
+            if not procedure.get("approved_for_auto_save", False):
+                raise RuntimeError("Chưa xác nhận hồ sơ đủ điều kiện lưu tự động; hãy kiểm tra và lưu thủ công.")
+            expected_confirmation = "LƯU"
         if skipped:
             raise RuntimeError("Có trường bị bỏ qua; KHÔNG cho phép tự động lưu.")
-        confirmation = input("Bạn đã kiểm tra chuyên môn và muốn lưu lên cổng? Nhập đúng LƯU để xác nhận: ").strip()
-        if confirmation != "LƯU":
+        confirmation = input(f"Đã đối chiếu xong và đồng ý lưu lên cổng? Nhập đúng {expected_confirmation}: ").strip()
+        if confirmation != expected_confirmation:
             print("Không lưu. Biểu mẫu vẫn mở để kiểm tra thủ công.")
             input("Nhấn Enter để đóng Chrome... ")
         else:

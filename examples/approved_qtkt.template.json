@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "procedure_id": "bot_trat_khuyu",
+  "catalog_code": "10.1000",
+  "approval": {
+    "issuer": "BỆNH VIỆN",
+    "decision_number": "__SỐ QUYẾT ĐỊNH BỆNH VIỆN__",
+    "decision_date": "YYYY-MM-DD",
+    "approved_title": "Nắn, bó bột trật khớp khuỷu",
+    "approved_by": "__NGƯỜI KÝ QUYẾT ĐỊNH__",
+    "attested_by": "__NGƯỜI ĐÃ KIỂM TRA NỘI DUNG VỚI PDF KÝ DUYỆT__",
+    "signed_pdf": "quyet-dinh-va-qtkt-da-ky.pdf",
+    "signed_pdf_sha256": "",
+    "serial_number": "",
+    "writer": "",
+    "writer_title": "",
+    "reviewer": "",
+    "reviewer_title": "",
+    "approver_title": ""
+  },
+  "content": {
+    "overview": "__NHẬP TỪ QUY TRÌNH ĐƯỢC DUYỆT__",
+    "indications": "__NHẬP TỪ QUY TRÌNH ĐƯỢC DUYỆT__",
+    "contraindications": "__NHẬP TỪ QUY TRÌNH ĐƯỢC DUYỆT__",
+    "precautions": "__NHẬP TỪ QUY TRÌNH ĐƯỢC DUYỆT__",
+    "personnel": "__NHẬP TỪ QUY TRÌNH ĐƯỢC DUYỆT__",
+    "support_personnel": "",
+    "drugs": "",
+    "supplies": "__NHẬP TỪ QUY TRÌNH ĐƯỢC DUYỆT__",
+    "equipment": "__NHẬP TỪ QUY TRÌNH ĐƯỢC DUYỆT__",
+    "patient": "__NHẬP TỪ QUY TRÌNH ĐƯỢC DUYỆT__",
+    "records": "__NHẬP TỪ QUY TRÌNH ĐƯỢC DUYỆT__",
+    "duration_hours": "__NHẬP TỪ QUY TRÌNH ĐƯỢC DUYỆT__",
+    "location": "__NHẬP TỪ QUY TRÌNH ĐƯỢC DUYỆT__",
+    "preprocedure_checks": "__NHẬP TỪ QUY TRÌNH ĐƯỢC DUYỆT__",
+    "steps": "__NHẬP TỪ QUY TRÌNH ĐƯỢC DUYỆT__",
+    "during_procedure_events": "__NHẬP TỪ QUY TRÌNH ĐƯỢC DUYỆT__",
+    "post_procedure_events": "__NHẬP TỪ QUY TRÌNH ĐƯỢC DUYỆT__",
+    "late_complications": "__NHẬP TỪ QUY TRÌNH ĐƯỢC DUYỆT__",
+    "references": "__NHẬP TỪ QUY TRÌNH ĐƯỢC DUYỆT__"
+  },
+  "content_sha256": ""
+}

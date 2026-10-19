@@ -126,6 +126,32 @@ python -m unittest discover -s tests -v
 python run_all.py --id bot_trat_khuyu --draft-preview
 ```
 
+## Tự động nhập và lưu QTKT đã được bệnh viện phê duyệt
+
+**Không dùng dữ liệu nháp trong `data/clinical_drafts.json` để lưu.** Chế độ `--save` chỉ chấp nhận một gói JSON riêng được biên soạn **từ bản QTKT đã được bệnh viện ký duyệt**, kèm PDF quyết định và quy trình gốc, mã kỹ thuật PL1, số/ngày quyết định và thông tin người phê duyệt. Chương trình kiểm tra dữ liệu, checksum, trạng thái biểu mẫu và yêu cầu người phụ trách xác nhận riêng từng lần lưu.
+
+1. Đặt PDF có **quyết định bệnh viện và nội dung QTKT đã duyệt** ở `E:\DMKT\local_approved\`. Đây là dữ liệu cá nhân của bệnh viện, **KHÔNG commit lên GitHub**.
+2. Sao chép `examples/approved_qtkt.template.json` vào cùng thư mục với tên `bot_trat_khuyu.approved-qtkt.json`.
+3. Sửa tất cả trường trong `approval`: số quyết định, ngày ban hành (`YYYY-MM-DD`), tên kỹ thuật trùng PL1, họ tên người phê duyệt, tên người đã đối chiếu nội dung, đường dẫn PDF đã ký. Có thể bổ sung số thứ tự trong quyết định (`serial_number`), người viết/kiểm tra và chức danh (`writer`, `writer_title`, `reviewer`, `reviewer_title`, `approver_title`) **khi những thông tin này có trong hồ sơ được duyệt**. Điền chính xác nội dung từng mục `content` theo QTKT bệnh viện đã phê duyệt; **không lấy nội dung dự thảo hiện có để điền tắt**. `drugs` và `support_personnel` có thể để trống nếu bản chính thức không quy định; các mục còn lại phải có nội dung. Tên chức danh/ê-kíp tại mục `personnel` không phải tên người nhận phân công.
+4. Sau khi người phụ trách đã đối chiếu JSON với PDF bệnh viện, chạy lệnh kiểm tra checksum:
+
+```powershell
+cd E:\DMKT
+python approved_package.py local_approved\bot_trat_khuyu.approved-qtkt.json --seal-checksums
+```
+
+5. Chạy tự động nhập và lưu:
+
+```powershell
+python run_all.py --id bot_trat_khuyu --approved-package local_approved\bot_trat_khuyu.approved-qtkt.json --save
+```
+
+Nếu hồ sơ hợp lệ và trên cổng chưa có quy trình cùng tên, Selenium sẽ đăng nhập, chọn kỹ thuật theo mã PL1, điền nội dung **từ gói được duyệt**, số và ngày quyết định, người phê duyệt, đối chiếu giá trị DOM. Bạn kiểm tra lần cuối trên Chrome và phải nhập **`LƯU bot_trat_khuyu`** trong PowerShell để chương trình bấm Lưu. Nếu cổng không báo thành công, chương trình không khẳng định đã lưu.
+
+**Cảnh báo kỹ thuật:** SHA256 chỉ kiểm tra PDF/JSON **không bị sửa sau khi người phụ trách chốt**; không chứng thực chữ ký điện tử, thẩm quyền phê duyệt hoặc sự tương đồng giữa PDF và văn bản trích. Người nhập chịu trách nhiệm xác nhận hồ sơ thực sự đã được ký, có hiệu lực và nội dung JSON khớp chính xác. Công cụ không tự sinh một quyết định phê duyệt. Trên cổng nếu đã tồn tại QTKT cùng tên, chương trình dừng, không ghi đè vì cần kiểm tra phiên bản và quyền cập nhật.
+
+Để nhập nhiều QTKT: chuẩn bị **một bộ PDF + JSON cho mỗi kỹ thuật**, lần lượt chạy với `--id` tương ứng và xác nhận từng bản. Không chạy `--save` với `--draft-preview`; khi chỉ dùng `--draft-preview` thì vẫn là xem nháp và không lưu. Trường “Đang triển khai” vẫn không được tự đánh dấu — trạng thái phê duyệt QTKT không đồng nghĩa bệnh viện đã phê duyệt triển khai danh mục kỹ thuật.
+
 ## Biên tập lại 8 nội dung QTKT và theo dõi thẩm định
 
 Dữ liệu 8 quy trình nắn, bó bột trong `data/clinical_drafts.json` và `data/procedures.json` đã được tách thành nội dung nhập cổng và ghi chú thẩm định riêng trong `data/clinical_review_notes.json`.
