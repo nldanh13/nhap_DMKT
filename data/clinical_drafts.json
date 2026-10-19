@@ -52,7 +52,7 @@
       "during_procedure_events": "Đau tăng bất thường, ngất hoặc phản ứng trong khi thực hiện: dừng thao tác, đánh giá người bệnh và xử trí theo tình trạng lâm sàng.\nXuất hiện dấu hiệu thiếu máu chi, tổn thương thần kinh hoặc nghi hội chứng chèn ép khoang: ngừng thủ thuật, đánh giá khẩn cấp và hội chẩn chuyên khoa.",
       "post_procedure_events": "Đau tăng, sưng nề, tê bì, ngón tay tím hoặc lạnh, giảm vận động hay dấu hiệu thiếu máu chi: kiểm tra ngay tuần hoàn–thần kinh và tình trạng bột; giảm chèn ép và xử trí cấp cứu khi có chỉ định.\nBột lỏng, nứt, gây tổn thương da hoặc mất tư thế bất động: khám lại, kiểm tra hình ảnh và điều chỉnh phương pháp bất động theo chỉ định.",
       "late_complications": "Can lệch và mất sấp–ngửa cẳng tay; phát hiện muộn tổn thương Monteggia/Galeazzi.\nChậm liền, cứng khớp và rối loạn dinh dưỡng.\nĐánh giá chuyên khoa và hình ảnh để xác định hướng xử trí khi phát hiện biến chứng.",
-      "references": "Bộ Y tế, QĐ 199/QĐ-BYT (16/01/2014), Bài 3: Bột cánh–cẳng–bàn tay (tr. 9–12). Nguồn này hướng dẫn bó bột cho gãy một hoặc hai xương cẳng tay, không cung cấp bài nắn riêng cho gãy một xương."
+      "references": "Bộ Y tế, QĐ 199/QĐ-BYT (16/01/2014), Bài 3: Bột cánh–cẳng–bàn tay (tr. 9–12)."
     },
     "bot_xuong_ban_chan": {
       "title": "3. NẮN, BÓ BỘT GÃY XƯƠNG BÀN CHÂN [BỘT LIỀN]",
@@ -75,7 +75,7 @@
       "during_procedure_events": "Đau tăng bất thường, ngất hoặc phản ứng trong khi thực hiện: dừng thao tác, đánh giá người bệnh và xử trí theo tình trạng lâm sàng.\nXuất hiện dấu hiệu thiếu máu chi, tổn thương thần kinh hoặc nghi hội chứng chèn ép khoang: ngừng thủ thuật, đánh giá khẩn cấp và hội chẩn chuyên khoa.",
       "post_procedure_events": "Đau tăng, sưng nề, tê bì, ngón chân tím hoặc lạnh, giảm vận động hay dấu hiệu thiếu máu chi: kiểm tra ngay tuần hoàn–thần kinh và tình trạng bột; giảm chèn ép và xử trí cấp cứu khi có chỉ định.\nBột lỏng, nứt, gây tổn thương da hoặc mất tư thế bất động: khám lại, kiểm tra hình ảnh và điều chỉnh phương pháp bất động theo chỉ định.",
       "late_complications": "Đau bàn chân kéo dài, can lệch, biến dạng bàn chân, hạn chế chịu lực.\nCứng khớp và loét do tỳ đè trong bột.\nĐánh giá chuyên khoa và hình ảnh để xác định hướng xử trí khi phát hiện biến chứng.",
-      "references": "Bộ Y tế, QĐ 199/QĐ-BYT (16/01/2014), Bài 10: Bột cẳng–bàn chân (tr. 32–35). Bài chỉ mô tả kỹ thuật bó bột, không thay thế hướng dẫn nắn riêng cho gãy xương bàn chân."
+      "references": "Bộ Y tế, QĐ 199/QĐ-BYT (16/01/2014), Bài 10: Bột cẳng–bàn chân (tr. 32–35)."
     },
     "bot_xuong_chay": {
       "title": "4. NẮN, BÓ BỘT GÃY XƯƠNG CHÀY [BỘT LIỀN]",
@@ -144,7 +144,7 @@
       "during_procedure_events": "Đau tăng bất thường, ngất hoặc phản ứng trong khi thực hiện: dừng thao tác, đánh giá người bệnh và xử trí theo tình trạng lâm sàng.\nXuất hiện dấu hiệu thiếu máu chi, tổn thương thần kinh hoặc nghi hội chứng chèn ép khoang: ngừng thủ thuật, đánh giá khẩn cấp và hội chẩn chuyên khoa.",
       "post_procedure_events": "Đau tăng, sưng nề, tê bì, ngón chân tím hoặc lạnh, giảm vận động hay dấu hiệu thiếu máu chi: kiểm tra ngay tuần hoàn–thần kinh và tình trạng bột; giảm chèn ép và xử trí cấp cứu khi có chỉ định.\nBột lỏng, nứt, gây tổn thương da hoặc mất tư thế bất động: khám lại, kiểm tra hình ảnh và điều chỉnh phương pháp bất động theo chỉ định.",
       "late_complications": "Biến dạng ngón, can lệch gây đau khi mang giày; cứng khớp ngón.\nTổn thương da/móng do tỳ đè hoặc bột không phù hợp.\nĐánh giá chuyên khoa và hình ảnh để xác định hướng xử trí khi phát hiện biến chứng.",
-      "references": "Bộ Y tế, QĐ 199/QĐ-BYT (16/01/2014), Bài 10: Bột cẳng–bàn chân (tr. 32–35). Tài liệu nêu chỉ định cho gãy ngón chân và cách bó bột, không mô tả nắn gãy ngón chân riêng."
+      "references": "Bộ Y tế, QĐ 199/QĐ-BYT (16/01/2014), Bài 10: Bột cẳng–bàn chân (tr. 32–35)."
     },
     "bot_trat_co_chan": {
       "title": "7. NẮN, BÓ BỘT TRẬT KHỚP CỔ CHÂN [BỘT LIỀN]",
@@ -167,7 +167,7 @@
       "during_procedure_events": "",
       "post_procedure_events": "",
       "late_complications": "",
-      "references": "Bộ Y tế, QĐ 199/QĐ-BYT (16/01/2014), Bài 10: Bột cẳng–bàn chân (tr. 32–35): chỉ hỗ trợ phần bất động, không có bài nắn trật khớp cổ chân đơn thuần. QĐ 5728/QĐ-BYT (2017), Bài 34 là kỹ thuật gãy Dupuytren, không thay thế quy trình nắn trật khớp cổ chân đơn thuần."
+      "references": "Bộ Y tế, QĐ 199/QĐ-BYT (16/01/2014), Bài 10: Bột cẳng–bàn chân."
     },
     "bot_trat_khuyu": {
       "title": "8. NẮN, BÓ BỘT TRẬT KHỚP KHUỶU [BỘT LIỀN]",
