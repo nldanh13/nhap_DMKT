@@ -131,7 +131,8 @@ def write_report(rows: list[dict], *, scope: str, consent: bool, result: str,
     report_dir.mkdir(parents=True, exist_ok=True)
     now = datetime.now()
     path = report_dir / f"qtkt_batch_{now:%Y%m%d_%H%M%S_%f}.json"
-    allowed = {"id", "service", "code", "status", "reason"}
+    allowed = {"id", "service", "code", "status", "reason",
+               "missing", "critical_missing"}
     summary = [{k: v for k, v in row.items() if k in allowed} for row in rows]
     document = {
         "created_at": now.isoformat(timespec="seconds"),
