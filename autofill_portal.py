@@ -44,6 +44,8 @@ if args.draft_preview and (args.save or args.inspect or args.approved_package):
     parser.error("--draft-preview không thể dùng cùng --save, --inspect hoặc --approved-package")
 if args.approved_package and (not args.save or args.inspect or not args.id):
     parser.error("--approved-package yêu cầu --id và --save; không dùng cùng --inspect")
+if args.save and not args.approved_package:
+    parser.error("--save bắt buộc có --approved-package trỏ tới dữ liệu QTKT bệnh viện đã phê duyệt.")
 
 if args.id:
     matches = [x for x in services if x["id"] == args.id]
