@@ -113,6 +113,8 @@ def separate_personnel(personnel: str) -> tuple[str, str]:
 
 approved_package = None
 if args.approved_package:
+    if not str(item.get("form_template", "")).startswith("Lâm sàng"):
+        parser.error("Gói QTKT này chỉ hỗ trợ mẫu lâm sàng QĐ 3023; không dùng để lưu quy trình xét nghiệm.")
     codes_expected = list(dict.fromkeys(item.get("form_decision", {}).get("codes", [])))
     if len(codes_expected) != 1 or item.get("form_decision", {}).get("annex") != "PL1":
         parser.error("Chế độ lưu dữ liệu đã duyệt yêu cầu chính xác một mã danh mục PL1.")
@@ -842,7 +844,11 @@ try:
         if approved_package is not None:
             # Fail closed on any missing approved content or administrative field.
             must_fill = set(REQUIRED_FIELDS) - {"personnel", "references"}
-            must_fill.update({"performer", "source", "decision_number", "issue_date", "approver"})
+            must_fill.update({
+                "service", "template_type", "catalog_annex", "specialty",
+                "issuing_authority", "section6_title", "deployment_flag",
+                "performer", "source", "decision_number", "issue_date", "approver"
+            })
             missing_fields = sorted(must_fill - set(filled))
             if missing_fields:
                 raise RuntimeError("Dừng lưu: chưa điền và xác minh đủ trường hồ sơ đã duyệt: " + ", ".join(missing_fields))
