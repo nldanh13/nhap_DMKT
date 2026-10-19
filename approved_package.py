@@ -77,7 +77,7 @@ def _validate_structure(data: dict, procedure_id: str, catalog_code: str, expect
         raise ValueError("Thiếu trường thông tin quyết định: " + ", ".join(sorted(missing)))
     if approval["issuer"] != "BỆNH VIỆN":
         raise ValueError("Cơ quan ban hành phải là BỆNH VIỆN, không dùng số quyết định BYT thay thế.")
-    if re.search(r"(?i)/QĐ-BYT\\b", str(approval.get("decision_number", ""))):
+    if "QĐ-BYT" in str(approval.get("decision_number", "")).upper():
         raise ValueError("Số quyết định ban hành QTKT phải của bệnh viện, không dùng QĐ-BYT.")
     for k in ("decision_number", "approved_title", "approved_by", "attested_by", "signed_pdf"):
         if not isinstance(approval[k], str) or not approval[k].strip() or PLACEHOLDER.search(approval[k]):
